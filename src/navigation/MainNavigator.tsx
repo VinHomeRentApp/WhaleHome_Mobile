@@ -26,7 +26,7 @@ export type EditProfileScreenProps = NativeStackScreenProps<StackParamList, 'Edi
 
 const MainNavigator = ({ isShowSplash, isAuth }: MainNavigatorProps) => {
   return (
-    <MainStack.Navigator initialRouteName={'Building3d'}>
+    <MainStack.Navigator initialRouteName={'AuthScreen'}>
       {isShowSplash ? (
         <MainStack.Screen options={{ headerShown: false }} name='SplashScreen' component={SplashScreen} />
       ) : (

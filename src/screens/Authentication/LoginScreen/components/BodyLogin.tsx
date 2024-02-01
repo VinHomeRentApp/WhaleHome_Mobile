@@ -2,10 +2,26 @@ import { Image, Pressable, StyleSheet, View } from 'react-native';
 import React from 'react';
 import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
+import useRootContext from '@hooks/useRootContext';
+import { AUTH_ACTION } from 'contexts/types/auth.types';
 
 const googleIcon = '../../../../assets/images/LoginScreen/google.png';
 
 const BodyLogin = () => {
+  const { state, dispatch } = useRootContext();
+
+  const {
+    auth: { isLoading: AuthLoading },
+    room: { isLoading: RoomLoading }
+  } = state;
+
+  console.log('AuthLoading', AuthLoading);
+  console.log('RoomLoading', RoomLoading);
+
+  const handleSignUp = () => {
+    dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: true });
+  };
+
   return (
     <View style={[styles.bodyLogin]}>
       <TextComponent content='Hundreds of high quality apartments,' fontSize={18} fontFamily={fontFam.extraBold} />
@@ -33,6 +49,7 @@ const BodyLogin = () => {
       />
       <View style={{ marginVertical: 12 }} />
       <Pressable
+        onPress={() => handleSignUp()}
         style={({ pressed }) => [styles.buttonLogin, pressed ? { opacity: 0.8 } : undefined]}
       >
         <Image style={styles.logo} source={require(googleIcon)} />

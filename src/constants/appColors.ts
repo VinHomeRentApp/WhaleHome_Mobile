@@ -10,6 +10,7 @@ export const typoColor = {
   gray2: '#6A8187',
   gray3: '#464649',
   gray4: '#3E3E3E',
+  gray5: '#9c9c9c',
   blue1: '#234F68'
 } as const;
 

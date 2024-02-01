@@ -3,7 +3,7 @@ import React from 'react';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 const lamp = '../../../../assets/images/LoginScreen/Lamp.png';
-const title = '../../../../assets/images/LoginScreen/MainLogo.png';
+const title = '../../../../assets/images/main-logo.png';
 
 const HeaderLogin = () => {
   return (
@@ -49,12 +49,12 @@ const styles = StyleSheet.create({
   },
   headerLoginTitle: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center'
   },
   title: {
-    height: 75,
-    width: 300,
+    height: 110,
+    width: 110,
     resizeMode: 'contain'
   }
 });

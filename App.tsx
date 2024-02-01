@@ -1,4 +1,3 @@
-import 'react-native-gesture-handler';
 import {
   Manrope_200ExtraLight,
   Manrope_300Light,
@@ -9,16 +8,16 @@ import {
   Manrope_800ExtraBold,
   useFonts
 } from '@expo-google-fonts/manrope';
+import 'react-native-gesture-handler';
 
+import MainNavigator from '@navigation/MainNavigator';
 import { NavigationContainer } from '@react-navigation/native';
+import ClientProvider from 'contexts/providers/ClientProvider';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import MainNavigator from '@navigation/MainNavigator';
+import AppProvider from 'contexts/providers/AppProvider';
 
 export default function App() {
-  const queryClient = new QueryClient();
-  const [isAuth] = useState<boolean>(true);
   const [isShowSplash, setIsShownSplash] = useState<boolean>(true);
   const [fontsLoaded] = useFonts({
     Manrope_200ExtraLight,
@@ -36,15 +35,15 @@ export default function App() {
   }, []);
 
   return (
-    <>
-      <QueryClientProvider client={queryClient}>
+    <AppProvider>
+      <ClientProvider>
         <StatusBar style='light' translucent />
         {fontsLoaded && (
           <NavigationContainer>
-            <MainNavigator isAuth={isAuth} isShowSplash={isShowSplash} />
+            <MainNavigator isShowSplash={isShowSplash} />
           </NavigationContainer>
         )}
-      </QueryClientProvider>
-    </>
+      </ClientProvider>
+    </AppProvider>
   );
 }

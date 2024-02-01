@@ -6,6 +6,7 @@ import SplashScreen from '@screens/Splash/SplashScreen';
 import React from 'react';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
+import { useAuthentication } from '@hooks/useAuthentication';
 
 type StackParamList = {
   SplashScreen: undefined;
@@ -18,15 +19,16 @@ type StackParamList = {
 const MainStack = createNativeStackNavigator<StackParamList>();
 
 type MainNavigatorProps = {
-  isAuth: boolean;
   isShowSplash: boolean;
 };
 
 export type EditProfileScreenProps = NativeStackScreenProps<StackParamList, 'EditProfileScreen'>;
 
-const MainNavigator = ({ isShowSplash, isAuth }: MainNavigatorProps) => {
+const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
+  const { isAuth } = useAuthentication();
+
   return (
-    <MainStack.Navigator initialRouteName={'Building3d'}>
+    <MainStack.Navigator initialRouteName={isAuth ? 'HomeScreen' : 'AuthScreen'}>
       {isShowSplash ? (
         <MainStack.Screen options={{ headerShown: false }} name='SplashScreen' component={SplashScreen} />
       ) : (

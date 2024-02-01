@@ -1,4 +1,4 @@
-import { AUTH_ACTION, AuthAction, AuthContextType } from 'contexts/types/auth.types';
+import { AUTH_ACTION, AuthAction, AuthContextType } from '@contexts/types/auth.types';
 import { Reducer } from 'react';
 
 const AuthReducer: Reducer<AuthContextType, AuthAction> = (state, action) => {
@@ -9,6 +9,8 @@ const AuthReducer: Reducer<AuthContextType, AuthAction> = (state, action) => {
       return { ...state, errors: action.payload };
     case AUTH_ACTION.SET_AUTH_IS_LOADING:
       return { ...state, isLoading: action.payload };
+    case AUTH_ACTION.SET_IS_AUTH:
+      return { ...state, isAuth: action.payload };
     default:
       return state;
   }

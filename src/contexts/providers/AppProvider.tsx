@@ -1,5 +1,5 @@
-import rootReducer from 'contexts/reducers/root.reducer';
-import { RootAction, RootState, initialState } from 'contexts/types/root.types';
+import rootReducer from '@contexts/reducers/root.reducer';
+import { RootAction, RootState, initialState } from '@contexts/types/root.types';
 import { Dispatch, ReactNode, createContext, useReducer } from 'react';
 
 export const RootContext = createContext<{

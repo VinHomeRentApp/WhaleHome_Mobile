@@ -1,5 +1,5 @@
 import { SuccessfullResponse } from '../types/response.types';
-import { User } from '../types/user.type';
+import { User } from '../types/user.types';
 
 import httpClient from '@utils/httpClient';
 

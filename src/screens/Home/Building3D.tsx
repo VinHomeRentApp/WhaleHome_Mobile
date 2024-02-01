@@ -3,17 +3,15 @@ import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
 import { Canvas } from '@react-three/fiber';
 import globalStyle from '@styles/globalStyle';
-import BuildingBlockA from 'models/3D/BuildingBlockA';
 import useControls from 'r3f-native-orbitcontrols';
 import React, { Suspense } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
+import BuildingBlockA from '../../models/3D/BuildingBlockA';
 
 const Building3D = () => {
-
   const [OrbitControls, events] = useControls();
   return (
     <SafeAreaView style={[globalStyle.container]}>
-
       <View style={styles.modelContainer} {...events}>
         <Canvas>
           <OrbitControls enableRotate={true} enablePan={false} />
@@ -23,7 +21,9 @@ const Building3D = () => {
           <directionalLight position={[0, 0, -1]} args={['white', 5]} />
           <directionalLight position={[0, 1, 0]} args={['white', 5]} />
           <directionalLight position={[0, -1, 0]} args={['white', 5]} />
-          <Suspense fallback={null}><BuildingBlockA /></Suspense>
+          <Suspense fallback={null}>
+            <BuildingBlockA />
+          </Suspense>
         </Canvas>
       </View>
       <View style={styles.textField}>

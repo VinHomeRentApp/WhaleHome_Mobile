@@ -19,7 +19,8 @@ module.exports = function (api) {
             '@styles': './src/styles',
             '@assets': './src/assets',
             '@hooks': './src/hooks',
-            '@types': './src/types'
+            '@type': './src/types',
+            '@contexts': './src/contexts'
           }
         }
       ],

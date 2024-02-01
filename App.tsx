@@ -18,7 +18,6 @@ import React, { useEffect, useState } from 'react';
 import AppProvider from 'contexts/providers/AppProvider';
 
 export default function App() {
-  const [isAuth] = useState<boolean>(true);
   const [isShowSplash, setIsShownSplash] = useState<boolean>(true);
   const [fontsLoaded] = useFonts({
     Manrope_200ExtraLight,
@@ -41,7 +40,7 @@ export default function App() {
         <StatusBar style='light' translucent />
         {fontsLoaded && (
           <NavigationContainer>
-            <MainNavigator isAuth={isAuth} isShowSplash={isShowSplash} />
+            <MainNavigator isShowSplash={isShowSplash} />
           </NavigationContainer>
         )}
       </ClientProvider>

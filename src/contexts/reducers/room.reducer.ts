@@ -1,4 +1,4 @@
-import { ROOM_ACTION, RoomAction, RoomContextType } from 'contexts/types/room.types';
+import { ROOM_ACTION, RoomAction, RoomContextType } from '@contexts/types/room.types';
 import { Reducer } from 'react';
 
 const RoomReducer: Reducer<RoomContextType, RoomAction> = (state, action) => {

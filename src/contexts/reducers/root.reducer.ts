@@ -1,7 +1,7 @@
-import AuthReducer from 'contexts/reducers/auth.reducer';
-import { AuthAction } from 'contexts/types/auth.types';
-import { RoomAction } from 'contexts/types/room.types';
-import { RootAction, RootState } from 'contexts/types/root.types';
+import { AuthAction } from '@contexts/types/auth.types';
+import { RoomAction } from '@contexts/types/room.types';
+import { RootAction, RootState } from '@contexts/types/root.types';
+import AuthReducer from './auth.reducer';
 import RoomReducer from './room.reducer';
 
 const rootReducer = (state: RootState, action: RootAction): RootState => {

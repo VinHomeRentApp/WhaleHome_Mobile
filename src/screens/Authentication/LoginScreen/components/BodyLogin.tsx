@@ -8,7 +8,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { defaultFormSignIn, defaultFormSignInValue } from '@type/index';
 import { MainStackParamList } from '@type/navigation.types';
 import { Eye, EyeSlash } from 'iconsax-react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, { BounceInLeft } from 'react-native-reanimated';
@@ -19,18 +19,18 @@ const BodyLogin = () => {
   const {
     control,
     handleSubmit,
-    formState: { isDirty },
+    formState: { isDirty, errors },
     reset
   } = useForm<defaultFormSignIn>({
     resolver: yupResolver(formSignInSchema),
     defaultValues: defaultFormSignInValue,
-    mode: 'onChange'
+    mode: 'onBlur'
   });
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
-  console.log(navigation);
-
   const [isContinuePassword, setIsContinuePassword] = useState<boolean>(false);
   const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(true);
+
+  console.log(isDirty);
 
   const { dispatch } = useRootContext();
 
@@ -41,18 +41,18 @@ const BodyLogin = () => {
     }
   }, [isDirty]);
 
-  const showPasswordField = () => {
+  const showPasswordField = useCallback(() => {
     setIsContinuePassword((prevState) => !prevState);
-  };
+  }, []);
 
-  const toggleVisiblePassword = () => {
+  const toggleVisiblePassword = useCallback(() => {
     setIsVisiblePassword((prevState) => !prevState);
-  };
+  }, []);
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 150 : 0}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 150 : -100}
       style={styles.bodyLogin}
     >
       <TextComponent content='Login or sign up' fontSize={24} fontFamily={fontFam.bold} />
@@ -101,9 +101,9 @@ const BodyLogin = () => {
             name='password'
           />
         )}
-
-        {/* {errors.password?.message && <TextComponent content={errors.password?.message} fontSize={12} textColor='red' />} */}
       </View>
+      {errors.password?.message && <TextComponent content={errors.password.message} fontSize={12} textColor='red' />}
+      {errors.email?.message && <TextComponent content={errors.email.message} fontSize={12} textColor='red' />}
       <View style={[styles.buttonContainer]}>
         {isContinuePassword ? (
           <Pressable

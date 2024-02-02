@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export enum ROOM_ACTION {
   SET_ROOM_IS_LOADING = 'SET_ROOM_IS_LOADING'
 }

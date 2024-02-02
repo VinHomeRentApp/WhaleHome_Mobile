@@ -30,8 +30,6 @@ const BodyLogin = () => {
   const [isContinuePassword, setIsContinuePassword] = useState<boolean>(false);
   const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(true);
 
-  console.log(isDirty);
-
   const { dispatch } = useRootContext();
 
   useEffect(() => {

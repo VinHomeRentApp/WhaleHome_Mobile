@@ -26,9 +26,7 @@ const BodyLogin = () => {
   });
   const [isContinuePassword, setIsContinuePassword] = useState<boolean>(false);
   const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(true);
-  const isShowPasswordField = useMemo(() => {
-    return isContinuePassword;
-  }, [isContinuePassword]);
+
   const { dispatch } = useRootContext();
 
   useEffect(() => {
@@ -45,8 +43,6 @@ const BodyLogin = () => {
   const toggleVisiblePassword = () => {
     setIsVisiblePassword((prevState) => !prevState);
   };
-
-  console.log(isVisiblePassword);
 
   return (
     <KeyboardAvoidingView
@@ -74,7 +70,7 @@ const BodyLogin = () => {
           name='email'
         />
 
-        {isShowPasswordField && (
+        {isContinuePassword && (
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (

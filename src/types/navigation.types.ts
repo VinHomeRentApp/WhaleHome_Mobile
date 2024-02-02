@@ -7,6 +7,7 @@ export type MainStackParamList = {
   HomeScreen: undefined;
   EditProfileScreen: undefined;
   Building3d: undefined;
+  DetailRoomScreen: undefined;
 };
 
 export type MainNavigatorProps = {

@@ -1,5 +1,6 @@
 import { AUTH_ACTION } from '@contexts/types/auth.types';
 import { RootAction } from '@contexts/types/root.types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp } from '@react-navigation/native';
 import FirebaseService from '@services/firebase/firebase.services';
 import { defaultFormSignIn, defaultFormSignInValue } from '@type/form.types';
@@ -37,6 +38,10 @@ export const handleSignIn = async (
   if (user) {
     dispatch({ type: AUTH_ACTION.SET_USER, payload: user });
     reset(defaultFormSignInValue);
+    // Get the ID token by calling getIdToken as a function
+    const idToken = await user.getIdToken();
+    // Store the ID token in AsyncStorage
+    await AsyncStorage.setItem('authToken', idToken);
     navigation.navigate('HomeScreen');
   }
   dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });

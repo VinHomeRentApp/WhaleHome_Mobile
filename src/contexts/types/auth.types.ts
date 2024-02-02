@@ -9,14 +9,14 @@ export enum AUTH_ACTION {
 }
 
 export type AuthContextType = {
-  User: Partial<User> | null;
+  user: Partial<User> | null;
   errors: string[];
   isAuth: boolean;
   isLoading: boolean;
 };
 
 export const initialAuthState: AuthContextType = {
-  User: {},
+  user: {},
   errors: [],
   isAuth: false,
   isLoading: false

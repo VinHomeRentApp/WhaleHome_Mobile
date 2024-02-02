@@ -8,11 +8,13 @@ import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
 import { useAuthentication } from '@hooks/useAuthentication';
 import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
+import DetailScreen from '@screens/Home/DetailScreen';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
-  const { isAuth } = useAuthentication();
+  const { isAuth, user } = useAuthentication();
+  console.log(user);
 
   return (
     <MainStack.Navigator initialRouteName={isAuth ? 'HomeScreen' : 'AuthScreen'}>
@@ -23,6 +25,7 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
           <MainStack.Screen options={{ headerShown: false }} name='AuthScreen' component={AuthNavigator} />
           <MainStack.Screen options={{ headerShown: false }} name='HomeScreen' component={BottomNavigator} />
           <MainStack.Screen options={{ headerShown: false }} name='Building3d' component={Building3D} />
+          <MainStack.Screen options={{ headerShown: false }} name='DetailRoomScreen' component={DetailScreen} />
           <MainStack.Screen
             options={{ header: () => <EditProfileHeader /> }}
             name='EditProfileScreen'

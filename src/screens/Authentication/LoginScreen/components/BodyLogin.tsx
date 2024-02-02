@@ -4,14 +4,16 @@ import { accentColor, typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useRootContext from '@hooks/useRootContext';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { defaultFormSignIn, defaultFormSignInValue } from '@type/index';
+import { MainStackParamList } from '@type/navigation.types';
 import { Eye, EyeSlash } from 'iconsax-react-native';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, { BounceInLeft } from 'react-native-reanimated';
 import formSignInSchema from '../../../../schema/formSignInSchema';
-import { handleSignUp } from '../../../../usecases/Authentication';
+import { handleSignIn } from '../../../../usecases/Authentication';
 
 const BodyLogin = () => {
   const {
@@ -24,6 +26,9 @@ const BodyLogin = () => {
     defaultValues: defaultFormSignInValue,
     mode: 'onChange'
   });
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  console.log(navigation);
+
   const [isContinuePassword, setIsContinuePassword] = useState<boolean>(false);
   const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(true);
 
@@ -102,7 +107,7 @@ const BodyLogin = () => {
       <View style={[styles.buttonContainer]}>
         {isContinuePassword ? (
           <Pressable
-            onPress={handleSubmit((data) => handleSignUp(data, dispatch, reset))}
+            onPress={handleSubmit((data) => handleSignIn(data, dispatch, reset, navigation))}
             style={({ pressed }) => [styles.buttonLogin, pressed ? { opacity: 0.8 } : undefined]}
           >
             <TextComponent content='Sign In' textColor={typoColor.black1} fontFamily={fontFam.semiBold} />

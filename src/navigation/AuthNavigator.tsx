@@ -1,18 +1,11 @@
 // AuthNavigator.tsx
-import { backgroundColor } from '@constants/appColors';
-import { NativeStackScreenProps, createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '@screens/Authentication/LoginScreen';
 import OnboardingScreen from '@screens/Authentication/OnboardingScreen';
+import { AuthStackParamList } from '@type/navigation.types';
 import React from 'react';
 
-export type StackParamList = {
-  LoginScreen: undefined;
-  OnboardingScreen: undefined;
-};
-export type OnBoardingProps = NativeStackScreenProps<StackParamList, 'OnboardingScreen'>;
-export type LoginScreenProps = NativeStackScreenProps<StackParamList, 'LoginScreen'>;
-
-const Stack = createNativeStackNavigator<StackParamList>();
+const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 const AuthNavigator = () => {
   return (

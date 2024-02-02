@@ -7,22 +7,9 @@ import React from 'react';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
 import { useAuthentication } from '@hooks/useAuthentication';
+import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
 
-type StackParamList = {
-  SplashScreen: undefined;
-  AuthScreen: undefined;
-  HomeScreen: undefined;
-  EditProfileScreen: undefined;
-  Building3d: undefined;
-};
-
-const MainStack = createNativeStackNavigator<StackParamList>();
-
-type MainNavigatorProps = {
-  isShowSplash: boolean;
-};
-
-export type EditProfileScreenProps = NativeStackScreenProps<StackParamList, 'EditProfileScreen'>;
+const MainStack = createNativeStackNavigator<MainStackParamList>();
 
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
   const { isAuth } = useAuthentication();

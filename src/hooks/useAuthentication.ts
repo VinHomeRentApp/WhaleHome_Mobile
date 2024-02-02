@@ -10,7 +10,7 @@ export function useAuthentication() {
     auth: { User, isAuth }
   } = state;
   useEffect(() => {
-    const unsubscribeFromAuthStatuChanged = onAuthStateChanged(auth, (user) => {
+    const unsubscribeFromAuthStatusChanged = onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log(user);
 
@@ -23,7 +23,7 @@ export function useAuthentication() {
       }
     });
 
-    return unsubscribeFromAuthStatuChanged;
+    return unsubscribeFromAuthStatusChanged;
   }, [dispatch]);
 
   return {

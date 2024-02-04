@@ -6,14 +6,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import useRootContext from '@hooks/useRootContext';
 import { defaultFormSignIn, defaultFormSignInValue } from '@type/index';
 import { Eye, EyeSlash } from 'iconsax-react-native';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, { BounceInLeft } from 'react-native-reanimated';
 import formSignInSchema from '../../../../schema/formSignInSchema';
 import { handleSignUp } from '../../../../usecases/Authentication';
+import { useNavigation } from '@react-navigation/native';
 
 const BodyLogin = () => {
+  const navigation = useNavigation<any>();
   const {
     control,
     handleSubmit,
@@ -42,6 +44,10 @@ const BodyLogin = () => {
 
   const toggleVisiblePassword = () => {
     setIsVisiblePassword((prevState) => !prevState);
+  };
+
+  const handleNavigateToSignUp = () => {
+    navigation.navigate('SignUpScreen');
   };
 
   return (
@@ -129,6 +135,7 @@ const BodyLogin = () => {
             pressed ? { opacity: 0.4 } : undefined,
             { backgroundColor: '#000' }
           ]}
+          onPress={handleNavigateToSignUp}
         >
           <TextComponent content='Sign Up' textColor={typoColor.white1} fontFamily={fontFam.semiBold} />
         </Pressable>
@@ -158,7 +165,6 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '85%',
     height: 40,
-
     borderColor: 'gray',
     marginBottom: 15,
     paddingHorizontal: 15,

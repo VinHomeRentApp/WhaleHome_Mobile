@@ -19,7 +19,9 @@ const OnboardingScreen = ({ navigation }: OnBoardingProps) => {
 
   return (
     <View style={[globalStyle.container]}>
+
       <Swiper autoplayTimeout={3} autoplay showsButtons={false} dot={<UnactiveDot />} activeDot={<ActiveDot />}>
+     
         <ImageBackground
           imageStyle={OnboardingScreenStyle.imageBackground}
           source={require(onBoardingPath_1)}

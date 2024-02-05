@@ -1,8 +1,8 @@
 import globalStyle from '@styles/globalStyle';
 import { View } from 'react-native';
-import HeaderLogin from './components/HeaderLogin';
 import BodyLogin from './components/BodyLogin';
 import FooterLogin from './components/FooterLogin';
+import HeaderLogin from './components/HeaderLogin';
 
 const LoginScreen = () => {
   return (

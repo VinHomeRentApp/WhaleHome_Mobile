@@ -1,37 +1,58 @@
-import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import globalStyle from '@styles/globalStyle';
-import { typoColor } from '@constants/appColors';
-import { ArrowCircleLeft, Heart, Star } from 'iconsax-react-native';
 import TextComponent from '@components/ui/TextComponent';
+import { typoColor } from '@constants/appColors';
+import globalStyle from '@styles/globalStyle';
+import React from 'react';
+import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import BodyAdminContact from './Components/DetailScreen/BodyAdminContact';
+import BodyButtonField from './Components/DetailScreen/BodyButtonField';
+import BodyFacilityField from './Components/DetailScreen/BodyFacilityField';
+import BodyTitleField from './Components/DetailScreen/BodyTitleField';
+import TopOverview from './Components/DetailScreen/TopOverview';
+import BodyCostLivingField from './Components/DetailScreen/BodyCostLivingField';
 
 const DetailScreen = () => {
   return (
     <SafeAreaView style={[globalStyle.container]}>
       <ScrollView>
-        <ImageBackground resizeMode='cover' source={require('@assets/images/room-detail.jpg')}>
-          <View style={styles.imageContainer}>
-            <View style={styles.iconContainer}>
-              <Pressable>
-                <ArrowCircleLeft size='45' color={typoColor.yellow1} variant='Bold' />
-              </Pressable>
-              <Pressable>
-                <Heart size='45' color={typoColor.yellow1} variant='Bold' />
-              </Pressable>
+        {/* Top-Overview Image Background */}
+        <TopOverview />
+
+        {/* Body-Overview */}
+        <View style={styles.detailContainer}>
+          {/* Body Title field */}
+          <BodyTitleField />
+
+          {/* Body Button Field */}
+          <BodyButtonField />
+
+          {/* Body Facilities  */}
+          <BodyFacilityField />
+
+          {/* Body Admin Contact */}
+          <BodyAdminContact />
+
+          {/* Body Cost of Living */}
+          <BodyCostLivingField />
+
+          {/* Review Field */}
+          <View style={styles.reviewContainer}>
+            <View>
+              <TextComponent styles={styles.reviewTitle} content='Reviews' />
             </View>
-            <View style={styles.ratingField}>
-              <Star size='18' color={typoColor.yellow1} variant='Bold' />
-              <TextComponent styles={styles.textImage} content='4.9' />
-            </View>
-            <View style={styles.RoomField}>
-              <TextComponent styles={styles.textImage} content='Room' />
-            </View>
-            <View style={styles.addOnImageField}>
-              <View></View>
+            <View style={styles.reviewItem}>
+              <View style={styles.reviewDetail}>
+                <View style={styles.reviewImageContainer}>
+                  <Image
+                    style={styles.reviewImage}
+                    resizeMode='cover'
+                    source={require('@assets/images/user/kien.jpg')}
+                  />
+                </View>
+              </View>
             </View>
           </View>
-        </ImageBackground>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -40,45 +61,34 @@ const DetailScreen = () => {
 export default DetailScreen;
 
 const styles = StyleSheet.create({
-  imageContainer: {
-    height: 500,
-    margin: 4,
-    borderRadius: 5
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  detailContainer: {},
+  reviewContainer: {},
+  reviewTitle: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginLeft: 20,
     marginTop: 20,
-    marginHorizontal: 20
+    marginBottom: 10
   },
-  textImage: {
-    fontWeight: 'bold'
+  reviewItem: {
+    backgroundColor: typoColor.white1,
+    marginHorizontal: 10,
+    borderRadius: 15
   },
-  ratingField: {
-    position: 'absolute',
-    bottom: 25,
-    left: 20,
-    flexDirection: 'row',
-    backgroundColor: typoColor.black2,
-    width: 85,
+  reviewDetail: {
+    padding: 10
+  },
+
+  reviewImageContainer: {
     height: 50,
-    opacity: 0.9,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center'
+    width: 50,
+    borderWidth: 2,
+    borderColor: typoColor.black1,
+    borderRadius: 25
   },
-  RoomField: {
-    position: 'absolute',
-    bottom: 25,
-    left: 120,
-    flexDirection: 'row',
-    backgroundColor: typoColor.black2,
-    width: 85,
-    height: 50,
-    opacity: 0.9,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  addOnImageField: {}
+  reviewImage: {
+    height: '100%',
+    width: '100%',
+    borderRadius: 25
+  }
 });

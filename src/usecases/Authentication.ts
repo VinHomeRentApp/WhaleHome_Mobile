@@ -37,11 +37,11 @@ export const handleSignIn = async (
   const user = await firebaseService.signIn(email, password);
   if (user) {
     dispatch({ type: AUTH_ACTION.SET_USER, payload: user });
-    reset(defaultFormSignInValue);
     // Get the ID token by calling getIdToken as a function
     const idToken = await user.getIdToken();
     // Store the ID token in AsyncStorage
     await AsyncStorage.setItem('authToken', idToken);
+    reset(defaultFormSignInValue);
     navigation.navigate('HomeScreen');
   }
   dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });

@@ -10,7 +10,16 @@ import { MainStackParamList } from '@type/navigation.types';
 import { Eye, EyeSlash } from 'iconsax-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import Animated, { BounceInLeft } from 'react-native-reanimated';
 import formSignInSchema from '../../../../schema/formSignInSchema';
 import { handleSignIn } from '../../../../usecases/Authentication';
@@ -30,7 +39,10 @@ const BodyLogin = () => {
   const [isContinuePassword, setIsContinuePassword] = useState<boolean>(false);
   const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(true);
 
-  const { dispatch } = useRootContext();
+  const { state, dispatch } = useRootContext();
+  const {
+    auth: { isLoading }
+  } = state;
 
   useEffect(() => {
     if (!isDirty) {
@@ -126,10 +138,13 @@ const BodyLogin = () => {
       </View>
       <SeperateOr marginVertical={30} />
       <View style={[styles.buttonContainer]}>
+        {isLoading && <ActivityIndicator />}
         <Pressable
+          disabled={isLoading}
           style={({ pressed }) => [
             styles.buttonLogin,
             pressed ? { opacity: 0.4 } : undefined,
+            isLoading && { opacity: 0.5 },
             { backgroundColor: '#000' }
           ]}
         >

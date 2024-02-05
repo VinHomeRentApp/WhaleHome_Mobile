@@ -1,16 +1,19 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { MainStackParamList } from '@type/navigation.types';
 import { ArrowCircleLeft, Heart, Star } from 'iconsax-react-native';
 import React from 'react';
 import { Image, ImageBackground, Pressable, StyleSheet, View } from 'react-native';
 
 const TopOverview = () => {
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
   return (
     <ImageBackground resizeMode='cover' source={require('@assets/images/room-detail.jpg')}>
       <View style={styles.imageContainer}>
         {/* Pressable Back and Favorite */}
         <View style={styles.iconContainer}>
-          <Pressable>
+          <Pressable onPress={() => navigation.goBack()} style={({ pressed }) => [pressed && styles.pressed]}>
             <ArrowCircleLeft size='45' color={typoColor.yellow1} variant='Bold' />
           </Pressable>
           <Pressable>
@@ -112,5 +115,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  pressed: {
+    opacity: 0.5
   }
 });

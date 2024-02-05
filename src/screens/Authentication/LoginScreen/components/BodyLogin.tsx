@@ -59,6 +59,10 @@ const BodyLogin = () => {
     setIsVisiblePassword((prevState) => !prevState);
   }, []);
 
+  const handleNavigateToSignUp = () => {
+    navigation.navigate('SignUpScreen');
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -147,6 +151,7 @@ const BodyLogin = () => {
             isLoading && { opacity: 0.5 },
             { backgroundColor: '#000' }
           ]}
+          onPress={handleNavigateToSignUp}
         >
           <TextComponent content='Sign Up' textColor={typoColor.white1} fontFamily={fontFam.semiBold} />
         </Pressable>
@@ -176,7 +181,6 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '85%',
     height: 40,
-
     borderColor: 'gray',
     marginBottom: 15,
     paddingHorizontal: 15,

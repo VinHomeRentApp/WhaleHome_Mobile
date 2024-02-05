@@ -8,6 +8,7 @@ export type MainStackParamList = {
   EditProfileScreen: undefined;
   Building3d: undefined;
   DetailRoomScreen: undefined;
+  SignUpScreen: undefined;
 };
 
 export type MainNavigatorProps = {
@@ -33,6 +34,8 @@ export type ProfileScreenProps = NativeStackScreenProps<RootBottomTabsList, 'Pro
 export type AuthStackParamList = {
   LoginScreen: undefined;
   OnboardingScreen: undefined;
+  SignUpScreen: undefined;
 };
 export type OnBoardingProps = NativeStackScreenProps<AuthStackParamList, 'OnboardingScreen'>;
 export type LoginScreenProps = NativeStackScreenProps<AuthStackParamList, 'LoginScreen'>;
+export type SignUpScreenProps = NativeStackScreenProps<AuthStackParamList, 'SignUpScreen'>;

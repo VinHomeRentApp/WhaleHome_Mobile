@@ -4,32 +4,45 @@ import { accentColor, typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useRootContext from '@hooks/useRootContext';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { defaultFormSignIn, defaultFormSignInValue } from '@type/index';
+import { MainStackParamList } from '@type/navigation.types';
 import { Eye, EyeSlash } from 'iconsax-react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import Animated, { BounceInLeft } from 'react-native-reanimated';
 import formSignInSchema from '../../../../schema/formSignInSchema';
-import { handleSignUp } from '../../../../usecases/Authentication';
-import { useNavigation } from '@react-navigation/native';
+import { handleSignIn } from '../../../../usecases/Authentication';
 
 const BodyLogin = () => {
-  const navigation = useNavigation<any>();
   const {
     control,
     handleSubmit,
-    formState: { isDirty },
+    formState: { isDirty, errors },
     reset
   } = useForm<defaultFormSignIn>({
     resolver: yupResolver(formSignInSchema),
     defaultValues: defaultFormSignInValue,
-    mode: 'onChange'
+    mode: 'onBlur'
   });
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
   const [isContinuePassword, setIsContinuePassword] = useState<boolean>(false);
   const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(true);
 
-  const { dispatch } = useRootContext();
+  const { state, dispatch } = useRootContext();
+  const {
+    auth: { isLoading }
+  } = state;
 
   useEffect(() => {
     if (!isDirty) {
@@ -38,13 +51,13 @@ const BodyLogin = () => {
     }
   }, [isDirty]);
 
-  const showPasswordField = () => {
+  const showPasswordField = useCallback(() => {
     setIsContinuePassword((prevState) => !prevState);
-  };
+  }, []);
 
-  const toggleVisiblePassword = () => {
+  const toggleVisiblePassword = useCallback(() => {
     setIsVisiblePassword((prevState) => !prevState);
-  };
+  }, []);
 
   const handleNavigateToSignUp = () => {
     navigation.navigate('SignUpScreen');
@@ -53,7 +66,7 @@ const BodyLogin = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 150 : 0}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 150 : -100}
       style={styles.bodyLogin}
     >
       <TextComponent content='Login or sign up' fontSize={24} fontFamily={fontFam.bold} />
@@ -102,13 +115,13 @@ const BodyLogin = () => {
             name='password'
           />
         )}
-
-        {/* {errors.password?.message && <TextComponent content={errors.password?.message} fontSize={12} textColor='red' />} */}
       </View>
+      {errors.password?.message && <TextComponent content={errors.password.message} fontSize={12} textColor='red' />}
+      {errors.email?.message && <TextComponent content={errors.email.message} fontSize={12} textColor='red' />}
       <View style={[styles.buttonContainer]}>
         {isContinuePassword ? (
           <Pressable
-            onPress={handleSubmit((data) => handleSignUp(data, dispatch, reset))}
+            onPress={handleSubmit((data) => handleSignIn(data, dispatch, reset, navigation))}
             style={({ pressed }) => [styles.buttonLogin, pressed ? { opacity: 0.8 } : undefined]}
           >
             <TextComponent content='Sign In' textColor={typoColor.black1} fontFamily={fontFam.semiBold} />
@@ -129,10 +142,13 @@ const BodyLogin = () => {
       </View>
       <SeperateOr marginVertical={30} />
       <View style={[styles.buttonContainer]}>
+        {isLoading && <ActivityIndicator />}
         <Pressable
+          disabled={isLoading}
           style={({ pressed }) => [
             styles.buttonLogin,
             pressed ? { opacity: 0.4 } : undefined,
+            isLoading && { opacity: 0.5 },
             { backgroundColor: '#000' }
           ]}
           onPress={handleNavigateToSignUp}

@@ -1,21 +1,20 @@
-
-import { Image, Pressable, StyleSheet, View } from 'react-native';
-import React from 'react';
-import globalStyle from '@styles/globalStyle';
-import { backgroundColor, typoColor } from '@constants/appColors';
-import { UserEdit } from 'iconsax-react-native';
 import TextComponent from '@components/ui/TextComponent';
+import { backgroundColor, typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import globalStyle from '@styles/globalStyle';
+import { MainStackParamList } from '@type/navigation.types';
+import { UserEdit } from 'iconsax-react-native';
+import React from 'react';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import ProfileCounter from './Components/ProfileCounter/ProfileCounter';
 import ProfileTransaction from './Components/ProfileTransaction/ProfileTransaction';
-import { useNavigation } from '@react-navigation/native';
-
 
 const data = [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }, { id: '6' }];
 
 const ProfileScreen = () => {
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
   return (
     <View style={[globalStyle.container]}>

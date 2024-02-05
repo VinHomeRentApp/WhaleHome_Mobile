@@ -13,7 +13,7 @@ interface FormData {
 }
 
 const EditProfileScreen = () => {
-  const [image, setImage] = useState();
+  const [image, setImage] = useState<string>();
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
       email: 'Mathew@email.com',

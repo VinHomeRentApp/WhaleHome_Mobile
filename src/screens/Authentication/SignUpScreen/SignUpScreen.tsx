@@ -1,8 +1,8 @@
 import TextComponent from '@components/ui/TextComponent';
 import { backgroundColor, typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
-import { SignUpScreenProps } from '@navigation/AuthNavigator';
 import globalStyle from '@styles/globalStyle';
+import { SignUpScreenProps } from '@type/navigation.types';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Switch, TextInput, TouchableOpacity, View } from 'react-native';
 const SignUpScreen = ({ navigation }: SignUpScreenProps) => {

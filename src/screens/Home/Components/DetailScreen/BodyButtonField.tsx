@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   button: {
-    width: 70,
+    width: 80,
     backgroundColor: typoColor.white1,
     justifyContent: 'center',
     alignItems: 'center',

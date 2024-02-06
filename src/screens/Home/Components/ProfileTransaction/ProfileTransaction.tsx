@@ -2,7 +2,7 @@ import { View, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import React from 'react';
 import TextComponent from '@components/ui/TextComponent';
 import { Category2 } from 'iconsax-react-native';
-import RoomItem from '../RoomItem/RoomItem';
+import RoomItem from '../../../../components/room/RoomItem';
 import fontFam from '@constants/fontFamilies';
 interface Props {
   data: { id: string }[];

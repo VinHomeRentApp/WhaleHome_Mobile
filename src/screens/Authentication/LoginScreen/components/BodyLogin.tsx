@@ -1,4 +1,4 @@
-import SeperateOr from '@components/ui/SeperateOr/SeperateOr';
+import Seperate from '@components/ui/SeperateOr/SeperateOr';
 import TextComponent from '@components/ui/TextComponent';
 import { accentColor, typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
@@ -139,8 +139,9 @@ const BodyLogin = () => {
             <TextComponent content='Continue' textColor={typoColor.black1} fontFamily={fontFam.semiBold} />
           </Pressable>
         )}
+        {isLoading && <ActivityIndicator />}
       </View>
-      <SeperateOr marginVertical={30} />
+      <Seperate content='Or' marginVertical={30} />
       <View style={[styles.buttonContainer]}>
         {isLoading && <ActivityIndicator />}
         <Pressable

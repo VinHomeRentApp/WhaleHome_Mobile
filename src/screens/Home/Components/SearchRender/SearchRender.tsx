@@ -1,8 +1,7 @@
-import { FlatList, Image, Pressable, StyleSheet, View } from 'react-native';
-import React from 'react';
 import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
-import RoomItem from '../RoomItem/RoomItem';
+import React from 'react';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 
 type searchRenderType = {
   data: { id: string }[];
@@ -17,13 +16,6 @@ const SearchRender = ({ data }: searchRenderType) => {
           <Image style={styles.filterIcon} resizeMode='contain' source={require('@assets/images/filterIcon.png')} />
         </Pressable>
       </View>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
-        renderItem={(item) => <RoomItem key={item.item.id} />}
-      />
     </>
   );
 };

@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
-import React from 'react';
-import { typoColor } from '@constants/appColors';
-import { Heart, Location, Star } from 'iconsax-react-native';
 import TextComponent from '@components/ui/TextComponent';
+import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import { Heart, Location, Star } from 'iconsax-react-native';
+import React from 'react';
+import { Image, StyleSheet, View } from 'react-native';
 
 const RoomItem = () => {
   return (

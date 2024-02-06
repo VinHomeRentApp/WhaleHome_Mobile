@@ -5,11 +5,12 @@ import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 
 interface Props {
+  content: string;
   width?: number;
   marginVertical?: number;
 }
 
-const SeperateOr = ({ marginVertical = 20, width = 38 }: Props) => {
+const Seperate = ({ marginVertical = 20, width = 38, content }: Props) => {
   return (
     <View
       style={[
@@ -28,7 +29,7 @@ const SeperateOr = ({ marginVertical = 20, width = 38 }: Props) => {
           marginVertical
         }}
       />
-      <TextComponent content='or' textColor={typoColor.gray4} fontFamily={fontFam.semiBold} />
+      <TextComponent content={content} textColor={typoColor.gray4} fontFamily={fontFam.semiBold} />
       <View
         style={{
           borderWidth: 0.5,
@@ -41,4 +42,4 @@ const SeperateOr = ({ marginVertical = 20, width = 38 }: Props) => {
   );
 };
 
-export default SeperateOr;
+export default Seperate;

@@ -11,7 +11,7 @@ const RightSearchHeader = () => {
     <SafeAreaView style={styles.outerContainer}>
       <View style={styles.backIconContainer}>
         <Pressable>
-          <ArrowCircleLeft size='34' color={typoColor.yellow2} variant='Bulk' />
+          <ArrowCircleLeft size='33' color={typoColor.yellow2} variant='Bulk' />
         </Pressable>
       </View>
       <View style={[styles.innerContainer]}>

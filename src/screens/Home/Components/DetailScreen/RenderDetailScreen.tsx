@@ -5,7 +5,7 @@ import globalStyle from '@styles/globalStyle';
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import BodyAdminContact from './BodyAdminContact';
+import BodyAdminContact from '../../../../components/ui/AdminContact';
 import BodyButtonField from './BodyButtonField';
 import BodyCostLivingField from './BodyCostLivingField';
 import BodyFacilityField from './BodyFacilityField';

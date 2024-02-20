@@ -52,7 +52,7 @@ const BottomNavigator = () => {
       />
       <BottomTabs.Screen
         options={{
-          header: () => <RightSearchHeader />,
+          header: () => <RightSearchHeader content='Search Result' />,
           tabBarIcon: ({ focused }) => (
             <SearchNormal1
               size='30'
@@ -66,7 +66,7 @@ const BottomNavigator = () => {
       />
       <BottomTabs.Screen
         options={{
-          headerShown: false,
+          header: () => <RightSearchHeader content='Favorite List' />,
           tabBarIcon: ({ focused }) => (
             <Heart size='30' color={focused ? accentColor.isFocused : accentColor.isNotFocused} variant='Bold' />
           )

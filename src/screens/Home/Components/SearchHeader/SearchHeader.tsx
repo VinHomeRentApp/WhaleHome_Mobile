@@ -6,7 +6,11 @@ import React from 'react';
 import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
 import NotiHeader from '../HomeHeader/NotiHeader/NotiIconHeader';
 
-const RightSearchHeader = () => {
+type RightSearchHeaderProps = {
+  content: string;
+};
+
+const RightSearchHeader = ({ content }: RightSearchHeaderProps) => {
   return (
     <SafeAreaView style={styles.outerContainer}>
       <View style={styles.backIconContainer}>
@@ -15,7 +19,7 @@ const RightSearchHeader = () => {
         </Pressable>
       </View>
       <View style={[styles.innerContainer]}>
-        <TextComponent styles={styles.title} content='Search Results' />
+        <TextComponent styles={styles.title} content={content} />
       </View>
       <NotiHeader />
     </SafeAreaView>

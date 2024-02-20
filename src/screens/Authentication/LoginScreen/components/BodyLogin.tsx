@@ -21,7 +21,7 @@ import {
   View
 } from 'react-native';
 import Animated, { BounceInLeft } from 'react-native-reanimated';
-import formSignInSchema from '../../../../schema/formSignInSchema';
+import formSignInSchema from '../../../../models/schema/formSignInSchema';
 import { handleSignIn } from '../../../../usecases/Authentication';
 
 const BodyLogin = () => {

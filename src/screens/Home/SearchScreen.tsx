@@ -1,6 +1,7 @@
+import RoomItem from '@components/room/RoomItem';
 import { typoColor } from '@constants/appColors';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import HomeSearchField from './Components/HomeBody/HomeSearchField';
 import NotFound from './Components/NotFound/NotFound';
 import SearchRender from './Components/SearchRender/SearchRender';
@@ -17,7 +18,15 @@ const SearchScreen = () => {
   return (
     <View style={styles.container}>
       <HomeSearchField />
-      <View style={{ marginBottom: 200 }}>{searchResult}</View>
+      <View>{searchResult}</View>
+      <FlatList
+        style={{ marginBottom: 70 }}
+        data={data}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        renderItem={(item) => <RoomItem key={item.item.id} />}
+      />
     </View>
   );
 };

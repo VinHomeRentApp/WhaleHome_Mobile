@@ -13,7 +13,7 @@ const RoomItem = () => {
           <Image style={styles.image} resizeMode='contain' source={require('@assets/images/house.png')} />
         </View>
         <View style={styles.heartField}>
-          <Heart size='18' color='#FF8A65' variant='Outline' />
+          <Heart size='18' color='#FF8A65' variant='Bold' />
         </View>
         <View style={styles.priceField}>
           <TextComponent styles={styles.priceText} content='$ 235' />

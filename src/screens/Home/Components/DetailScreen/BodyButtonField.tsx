@@ -1,9 +1,12 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { MainStackParamList } from '@type/navigation.types';
 import React from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 
 const BodyButtonField = () => {
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
   return (
     <View style={styles.buttonContainer}>
       <View style={styles.buyAndRentContainer}>
@@ -14,7 +17,10 @@ const BodyButtonField = () => {
           <TextComponent styles={styles.textButton} content='Buy' />
         </Pressable>
       </View>
-      <Pressable style={({ pressed }) => [styles.view3dButton, pressed && styles.activeButton]}>
+      <Pressable
+        onPress={() => navigation.navigate('View360')}
+        style={({ pressed }) => [styles.view3dButton, pressed && styles.activeButton]}
+      >
         <Image style={styles.iconImage} resizeMode='contain' source={require('@assets/images/icon/360.png')} />
       </Pressable>
     </View>

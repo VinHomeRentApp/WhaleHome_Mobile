@@ -34,6 +34,11 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             component={ViewImageRoomScreen}
           />
           <MainStack.Screen
+            options={{ headerShown: false }}
+            name='ViewImageRoomScreen'
+            component={ViewImageRoomScreen}
+          />
+          <MainStack.Screen
             options={{ header: () => <EditProfileHeader /> }}
             name='EditProfileScreen'
             component={EditProfileScreen}

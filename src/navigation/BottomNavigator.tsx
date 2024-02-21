@@ -1,6 +1,5 @@
 import { accentColor } from '@constants/appColors';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import HeaderBottomTabs from '@screens/Home/Components/HomeHeader/RightHeader/RightHeader';
 import ProfileHeader from '@screens/Home/Components/ProfileHeader/ProfileHeader';
 import RightSearchHeader from '@screens/Home/Components/SearchHeader/SearchHeader';
@@ -8,22 +7,11 @@ import FavoriteScreen from '@screens/Home/FavoriteScreen';
 import HomeScreen from '@screens/Home/HomeScreen';
 import ProfileScreen from '@screens/Home/ProfileScreen';
 import SearchScreen from '@screens/Home/SearchScreen';
+import { RootBottomTabsList } from '@type/navigation.types';
 import { Heart, Home, Profile, SearchNormal1 } from 'iconsax-react-native';
 import React from 'react';
 
-export type RootBottomTabsList = {
-  HomePage: undefined;
-  SearchScreen: undefined;
-  FavoriteScreen: undefined;
-  ProfileScreen: undefined;
-};
-
 const BottomTabs = createBottomTabNavigator<RootBottomTabsList>();
-
-export type HomePageProps = NativeStackScreenProps<RootBottomTabsList, 'HomePage'>;
-export type SearchScreenProps = NativeStackScreenProps<RootBottomTabsList, 'SearchScreen'>;
-export type FavoriteScreenProps = NativeStackScreenProps<RootBottomTabsList, 'FavoriteScreen'>;
-export type ProfileScreenProps = NativeStackScreenProps<RootBottomTabsList, 'ProfileScreen'>;
 
 const BottomNavigator = () => {
   return (
@@ -64,7 +52,7 @@ const BottomNavigator = () => {
       />
       <BottomTabs.Screen
         options={{
-          header: () => <RightSearchHeader />,
+          header: () => <RightSearchHeader content='Search Result' />,
           tabBarIcon: ({ focused }) => (
             <SearchNormal1
               size='30'
@@ -78,7 +66,7 @@ const BottomNavigator = () => {
       />
       <BottomTabs.Screen
         options={{
-          headerShown: false,
+          header: () => <RightSearchHeader content='Favorite List' />,
           tabBarIcon: ({ focused }) => (
             <Heart size='30' color={focused ? accentColor.isFocused : accentColor.isNotFocused} variant='Bold' />
           )

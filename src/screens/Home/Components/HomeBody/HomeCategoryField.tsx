@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   categoryActive: {
-    backgroundColor: typoColor.gray3
+    backgroundColor: typoColor.yellow1
   },
   textCategory: {
     fontWeight: 'bold'

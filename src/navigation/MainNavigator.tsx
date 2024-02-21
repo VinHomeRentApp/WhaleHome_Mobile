@@ -1,28 +1,17 @@
-import { NativeStackScreenProps, createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useAuthentication } from '@hooks/useAuthentication';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Building3D from '@screens/Home/Building3D';
 import EditProfileHeader from '@screens/Home/Components/EditProfileHeader/EditProfileHeader';
+import DetailScreen from '@screens/Home/DetailScreen';
 import EditProfileScreen from '@screens/Home/EditProfileScreen';
+import ViewImageRoomScreen from '@screens/Home/ViewImageRoomScreen';
 import SplashScreen from '@screens/Splash/SplashScreen';
+import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
 import React from 'react';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
-import { useAuthentication } from '@hooks/useAuthentication';
 
-type StackParamList = {
-  SplashScreen: undefined;
-  AuthScreen: undefined;
-  HomeScreen: undefined;
-  EditProfileScreen: undefined;
-  Building3d: undefined;
-};
-
-const MainStack = createNativeStackNavigator<StackParamList>();
-
-type MainNavigatorProps = {
-  isShowSplash: boolean;
-};
-
-export type EditProfileScreenProps = NativeStackScreenProps<StackParamList, 'EditProfileScreen'>;
+const MainStack = createNativeStackNavigator<MainStackParamList>();
 
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
   const { isAuth } = useAuthentication();
@@ -36,6 +25,12 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
           <MainStack.Screen options={{ headerShown: false }} name='AuthScreen' component={AuthNavigator} />
           <MainStack.Screen options={{ headerShown: false }} name='HomeScreen' component={BottomNavigator} />
           <MainStack.Screen options={{ headerShown: false }} name='Building3d' component={Building3D} />
+          <MainStack.Screen options={{ headerShown: false }} name='DetailRoomScreen' component={DetailScreen} />
+          <MainStack.Screen
+            options={{ headerShown: false }}
+            name='ViewImageRoomScreen'
+            component={ViewImageRoomScreen}
+          />
           <MainStack.Screen
             options={{ header: () => <EditProfileHeader /> }}
             name='EditProfileScreen'

@@ -1,8 +1,8 @@
 import ActiveDot from '@components/ui/ActiveDot';
 import GetStartedButton from '@components/ui/GetStartedButton/GetStartedButton';
 import UnactiveDot from '@components/ui/UnactiveDot';
-import { OnBoardingProps } from '@navigation/AuthNavigator';
 import globalStyle from '@styles/globalStyle';
+import { OnBoardingProps } from '@type/navigation.types';
 import React from 'react';
 import { ImageBackground, View } from 'react-native';
 import Swiper from 'react-native-swiper';
@@ -19,9 +19,7 @@ const OnboardingScreen = ({ navigation }: OnBoardingProps) => {
 
   return (
     <View style={[globalStyle.container]}>
-
       <Swiper autoplayTimeout={3} autoplay showsButtons={false} dot={<UnactiveDot />} activeDot={<ActiveDot />}>
-     
         <ImageBackground
           imageStyle={OnboardingScreenStyle.imageBackground}
           source={require(onBoardingPath_1)}

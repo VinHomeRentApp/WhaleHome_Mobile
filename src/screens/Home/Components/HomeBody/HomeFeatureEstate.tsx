@@ -1,11 +1,15 @@
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
-import { DollarSquare, Heart, Location, Star } from 'iconsax-react-native';
 import fontFam from '@constants/fontFamilies';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import globalStyle from '@styles/globalStyle';
+import { MainStackParamList } from '@type/navigation.types';
+import { DollarSquare, Heart, Location, Star } from 'iconsax-react-native';
+import React from 'react';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const HomeFeatureEstate = () => {
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
   return (
     <View style={styles.featuresContainer}>
       <View style={styles.featureTitleContainer}>
@@ -15,7 +19,10 @@ const HomeFeatureEstate = () => {
         </Pressable>
       </View>
       <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-        <View style={styles.featureOptionField}>
+        <Pressable
+          onPress={() => navigation.navigate('DetailRoomScreen')}
+          style={({ pressed }) => [styles.featureOptionField, pressed && globalStyle.pressed]}
+        >
           <View style={styles.featureOption}>
             <View style={styles.featureImage}>
               <Image resizeMode='contain' source={require('@assets/images/tower.png')} />
@@ -45,7 +52,7 @@ const HomeFeatureEstate = () => {
           <View style={styles.heartField}>
             <Heart size='18' color='#FF8A65' variant='Outline' />
           </View>
-        </View>
+        </Pressable>
         <View style={styles.featureOptionField}>
           <View style={styles.featureOption}>
             <View style={styles.featureImage}>

@@ -1,9 +1,8 @@
-import { ActivityIndicator, Image, View } from 'react-native';
-import React from 'react';
 import TextComponent from '@components/ui/TextComponent/TextComponent';
 import { typoColor } from '@constants/appColors';
 import globalStyle from '@styles/globalStyle';
-import { styles } from './style';
+import React from 'react';
+import { ActivityIndicator, Image, StyleSheet, View } from 'react-native';
 
 const LOGO_PATH = '../../assets/images/main-logo.png';
 
@@ -21,5 +20,26 @@ const SplashScreen = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  splashScreen: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  logoContainer: {
+    position: 'relative'
+  },
+  logo: {
+    width: 130,
+    height: 130
+  },
+  sloganText: {
+    position: 'absolute',
+    bottom: 100,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+});
 
 export default SplashScreen;

@@ -1,6 +1,7 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { ArrowCircleLeft, Heart, Star } from 'iconsax-react-native';
 import React from 'react';
@@ -35,7 +36,12 @@ const TopOverview = () => {
           <Pressable>
             <Image style={styles.addOnImage} resizeMode='cover' source={require('@assets/images/room-detail-2.jpg')} />
           </Pressable>
-          <Pressable>
+          <Pressable
+            onPress={() => {
+              navigation.navigate('ViewImageRoomScreen');
+            }}
+            style={({ pressed }) => pressed && globalStyle.pressed}
+          >
             <Image style={styles.addOnImage} resizeMode='cover' source={require('@assets/images/room-detail-3.jpg')} />
             <View style={styles.addOnNumberImage}>
               <TextComponent content='+3' />

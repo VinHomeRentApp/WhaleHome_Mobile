@@ -16,7 +16,7 @@ const BodyTitleField = () => {
       </View>
       <View style={styles.priceField}>
         <TextComponent styles={styles.title} content='$ 220' />
-        <TextComponent content='Per Month' />
+        <TextComponent content='Per Months' />
       </View>
     </View>
   );

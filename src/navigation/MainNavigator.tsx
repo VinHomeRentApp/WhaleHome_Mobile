@@ -4,6 +4,7 @@ import Building3D from '@screens/Home/Building3D';
 import EditProfileHeader from '@screens/Home/Components/EditProfileHeader/EditProfileHeader';
 import DetailScreen from '@screens/Home/DetailScreen';
 import EditProfileScreen from '@screens/Home/EditProfileScreen';
+import NotificationScreen from '@screens/Home/NotificationScreen';
 import View360Screen from '@screens/Home/View360Screen';
 import ViewImageRoomScreen from '@screens/Home/ViewImageRoomScreen';
 import SplashScreen from '@screens/Splash/SplashScreen';
@@ -28,6 +29,7 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
           <MainStack.Screen options={{ headerShown: false }} name='Building3d' component={Building3D} />
           <MainStack.Screen options={{ headerShown: false }} name='DetailRoomScreen' component={DetailScreen} />
           <MainStack.Screen options={{ headerShown: false }} name='View360' component={View360Screen} />
+          <MainStack.Screen options={{ headerShown: false }} name='Notification' component={NotificationScreen} />
           <MainStack.Screen
             options={{ headerShown: false }}
             name='ViewImageRoomScreen'

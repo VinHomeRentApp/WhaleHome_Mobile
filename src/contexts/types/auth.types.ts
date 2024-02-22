@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+
 import { User } from 'firebase/auth';
 
 export enum AUTH_ACTION {

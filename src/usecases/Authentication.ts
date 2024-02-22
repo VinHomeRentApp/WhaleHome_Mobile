@@ -1,7 +1,7 @@
 import { AUTH_ACTION } from '@contexts/types/auth.types';
 import { RootAction } from '@contexts/types/root.types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp } from '@react-navigation/native';
+import authentication from '@services/apis/Authentication';
 import FirebaseService from '@services/firebase/firebase.services';
 import { defaultFormSignIn, defaultFormSignInValue } from '@type/form.types';
 import { MainStackParamList } from '@type/navigation.types';
@@ -18,7 +18,7 @@ export const handleSignUp = async (
   dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: true });
   const user = await firebaseService.signUp(email, password);
   if (user) {
-    dispatch({ type: AUTH_ACTION.SET_USER, payload: user });
+    // dispatch({ type: AUTH_ACTION.SET_USER, payload: user });
     reset(defaultFormSignInValue);
     return user;
   }
@@ -34,13 +34,10 @@ export const handleSignIn = async (
 ) => {
   const { email, password } = data;
   dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: true });
-  const user = await firebaseService.signIn(email, password);
-  if (user) {
-    dispatch({ type: AUTH_ACTION.SET_USER, payload: user });
-    // Get the ID token by calling getIdToken as a function
-    const idToken = await user.getIdToken();
-    // Store the ID token in AsyncStorage
-    await AsyncStorage.setItem('authToken', idToken);
+  const response = await firebaseService.signIn(email, password);
+  if (response) {
+    const token = await authentication.signIn(email, password); // Đảm bảo user là User | null
+    dispatch({ type: AUTH_ACTION.SET_USER, payload: response }); // Gán giá trị user trực tiếp
     reset(defaultFormSignInValue);
     navigation.navigate('HomeScreen');
   }

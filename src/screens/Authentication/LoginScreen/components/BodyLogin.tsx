@@ -139,7 +139,7 @@ const BodyLogin = () => {
             <TextComponent content='Continue' textColor={typoColor.black1} fontFamily={fontFam.semiBold} />
           </Pressable>
         )}
-        {isLoading && <ActivityIndicator />}
+        {isLoading && <ActivityIndicator style={{ marginTop: 10 }} />}
       </View>
       <Seperate content='Or' marginVertical={30} />
       <View style={[styles.buttonContainer]}>

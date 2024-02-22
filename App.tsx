@@ -12,10 +12,10 @@ import 'react-native-gesture-handler';
 
 import MainNavigator from '@navigation/MainNavigator';
 import { NavigationContainer } from '@react-navigation/native';
-import ClientProvider from 'contexts/providers/ClientProvider';
+import ClientProvider from '@contexts/providers/ClientProvider';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import AppProvider from 'contexts/providers/AppProvider';
+import AppProvider from '@contexts/providers/AppProvider';
 
 export default function App() {
   const [isShowSplash, setIsShownSplash] = useState<boolean>(true);

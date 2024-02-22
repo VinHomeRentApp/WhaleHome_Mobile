@@ -18,7 +18,7 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
   const { isAuth } = useAuthentication();
 
   return (
-    <MainStack.Navigator initialRouteName={isAuth ? 'HomeScreen' : 'AuthScreen'}>
+    <MainStack.Navigator initialRouteName={!isAuth ? 'HomeScreen' : 'AuthScreen'}>
       {isShowSplash ? (
         <MainStack.Screen options={{ headerShown: false }} name='SplashScreen' component={SplashScreen} />
       ) : (

@@ -10,6 +10,7 @@ export type MainStackParamList = {
   DetailRoomScreen: undefined;
   SignUpScreen: undefined;
   ViewImageRoomScreen: undefined;
+  View360: undefined;
 };
 
 export type MainNavigatorProps = {

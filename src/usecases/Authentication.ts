@@ -1,6 +1,5 @@
 import { AUTH_ACTION } from '@contexts/types/auth.types';
 import { RootAction } from '@contexts/types/root.types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp } from '@react-navigation/native';
 import { signIn } from '@services/apis/Authentication';
 import FirebaseService from '@services/firebase/firebase.services';

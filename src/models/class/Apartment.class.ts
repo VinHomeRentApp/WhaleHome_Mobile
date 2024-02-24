@@ -1,12 +1,9 @@
+import ApartmentClass from './ApartmentClass.class';
+import Building from './Building.class';
+
 class Apartment {
   id: number;
-  modifiedBy: string | null;
-  createBy: string;
-  deleteBy: string | null;
-  modifiedDate: string | null;
   createDate: string;
-  deleteAt: string | null;
-  status: boolean;
   name: string;
   description: string;
   living_room: number;
@@ -20,16 +17,12 @@ class Apartment {
   television: number;
   electric_stoves: number;
   gas_stoves: number;
+  apartmentClass: ApartmentClass;
+  building: Building;
 
   constructor(
     id: number,
-    modifiedBy: string | null,
-    createBy: string,
-    deleteBy: string | null,
-    modifiedDate: string | null,
     createDate: string,
-    deleteAt: string | null,
-    status: boolean,
     name: string,
     description: string,
     living_room: number,
@@ -42,16 +35,12 @@ class Apartment {
     electric_fan: number,
     television: number,
     electric_stoves: number,
-    gas_stoves: number
+    gas_stoves: number,
+    apartmentClass: ApartmentClass,
+    building: Building
   ) {
     this.id = id;
-    this.modifiedBy = modifiedBy;
-    this.createBy = createBy;
-    this.deleteBy = deleteBy;
-    this.modifiedDate = modifiedDate;
     this.createDate = createDate;
-    this.deleteAt = deleteAt;
-    this.status = status;
     this.name = name;
     this.description = description;
     this.living_room = living_room;
@@ -65,6 +54,8 @@ class Apartment {
     this.television = television;
     this.electric_stoves = electric_stoves;
     this.gas_stoves = gas_stoves;
+    this.apartmentClass = apartmentClass;
+    this.building = building;
   }
 }
 

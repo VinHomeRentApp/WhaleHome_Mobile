@@ -11,6 +11,8 @@ const AuthReducer: Reducer<AuthContextType, AuthAction> = (state, action) => {
       return { ...state, isLoading: action.payload };
     case AUTH_ACTION.SET_IS_AUTH:
       return { ...state, isAuth: action.payload };
+    case AUTH_ACTION.SET_ACCESS_TOKEN:
+      return { ...state, accessToken: action.payload };
     default:
       return state;
   }

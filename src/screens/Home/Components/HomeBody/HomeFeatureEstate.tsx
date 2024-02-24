@@ -7,9 +7,23 @@ import { MainStackParamList } from '@type/navigation.types';
 import { DollarSquare, Heart, Location, Star } from 'iconsax-react-native';
 import React from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import Post from 'src/models/class/Post.class';
 
-const HomeFeatureEstate = () => {
+type HomeFeaturesEstateProps = {
+  posts: Post[] | undefined;
+};
+
+const HomeFeatureEstate = ({ posts }: HomeFeaturesEstateProps) => {
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+
+  if (!posts) {
+    return (
+      <View>
+        <TextComponent content='Not Found Any Posts' />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.featuresContainer}>
       <View style={styles.featureTitleContainer}>
@@ -53,37 +67,6 @@ const HomeFeatureEstate = () => {
             <Heart size='18' color='#FF8A65' variant='Outline' />
           </View>
         </Pressable>
-        <View style={styles.featureOptionField}>
-          <View style={styles.featureOption}>
-            <View style={styles.featureImage}>
-              <Image resizeMode='contain' source={require('@assets/images/tower.png')} />
-            </View>
-            <View style={styles.featureOptionTextField}>
-              <View style={styles.featureOptionTitleField}>
-                <TextComponent styles={styles.featureOptionTitle} content='Sky Dandelions Apartment' />
-                <View style={styles.featureGroup}>
-                  <Star size='18' color={typoColor.yellow1} variant='Bold' />
-                  <Text style={styles.ratingText}>4.9</Text>
-                </View>
-                <View style={styles.featureGroup}>
-                  <Location size='18' color={typoColor.blue1} variant='Bold' />
-                  <TextComponent styles={styles.ratingText} content='Jakartha, Indonesia' />
-                </View>
-              </View>
-              <View style={styles.featureGroup}>
-                <DollarSquare size='24' color={typoColor.yellow1} variant='Outline' />
-                <TextComponent styles={styles.priceText} content='290' />
-                <TextComponent content='/Month' />
-              </View>
-            </View>
-          </View>
-          <View style={styles.categoryField}>
-            <TextComponent styles={styles.cateText} content='Apartment' />
-          </View>
-          <View style={styles.heartField}>
-            <Heart size='18' color='#FF8A65' variant='Bold' />
-          </View>
-        </View>
       </ScrollView>
     </View>
   );

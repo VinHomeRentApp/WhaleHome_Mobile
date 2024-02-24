@@ -6,7 +6,8 @@ export enum AUTH_ACTION {
   SET_USER = 'SET_USER',
   SET_ERROR = 'SET_ERROR',
   SET_IS_AUTH = 'SET_IS_AUTH',
-  SET_AUTH_IS_LOADING = 'SET_AUTH_IS_LOADING'
+  SET_AUTH_IS_LOADING = 'SET_AUTH_IS_LOADING',
+  SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'
 }
 
 export type AuthContextType = {
@@ -14,13 +15,15 @@ export type AuthContextType = {
   errors: string[];
   isAuth: boolean;
   isLoading: boolean;
+  accessToken: string;
 };
 
 export const initialAuthState: AuthContextType = {
   user: {},
   errors: [],
   isAuth: false,
-  isLoading: false
+  isLoading: false,
+  accessToken: ''
 };
 
 export type SetUserAction = {
@@ -43,4 +46,9 @@ export type SetIsLoading = {
   payload: boolean;
 };
 
-export type AuthAction = SetUserAction | SetErrorAction | SetIsLoading | SetIsAuthAction;
+export type SetAccessToken = {
+  type: AUTH_ACTION.SET_ACCESS_TOKEN;
+  payload: string;
+};
+
+export type AuthAction = SetUserAction | SetErrorAction | SetIsLoading | SetIsAuthAction | SetAccessToken;

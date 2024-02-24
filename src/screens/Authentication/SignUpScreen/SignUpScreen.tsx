@@ -1,14 +1,34 @@
 import TextComponent from '@components/ui/TextComponent';
 import { backgroundColor, typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { useRegisterAccount } from '@services/mutations/user.mutations';
 import globalStyle from '@styles/globalStyle';
 import { SignUpScreenProps } from '@type/navigation.types';
 import React, { useEffect, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { StyleSheet, Switch, TextInput, TouchableOpacity, View } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
+
+export type FormSignUpData = {
+  email: string;
+  password: string;
+  verify_password: string;
+  fullName: string;
+  gender: string;
+  phone: string;
+  dateOfBirth: string;
+  address: string;
+};
+
 const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
+  const { register, control, formState, handleSubmit, setValue } = useForm<FormSignUpData>({});
+
   const [isNextComponent, setIsNextComponent] = useState<boolean>(false);
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const [isEnabledAgreeTerm, setIsEnabledAgreeTerm] = useState(false);
+  const [date, setDate] = useState<Date>(new Date());
+  const registerAccountMutation = useRegisterAccount();
+  const toggleSwitch = () => setIsEnabledAgreeTerm((previousState) => !previousState);
 
   useEffect(() => {
     navigation.setOptions({
@@ -27,8 +47,12 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
       headerRight: () => {
         return (
           !isNextComponent && (
-            <TouchableOpacity onPress={handleNextComponent}>
-              <TextComponent content='Next' textColor={typoColor.blue2} fontFamily={fontFam.semiBold} />
+            <TouchableOpacity disabled={!isEnabledAgreeTerm} onPress={handleNextComponent}>
+              <TextComponent
+                content='Next'
+                textColor={isEnabledAgreeTerm ? typoColor.blue2 : typoColor.gray1}
+                fontFamily={fontFam.semiBold}
+              />
             </TouchableOpacity>
           )
         );
@@ -38,7 +62,7 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
         backgroundColor: '#1C1C1E'
       }
     });
-  }, [navigation, isNextComponent]);
+  }, [navigation, isNextComponent, isEnabledAgreeTerm]);
 
   const handleNextComponent = () => {
     setIsNextComponent(true);
@@ -47,31 +71,69 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
     setIsNextComponent(false);
   };
 
+  const handleChangeDate = (e: DateTimePickerEvent, myDate?: Date) => {
+    if (myDate) {
+      setDate(new Date(myDate));
+      console.log(myDate.toISOString());
+      setValue('dateOfBirth', myDate.toISOString());
+    }
+  };
+
+  const onSubmit = handleSubmit(async (data) => {
+    //Chỗ này để API nha anh Kiên
+    //....................
+    registerAccountMutation.mutate(data);
+  });
+
   return (
     <View style={[globalStyle.container, { paddingHorizontal: 10 }]}>
       {!isNextComponent ? (
         <View style={{ flex: 1, backgroundColor: backgroundColor.black1 }}>
           <View style={[styles.containerField]}>
-            <View style={[styles.inputContainer, styles.borderTopRadiusCustom, styles.bottomWithCustom]}>
-              <TextComponent styles={[styles.label]} fontSize={15} content='Email' />
-              <TextInput style={[styles.inputField]} placeholder='name@example.com' />
-            </View>
-            <View style={[styles.inputContainer, styles.bottomWithCustom]}>
-              <TextComponent styles={[styles.label]} fontSize={15} content='Password' />
-              <TextInput style={[styles.inputField]} placeholder='Required' />
-            </View>
-            <View style={[styles.inputContainer, styles.borderBottomRadiusCustom]}>
-              <TextComponent styles={[styles.label]} fontSize={15} content='Verify' />
-              <TextInput style={[styles.inputField]} placeholder='Confirm password' />
-            </View>
+            <Controller
+              name='email'
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <View style={[styles.inputContainer, styles.borderTopRadiusCustom, styles.bottomWithCustom]}>
+                  <TextComponent styles={[styles.label]} fontSize={15} content='Email' />
+                  <TextInput
+                    value={value}
+                    onChangeText={onChange}
+                    style={[styles.inputField]}
+                    placeholder='name@example.com'
+                  />
+                </View>
+              )}
+            />
+            <Controller
+              name='password'
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <View style={[styles.inputContainer, styles.bottomWithCustom]}>
+                  <TextComponent styles={[styles.label]} fontSize={15} content='Password' />
+                  <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} placeholder='Required' />
+                </View>
+              )}
+            />
+            <Controller
+              name='verify_password'
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <View style={[styles.inputContainer, styles.borderBottomRadiusCustom]}>
+                  <TextComponent styles={[styles.label]} fontSize={15} content='Verify' />
+                  <TextInput
+                    value={value}
+                    onChangeText={onChange}
+                    style={[styles.inputField]}
+                    placeholder='Confirm password'
+                  />
+                </View>
+              )}
+            />
           </View>
 
           <View style={[styles.containerField, { marginTop: 60 }]}>
-            <View style={[styles.inputContainer, styles.borderTopRadiusCustom, styles.bottomWithCustom]}>
-              <TextComponent styles={[styles.label, { width: '90%' }]} fontSize={15} content='Việt Nam' />
-              <TextInput style={[styles.inputField, { width: '10%' }]} placeholder='Vi' />
-            </View>
-            <View style={[styles.inputContainer, styles.borderBottomRadiusCustom]}>
+            <View style={[styles.inputContainer, styles.borderBottomRadiusCustom, styles.borderTopRadiusCustom]}>
               <TextComponent
                 styles={[styles.label, { width: '80%' }]}
                 fontSize={15}
@@ -80,10 +142,10 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
               <View style={[{ width: '20%', justifyContent: 'center', alignItems: 'center' }]}>
                 <Switch
                   trackColor={{ false: '#767577', true: '#34C759' }}
-                  thumbColor={isEnabled ? '#f4f3f4' : '#f4f3f4'}
+                  thumbColor={isEnabledAgreeTerm ? '#f4f3f4' : '#f4f3f4'}
                   ios_backgroundColor='#3e3e3e'
                   onValueChange={toggleSwitch}
-                  value={isEnabled}
+                  value={isEnabledAgreeTerm}
                 />
               </View>
             </View>
@@ -98,21 +160,92 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
             styles={[{ textTransform: 'uppercase', marginTop: 10 }]}
           />
           <View style={[styles.containerField, { marginTop: 10 }]}>
-            <View style={[styles.inputContainer, styles.borderTopRadiusCustom, styles.bottomWithCustom]}>
-              <TextComponent styles={[styles.label]} fontSize={15} content='First Name' />
-              <TextInput style={[styles.inputField]} placeholder='Your first name here' />
-            </View>
-            <View style={[styles.inputContainer, styles.bottomWithCustom]}>
-              <TextComponent styles={[styles.label]} fontSize={15} content='Last Name' />
-              <TextInput style={[styles.inputField]} placeholder='Your last name here' />
-            </View>
-            <View style={[styles.inputContainer, styles.borderBottomRadiusCustom]}>
-              <TextComponent styles={[styles.label]} fontSize={15} content='Date of Birth' />
-              <TouchableOpacity>
-                <TextComponent content='DD /MM /YYYY' textColor='#808080' />
-              </TouchableOpacity>
-            </View>
+            <Controller
+              control={control}
+              name='fullName'
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer, styles.borderTopRadiusCustom, styles.bottomWithCustom]}>
+                  <TextComponent styles={[styles.label]} fontSize={15} content='Full Name' />
+                  <TextInput
+                    value={value}
+                    onChangeText={onChange}
+                    style={[styles.inputField]}
+                    placeholder='Your full name here'
+                  />
+                </View>
+              )}
+            />
+
+            <Controller
+              name='gender'
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer, styles.bottomWithCustom]}>
+                  <TextComponent styles={[styles.label]} fontSize={15} content='Gender' />
+                  <RNPickerSelect
+                    placeholder={{
+                      color: '#808080',
+                      label: 'Choose your gender'
+                    }}
+                    value={value}
+                    onValueChange={onChange}
+                    items={[
+                      { label: 'Male', value: 'male', color: '#808080' },
+                      { label: 'Female', value: 'female', color: '#808080' },
+                      { label: 'Other', value: 'other', color: '#808080' }
+                    ]}
+                  />
+                </View>
+              )}
+            />
+            <Controller
+              control={control}
+              name='phone'
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer, styles.bottomWithCustom]}>
+                  <TextComponent styles={[styles.label]} fontSize={15} content='Phone' />
+                  <TextInput
+                    value={value}
+                    onChangeText={onChange}
+                    style={[styles.inputField]}
+                    placeholder='+84 123345789'
+                    inputMode='numeric'
+                  />
+                </View>
+              )}
+            />
+            <Controller
+              control={control}
+              name='address'
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer, styles.bottomWithCustom]}>
+                  <TextComponent styles={[styles.label]} fontSize={15} content='Address' />
+                  <TextInput
+                    value={value}
+                    onChangeText={onChange}
+                    style={[styles.inputField]}
+                    placeholder='+84 123345789'
+                  />
+                </View>
+              )}
+            />
+            <Controller
+              name='dateOfBirth'
+              control={control}
+              render={() => (
+                <View style={[styles.inputContainer, styles.borderBottomRadiusCustom]}>
+                  <TextComponent styles={[styles.label]} fontSize={15} content='Date of Birth' />
+                  <TouchableOpacity>
+                    {/* <TextComponent content='DD /MM /YYYY' textColor='#808080' /> */}
+                    <DateTimePicker display='default' value={date} onChange={handleChangeDate} />
+                  </TouchableOpacity>
+                </View>
+              )}
+            />
           </View>
+          <TouchableOpacity onPress={onSubmit}>
+            <TextComponent content='Submit' />
+          </TouchableOpacity>
         </View>
       )}
     </View>
@@ -138,7 +271,8 @@ const styles = StyleSheet.create({
   },
   inputField: {
     width: '70%',
-    fontSize: 15
+    fontSize: 15,
+    color: typoColor.white1
   },
   bottomWithCustom: {
     borderBottomWidth: 0.5,

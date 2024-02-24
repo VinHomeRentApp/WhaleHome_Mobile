@@ -15,6 +15,8 @@ export default NextButton;
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
+    left: 10,
     backgroundColor: typoColor.yellow1,
     justifyContent: 'center',
     height: 100,

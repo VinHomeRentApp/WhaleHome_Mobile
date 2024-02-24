@@ -1,7 +1,8 @@
+import userApi from '@apis/user.apis';
 import { AUTH_ACTION } from '@contexts/types/auth.types';
 import { RootAction } from '@contexts/types/root.types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp } from '@react-navigation/native';
-import { signIn } from '@services/apis/Authentication';
 import FirebaseService from '@services/firebase/firebase.services';
 import { defaultFormSignIn, defaultFormSignInValue } from '@type/form.types';
 import { MainStackParamList } from '@type/navigation.types';
@@ -37,8 +38,8 @@ export const handleSignIn = async (
   dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: true });
   const response = await firebaseService.signIn(email, password);
   if (response) {
-    const signInResponse = await signIn(email, password);
-    await AsyncStorage.setItem('access_token', signInResponse.data.access_token);
+    const signInResponse = await userApi.signIn(email, password);
+    await AsyncStorage.setItem('access_token', signInResponse.data.data.access_token);
     dispatch({ type: AUTH_ACTION.SET_USER, payload: response });
     reset(defaultFormSignInValue);
     navigation.navigate('HomeScreen');

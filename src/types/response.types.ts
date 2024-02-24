@@ -3,7 +3,7 @@ export interface SuccessfullResponse<TData> {
   data: TData;
 }
 
-export interface ResigsterSuccessResponse {
+export interface RegisterSuccessResponse {
   access_token: string;
 }
 

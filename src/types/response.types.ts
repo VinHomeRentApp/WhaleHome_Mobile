@@ -1,6 +1,10 @@
 export interface SuccessfullResponse<TData> {
   message: string;
-  object: TData;
+  data: TData;
+}
+
+export interface ResigsterSuccessResponse {
+  access_token: string;
 }
 
 export interface ApiResponse<T> {

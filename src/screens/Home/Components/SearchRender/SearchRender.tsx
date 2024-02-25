@@ -1,18 +1,15 @@
 import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
-import React from 'react';
+import globalStyle from '@styles/globalStyle';
+import React, { memo } from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 
-type searchRenderType = {
-  data: { id: string }[];
-};
-
-const SearchRender = ({ data }: searchRenderType) => {
+const SearchRender = () => {
   return (
     <>
       <View style={styles.titleFoundRoomField}>
         <TextComponent styles={styles.titleFoundRooms} content='Found 28 Rooms' />
-        <Pressable>
+        <Pressable style={({ pressed }) => [pressed && globalStyle.pressed]}>
           <Image style={styles.filterIcon} resizeMode='contain' source={require('@assets/images/filterIcon.png')} />
         </Pressable>
       </View>
@@ -20,7 +17,7 @@ const SearchRender = ({ data }: searchRenderType) => {
   );
 };
 
-export default SearchRender;
+export default memo(SearchRender);
 
 const styles = StyleSheet.create({
   titleFoundRoomField: {

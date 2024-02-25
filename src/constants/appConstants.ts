@@ -10,3 +10,5 @@ export const apartmentClass = {
   PN2: '2PN+1',
   PN3: '3PN'
 };
+
+export const THREE_MINUTES = 3 * 1000 * 60;

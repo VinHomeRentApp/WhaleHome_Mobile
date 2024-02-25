@@ -1,8 +1,6 @@
 import userApi from '@apis/user.apis';
-import userApi from '@apis/user.apis';
 import { AUTH_ACTION } from '@contexts/types/auth.types';
 import { RootAction } from '@contexts/types/root.types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp } from '@react-navigation/native';
 import FirebaseService from '@services/firebase/firebase.services';

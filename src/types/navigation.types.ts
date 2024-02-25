@@ -11,6 +11,7 @@ export type MainStackParamList = {
   SignUpScreen: undefined;
   ViewImageRoomScreen: undefined;
   View360: undefined;
+  Notification: undefined;
 };
 
 export type MainNavigatorProps = {

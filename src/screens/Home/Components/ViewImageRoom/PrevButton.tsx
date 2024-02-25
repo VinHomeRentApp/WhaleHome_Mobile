@@ -15,6 +15,8 @@ export default PrevButton;
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
+    right: 10,
     backgroundColor: typoColor.yellow1,
     justifyContent: 'center',
     height: 100,

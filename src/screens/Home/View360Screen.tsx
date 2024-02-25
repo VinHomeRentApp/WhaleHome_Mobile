@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unknown-property */
+import BodyAdminContact from '@components/ui/AdminContact';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
@@ -10,8 +11,7 @@ import { ArrowCircleLeft } from 'iconsax-react-native';
 import useControls from 'r3f-native-orbitcontrols';
 import React, { Suspense } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
-import { Model } from '../../models/3D/Room';
-import BodyAdminContact from '@components/ui/AdminContact';
+import P2 from '../../models/3D/P2';
 
 const View360Screen = () => {
   const [OrbitControls, events] = useControls();
@@ -21,7 +21,8 @@ const View360Screen = () => {
     <SafeAreaView style={[globalStyle.container]}>
       <View style={styles.modelContainer} {...events}>
         <Canvas>
-          <OrbitControls enableRotate={true} enablePan={false} />
+          <OrbitControls />
+          <OrbitControls />
           <directionalLight position={[1, 0, 0]} args={['white', 5]} />
           <directionalLight position={[-1, 0, 0]} args={['white', 5]} />
           <directionalLight position={[0, 0, 1]} args={['white', 5]} />
@@ -29,7 +30,8 @@ const View360Screen = () => {
           <directionalLight position={[0, 1, 0]} args={['white', 5]} />
           <directionalLight position={[0, -1, 0]} args={['white', 5]} />
           <Suspense fallback={null}>
-            <Model />
+            {/* <P1 /> */}
+            <P2 />
           </Suspense>
         </Canvas>
       </View>

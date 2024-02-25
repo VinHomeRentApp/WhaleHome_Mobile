@@ -14,7 +14,7 @@ const TopOverview = () => {
       <View style={styles.imageContainer}>
         {/* Pressable Back and Favorite */}
         <View style={styles.iconContainer}>
-          <Pressable onPress={() => navigation.goBack()} style={({ pressed }) => [pressed && styles.pressed]}>
+          <Pressable onPress={() => navigation.goBack()} style={({ pressed }) => [pressed && globalStyle.pressed]}>
             <ArrowCircleLeft size='45' color={typoColor.yellow1} variant='Bold' />
           </Pressable>
           <Pressable>
@@ -121,8 +121,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  pressed: {
-    opacity: 0.5
   }
 });

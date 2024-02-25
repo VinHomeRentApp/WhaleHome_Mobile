@@ -22,7 +22,7 @@ export type FormSignUpData = {
 };
 
 const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
-  const { register, control, formState, handleSubmit, setValue } = useForm<FormSignUpData>({});
+  const { control, formState, handleSubmit, setValue } = useForm<FormSignUpData>({});
 
   const [isNextComponent, setIsNextComponent] = useState<boolean>(false);
   const [isEnabledAgreeTerm, setIsEnabledAgreeTerm] = useState(false);

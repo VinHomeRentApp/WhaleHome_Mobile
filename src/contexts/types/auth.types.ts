@@ -1,11 +1,15 @@
 /* eslint-disable no-unused-vars */
+
 import { User } from 'firebase/auth';
+import UserCurrentResponse from 'src/models/class/User.class';
 
 export enum AUTH_ACTION {
   SET_USER = 'SET_USER',
   SET_ERROR = 'SET_ERROR',
   SET_IS_AUTH = 'SET_IS_AUTH',
-  SET_AUTH_IS_LOADING = 'SET_AUTH_IS_LOADING'
+  SET_AUTH_IS_LOADING = 'SET_AUTH_IS_LOADING',
+  SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN',
+  SET_CURRENT_USER = 'SET_CURRENT_USER'
 }
 
 export type AuthContextType = {
@@ -13,13 +17,17 @@ export type AuthContextType = {
   errors: string[];
   isAuth: boolean;
   isLoading: boolean;
+  accessToken: string;
+  currentUser: Partial<UserCurrentResponse>;
 };
 
 export const initialAuthState: AuthContextType = {
   user: {},
   errors: [],
   isAuth: false,
-  isLoading: false
+  isLoading: false,
+  accessToken: '',
+  currentUser: {}
 };
 
 export type SetUserAction = {
@@ -42,4 +50,20 @@ export type SetIsLoading = {
   payload: boolean;
 };
 
-export type AuthAction = SetUserAction | SetErrorAction | SetIsLoading | SetIsAuthAction;
+export type SetAccessToken = {
+  type: AUTH_ACTION.SET_ACCESS_TOKEN;
+  payload: string;
+};
+
+export type setCurrentUser = {
+  type: AUTH_ACTION.SET_CURRENT_USER;
+  payload: UserCurrentResponse;
+};
+
+export type AuthAction =
+  | SetUserAction
+  | SetErrorAction
+  | SetIsLoading
+  | SetIsAuthAction
+  | SetAccessToken
+  | setCurrentUser;

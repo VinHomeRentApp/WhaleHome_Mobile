@@ -57,7 +57,7 @@ export default HomeSaleField;
 const styles = StyleSheet.create({
   saleFieldContainer: {
     justifyContent: 'flex-start',
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     marginVertical: 20
   },
   saleImage: {

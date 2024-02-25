@@ -2,6 +2,7 @@ import TextComponent from '@components/ui/TextComponent';
 import { backgroundColor, typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import FirebaseService from '@services/firebase/firebase.services';
 import { useRegisterAccount } from '@services/mutations/user.mutations';
 import globalStyle from '@styles/globalStyle';
 import { SignUpScreenProps } from '@type/navigation.types';
@@ -20,6 +21,8 @@ export type FormSignUpData = {
   dateOfBirth: string;
   address: string;
 };
+
+const fireBaseService = new FirebaseService();
 
 const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
   const { control, formState, handleSubmit, setValue } = useForm<FormSignUpData>({});
@@ -82,6 +85,7 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
   const onSubmit = handleSubmit(async (data) => {
     //Chỗ này để API nha anh Kiên
     //....................
+    await fireBaseService.signUp(data.email, data.password);
     registerAccountMutation.mutate(data);
   });
 

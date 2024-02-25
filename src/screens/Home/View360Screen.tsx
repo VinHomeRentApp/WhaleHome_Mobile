@@ -11,7 +11,6 @@ import { ArrowCircleLeft } from 'iconsax-react-native';
 import useControls from 'r3f-native-orbitcontrols';
 import React, { Suspense } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
-import P1 from '../../models/3D/P1';
 import P2 from '../../models/3D/P2';
 
 const View360Screen = () => {
@@ -22,6 +21,7 @@ const View360Screen = () => {
     <SafeAreaView style={[globalStyle.container]}>
       <View style={styles.modelContainer} {...events}>
         <Canvas>
+          <OrbitControls />
           <OrbitControls />
           <directionalLight position={[1, 0, 0]} args={['white', 5]} />
           <directionalLight position={[-1, 0, 0]} args={['white', 5]} />

@@ -1,7 +1,7 @@
 import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
 import globalStyle from '@styles/globalStyle';
-import React, { memo } from 'react';
+import React from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 
 const SearchRender = () => {
@@ -17,7 +17,7 @@ const SearchRender = () => {
   );
 };
 
-export default memo(SearchRender);
+export default SearchRender;
 
 const styles = StyleSheet.create({
   titleFoundRoomField: {

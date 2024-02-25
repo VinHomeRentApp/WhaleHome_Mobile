@@ -24,6 +24,14 @@ const HomeFeatureEstate = ({ posts }: HomeFeaturesEstateProps) => {
     );
   }
 
+  if (!posts) {
+    return (
+      <View>
+        <TextComponent content='Not Found Any Posts' />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.featuresContainer}>
       <View style={styles.featureTitleContainer}>

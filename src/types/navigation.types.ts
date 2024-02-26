@@ -1,11 +1,16 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import UserCurrentResponse from 'src/models/class/User.class';
+
+type EditProfileScreenParams = {
+  userEditProfile: Partial<UserCurrentResponse>;
+};
 
 // Main Navigation
 export type MainStackParamList = {
   SplashScreen: undefined;
   AuthScreen: undefined;
   HomeScreen: undefined;
-  EditProfileScreen: undefined;
+  EditProfileScreen: EditProfileScreenParams;
   Building3d: undefined;
   DetailRoomScreen: undefined;
   SignUpScreen: undefined;

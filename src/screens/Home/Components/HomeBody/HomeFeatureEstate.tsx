@@ -24,14 +24,6 @@ const HomeFeatureEstate = ({ posts }: HomeFeaturesEstateProps) => {
     );
   }
 
-  if (!posts) {
-    return (
-      <View>
-        <TextComponent content='Not Found Any Posts' />
-      </View>
-    );
-  }
-
   return (
     <View style={styles.featuresContainer}>
       <View style={styles.featureTitleContainer}>
@@ -44,7 +36,7 @@ const HomeFeatureEstate = ({ posts }: HomeFeaturesEstateProps) => {
         {posts.map((post, key) => (
           <Pressable
             key={key}
-            onPress={() => navigation.navigate('DetailRoomScreen')}
+            onPress={() => navigation.navigate('DetailRoomScreen', { post: post })}
             style={({ pressed }) => [styles.featureOptionField, pressed && globalStyle.pressed]}
           >
             <View style={styles.featureOption}>
@@ -67,7 +59,7 @@ const HomeFeatureEstate = ({ posts }: HomeFeaturesEstateProps) => {
                   </View>
                 </View>
                 <View style={styles.featureGroup}>
-                  <DollarSquare size='24' color={typoColor.yellow1} variant='Outline' />
+                  <DollarSquare size='24' color={typoColor.yellow1} variant='Bold' />
                   <TextComponent styles={styles.priceText} content={`${post.apartment.apartmentClass.rent_price}`} />
                   <TextComponent content='/Month' />
                 </View>
@@ -77,7 +69,7 @@ const HomeFeatureEstate = ({ posts }: HomeFeaturesEstateProps) => {
               <TextComponent styles={styles.cateText} content={post.apartment.apartmentClass.name} />
             </View>
             <View style={styles.heartField}>
-              <Heart size='18' color='#FF8A65' variant='Outline' />
+              <Heart size='18' color='#FF8A65' variant='Bold' />
             </View>
           </Pressable>
         ))}

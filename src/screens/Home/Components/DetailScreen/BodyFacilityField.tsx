@@ -2,8 +2,13 @@ import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import React from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import Apartment from 'src/models/class/Apartment.class';
 
-const BodyFacilityField = () => {
+type BodyFacilityFieldProps = {
+  apartment: Apartment;
+};
+
+const BodyFacilityField = ({ apartment }: BodyFacilityFieldProps) => {
   return (
     <View style={styles.facilitiesContainer}>
       <TextComponent styles={styles.facilityTitle} content='Facilities' />
@@ -15,9 +20,10 @@ const BodyFacilityField = () => {
               resizeMode='contain'
               source={require('@assets/images/icon/bed-room-icon.png')}
             />
-            <TextComponent styles={styles.facilityText} content='2 Bedroom' />
+            <TextComponent styles={styles.facilityText} content={`${apartment.bed_room} Bedroom`} />
           </View>
         </Pressable>
+
         <Pressable style={({ pressed }) => [styles.facilityItem, pressed && styles.activeFacility]}>
           <View style={styles.facilityDetail}>
             <Image
@@ -28,12 +34,24 @@ const BodyFacilityField = () => {
             <TextComponent styles={styles.facilityText} content='1 Bathroom' />
           </View>
         </Pressable>
+
         <Pressable style={({ pressed }) => [styles.facilityItem, pressed && styles.activeFacility]}>
           <View style={styles.facilityDetail}>
             <Image
               style={styles.facilityIcon}
               resizeMode='contain'
               source={require('@assets/images/icon/air-conditioner-icon.png')}
+            />
+            <TextComponent styles={styles.facilityText} content='3 Air Conditioner' />
+          </View>
+        </Pressable>
+
+        <Pressable style={({ pressed }) => [styles.facilityItem, pressed && styles.activeFacility]}>
+          <View style={styles.facilityDetail}>
+            <Image
+              style={styles.facilityIcon}
+              resizeMode='contain'
+              source={require('@assets/images/icon/room-1.png')}
             />
             <TextComponent styles={styles.facilityText} content='3 Air Conditioner' />
           </View>

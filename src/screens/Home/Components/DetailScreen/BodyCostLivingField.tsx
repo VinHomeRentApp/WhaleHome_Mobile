@@ -2,8 +2,13 @@ import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
+import Post from 'src/models/class/Post.class';
 
-const BodyCostLivingField = () => {
+type BodyCostLivingFieldProps = {
+  post: Post;
+};
+
+const BodyCostLivingField = ({ post }: BodyCostLivingFieldProps) => {
   return (
     <View>
       <View style={styles.titleContainer}>
@@ -13,7 +18,7 @@ const BodyCostLivingField = () => {
         </Pressable>
       </View>
       <View style={styles.costBodyContainer}>
-        <TextComponent styles={styles.costTitle} content='$ 830/month' />
+        <TextComponent styles={styles.costTitle} content={`$ ${post.apartment.apartmentClass.rent_price}/month`} />
         <TextComponent styles={styles.costDetail} content='From average citizen spend around this location' />
       </View>
     </View>

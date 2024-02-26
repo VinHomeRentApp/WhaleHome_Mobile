@@ -6,8 +6,13 @@ import { MainStackParamList } from '@type/navigation.types';
 import { ArrowCircleLeft, Heart, Star } from 'iconsax-react-native';
 import React from 'react';
 import { Image, ImageBackground, Pressable, StyleSheet, View } from 'react-native';
+import Post from 'src/models/class/Post.class';
 
-const TopOverview = () => {
+type TopOverViewProps = {
+  post: Post;
+};
+
+const TopOverview = ({ post }: TopOverViewProps) => {
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
   return (
     <ImageBackground resizeMode='cover' source={require('@assets/images/room-detail.jpg')}>
@@ -26,7 +31,7 @@ const TopOverview = () => {
           <TextComponent styles={styles.textImage} content='4.9' />
         </View>
         <View style={styles.RoomField}>
-          <TextComponent styles={styles.textImage} content='Room' />
+          <TextComponent styles={styles.textImage} content={post.apartment.apartmentClass.name} />
         </View>
         {/* Add on Image Field */}
         <View style={styles.addOnImageField}>

@@ -7,8 +7,8 @@ import { useRegisterAccount } from '@services/mutations/user.mutations';
 import globalStyle from '@styles/globalStyle';
 import { SignUpScreenProps } from '@type/navigation.types';
 import React, { useEffect, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { StyleSheet, Switch, TextInput, TouchableOpacity, View } from 'react-native';
+import { Controller, useForm } from 'react-hook-form';
+import { Alert, StyleSheet, Switch, TextInput, TouchableOpacity, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
 export type FormSignUpData = {
@@ -83,10 +83,12 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    //Chỗ này để API nha anh Kiên
-    //....................
-    await fireBaseService.signUp(data.email, data.password);
-    registerAccountMutation.mutate(data);
+    try {
+      await fireBaseService.signUp(data.email, data.password);
+      registerAccountMutation.mutate(data);
+    } catch (error: any) {
+      Alert.alert('Sign Up Error', error.message);
+    }
   });
 
   return (

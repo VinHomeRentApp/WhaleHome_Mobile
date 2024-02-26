@@ -28,6 +28,7 @@ const HomeFeatureEstate = ({ posts }: HomeFeaturesEstateProps) => {
     <View style={styles.featuresContainer}>
       <View style={styles.featureTitleContainer}>
         <TextComponent content='Featured Estates' styles={styles.featureTitle} />
+
         <Pressable style={({ pressed }) => [pressed && globalStyle.pressed]}>
           <TextComponent content='More' />
         </Pressable>

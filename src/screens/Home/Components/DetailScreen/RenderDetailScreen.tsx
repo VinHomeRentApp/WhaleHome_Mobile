@@ -31,7 +31,7 @@ const RenderDetailScreen = ({ post }: RenderDetailScreenProps) => {
           <BodyTitleField post={post} />
 
           {/* Body Button Field */}
-          <BodyButtonField />
+          <BodyButtonField apartmentClass={post.apartment.apartmentClass} />
 
           {/* Body Facilities  */}
           <BodyFacilityField apartment={post.apartment} />

@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import ApartmentClass from 'src/models/class/ApartmentClass.class';
 import Post from 'src/models/class/Post.class';
 
 // Main Navigation
@@ -11,7 +12,7 @@ export type MainStackParamList = {
   DetailRoomScreen: { post: Post };
   SignUpScreen: undefined;
   ViewImageRoomScreen: undefined;
-  View360: undefined;
+  View360: { apartmentClass: ApartmentClass };
   Notification: undefined;
 };
 

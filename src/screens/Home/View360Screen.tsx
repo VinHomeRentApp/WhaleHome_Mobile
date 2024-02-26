@@ -2,8 +2,9 @@
 import BodyAdminContact from '@components/ui/AdminContact';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import { apartmentClassValue } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { Canvas } from '@react-three/fiber';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
@@ -11,11 +12,36 @@ import { ArrowCircleLeft } from 'iconsax-react-native';
 import useControls from 'r3f-native-orbitcontrols';
 import React, { Suspense } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
+import P1 from '../../models/3D/P1';
 import P2 from '../../models/3D/P2';
+import P3 from '../../models/3D/P3';
+import Studio from '../../models/3D/Studio';
 
 const View360Screen = () => {
+  const route = useRoute<RouteProp<MainStackParamList, 'View360'>>();
+  const { apartmentClass } = route.params;
+  const apartmentClassName = apartmentClass.name;
   const [OrbitControls, events] = useControls();
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+
+  let model3d;
+
+  switch (apartmentClassName) {
+    case apartmentClassValue.STUDIO:
+      model3d = <Studio />;
+      break;
+    case apartmentClassValue.PN1:
+      model3d = <P1 />;
+      break;
+    case apartmentClassValue.PN2:
+      model3d = <P2 />;
+      break;
+    case apartmentClassValue.PN3:
+      model3d = <P3 />;
+      break;
+    default:
+      break;
+  }
 
   return (
     <SafeAreaView style={[globalStyle.container]}>
@@ -29,14 +55,16 @@ const View360Screen = () => {
           <directionalLight position={[0, 0, -1]} args={['white', 5]} />
           <directionalLight position={[0, 1, 0]} args={['white', 5]} />
           <directionalLight position={[0, -1, 0]} args={['white', 5]} />
-          <Suspense fallback={null}>
-            {/* <P1 /> */}
-            <P2 />
-          </Suspense>
+          <Suspense fallback={null}>{model3d}</Suspense>
         </Canvas>
       </View>
       <View style={styles.textField}>
-        <TextComponent styles={styles.textTitle} content={'Room'} />
+        <TextComponent styles={styles.textTitle} content={`Apartment Class: ${apartmentClassName}`} />
+        <View>
+          <TextComponent
+            content={`Height: ${apartmentClass.height} - Width: ${apartmentClass.width} - Length: ${apartmentClass.length}`}
+          />
+        </View>
       </View>
 
       {/* Back button */}
@@ -62,10 +90,11 @@ const styles = StyleSheet.create({
     height: '80%'
   },
   textField: {
+    marginTop: 20,
     alignItems: 'center'
   },
   textTitle: {
-    fontSize: 25,
+    fontSize: 15,
     fontFamily: fontFam.bold
   },
   iconContainer: {

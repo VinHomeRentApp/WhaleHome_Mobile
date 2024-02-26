@@ -1,16 +1,29 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { ArrowCircleLeft, Heart, Star } from 'iconsax-react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, ImageBackground, Pressable, StyleSheet, View } from 'react-native';
+import Post from 'src/models/class/Post.class';
 
-const TopOverview = () => {
+const imageBackground = require('@assets/images/room-detail.jpg');
+const imageBackground1 = require('@assets/images/room-detail-1.jpg');
+const imageBackground2 = require('@assets/images/room-detail-2.jpg');
+// const imageBackground3 = require('@assets/images/room-detail-3.jpg');
+
+type TopOverViewProps = {
+  post: Post;
+};
+
+const TopOverview = ({ post }: TopOverViewProps) => {
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const [imageBackgroundState, setImageBackgroundState] = useState(imageBackground);
+
   return (
-    <ImageBackground resizeMode='cover' source={require('@assets/images/room-detail.jpg')}>
+    <ImageBackground resizeMode='cover' source={imageBackgroundState}>
       <View style={styles.imageContainer}>
         {/* Pressable Back and Favorite */}
         <View style={styles.iconContainer}>
@@ -26,15 +39,22 @@ const TopOverview = () => {
           <TextComponent styles={styles.textImage} content='4.9' />
         </View>
         <View style={styles.RoomField}>
-          <TextComponent styles={styles.textImage} content='Room' />
+          <TextComponent styles={styles.textImage} content={post.apartment.apartmentClass.name} />
         </View>
         {/* Add on Image Field */}
         <View style={styles.addOnImageField}>
-          <Pressable>
-            <Image style={styles.addOnImage} resizeMode='cover' source={require('@assets/images/room-detail-1.jpg')} />
+          <Pressable
+            onPress={() => setImageBackgroundState(imageBackground)}
+            style={({ pressed }) => [pressed && globalStyle.pressed]}
+          >
+            <Image style={styles.addOnImage} resizeMode='cover' source={imageBackground} />
           </Pressable>
-          <Pressable>
-            <Image style={styles.addOnImage} resizeMode='cover' source={require('@assets/images/room-detail-2.jpg')} />
+
+          <Pressable
+            onPress={() => setImageBackgroundState(imageBackground1)}
+            style={({ pressed }) => [pressed && globalStyle.pressed]}
+          >
+            <Image style={styles.addOnImage} resizeMode='cover' source={imageBackground1} />
           </Pressable>
           <Pressable
             onPress={() => {
@@ -42,7 +62,7 @@ const TopOverview = () => {
             }}
             style={({ pressed }) => pressed && globalStyle.pressed}
           >
-            <Image style={styles.addOnImage} resizeMode='cover' source={require('@assets/images/room-detail-3.jpg')} />
+            <Image style={styles.addOnImage} resizeMode='cover' source={imageBackground2} />
             <View style={styles.addOnNumberImage}>
               <TextComponent content='+3' />
             </View>

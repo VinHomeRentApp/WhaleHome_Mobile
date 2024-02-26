@@ -2,27 +2,20 @@ import TextComponent from '@components/ui/TextComponent';
 import { backgroundColor, typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import FirebaseService from '@services/firebase/firebase.services';
 import { useRegisterAccount } from '@services/mutations/user.mutations';
 import globalStyle from '@styles/globalStyle';
+import { FormSignUpData } from '@type/form.types';
 import { SignUpScreenProps } from '@type/navigation.types';
 import React, { useEffect, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { StyleSheet, Switch, TextInput, TouchableOpacity, View } from 'react-native';
+import { Controller, useForm } from 'react-hook-form';
+import { Alert, StyleSheet, Switch, TextInput, TouchableOpacity, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
-export type FormSignUpData = {
-  email: string;
-  password: string;
-  verify_password: string;
-  fullName: string;
-  gender: string;
-  phone: string;
-  dateOfBirth: string;
-  address: string;
-};
+const fireBaseService = new FirebaseService();
 
 const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
-  const { control, formState, handleSubmit, setValue } = useForm<FormSignUpData>({});
+  const { control, handleSubmit, setValue } = useForm<FormSignUpData>({});
 
   const [isNextComponent, setIsNextComponent] = useState<boolean>(false);
   const [isEnabledAgreeTerm, setIsEnabledAgreeTerm] = useState(false);
@@ -80,9 +73,12 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    //Chỗ này để API nha anh Kiên
-    //....................
-    registerAccountMutation.mutate(data);
+    try {
+      await fireBaseService.signUp(data.email, data.password);
+      registerAccountMutation.mutate(data);
+    } catch (error: any) {
+      Alert.alert('Sign Up Error', error.message);
+    }
   });
 
   return (

@@ -4,7 +4,13 @@ export const PN1 = require('@assets/images/rooms/PN1.jpg');
 export const PN2 = require('@assets/images/rooms/PN2.jpg');
 export const PN3 = require('@assets/images/rooms/PN3.jpg');
 
-export const apartmentClass = {
+export const bedRoomIconImage = require('@assets/images/icon/bed-room-icon.png');
+export const bathRoomIconImage = require('@assets/images/icon/bath-room-icon.png');
+export const airConditionerIconImage = require('@assets/images/icon/air-conditioner-icon.png');
+export const kitchenIconImage = require('@assets/images/icon/room-1.png');
+export const livingRoomIconImage = require('@assets/images/icon/a-living-room-1-512.png');
+
+export const apartmentClassValue = {
   STUDIO: 'Studio',
   PN1: '1PN+1',
   PN2: '2PN+1',

@@ -12,6 +12,7 @@ import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
 import React from 'react';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
+import DetailPostScreen from '@screens/Home/DetailPostScreen';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 
@@ -24,8 +25,8 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
         <MainStack.Screen options={{ headerShown: false }} name='SplashScreen' component={SplashScreen} />
       ) : (
         <>
-          <MainStack.Screen options={{ headerShown: false }} name='AuthScreen' component={AuthNavigator} />
           <MainStack.Screen options={{ headerShown: false }} name='HomeScreen' component={BottomNavigator} />
+          <MainStack.Screen options={{ headerShown: false }} name='AuthScreen' component={AuthNavigator} />
           <MainStack.Screen options={{ headerShown: false }} name='Building3d' component={Building3D} />
           <MainStack.Screen options={{ headerShown: false }} name='DetailRoomScreen' component={DetailScreen} />
           <MainStack.Screen options={{ headerShown: false }} name='View360' component={View360Screen} />
@@ -40,6 +41,7 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             name='EditProfileScreen'
             component={EditProfileScreen}
           />
+          <MainStack.Screen options={{ headerShown: false }} name='DetailPostScreen' component={DetailPostScreen} />
         </>
       )}
     </MainStack.Navigator>

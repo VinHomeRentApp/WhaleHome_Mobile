@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import HomeCategoryField from './Components/HomeBody/HomeCategoryField';
 import HomeFeatureEstate from './Components/HomeBody/HomeFeatureEstate';
+import HomePostsField from './Components/HomeBody/HomePostsField';
 import HomeSaleField from './Components/HomeBody/HomeSaleField';
 import HomeSearchField from './Components/HomeBody/HomeSearchField';
 import HomeTopUser from './Components/HomeBody/HomeTopUser';
@@ -17,6 +18,7 @@ import HomeWelcomeField from './Components/HomeBody/HomeWelcomeField';
 const HomeScreen = () => {
   const { state, dispatch } = useRootContext();
   const { posts } = state.post;
+
   const useZone = useZones(dispatch);
 
   const zones = useZone.data?.data.data;
@@ -35,7 +37,7 @@ const HomeScreen = () => {
   }, [dispatch]);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={[HomeScreenStyles.homeContainer]}>
+    <ScrollView showsVerticalScrollIndicator={false} style={[styles.homeContainer]}>
       {/* Hello Field */}
       <HomeWelcomeField />
 
@@ -51,13 +53,16 @@ const HomeScreen = () => {
       {/* Features Estate */}
       <HomeFeatureEstate posts={posts} />
 
+      {/* Posts Field */}
+      <HomePostsField />
+
       {/* Top Estate */}
       <HomeTopUser />
     </ScrollView>
   );
 };
 
-const HomeScreenStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   homeContainer: {
     flex: 1,
     backgroundColor: typoColor.black3

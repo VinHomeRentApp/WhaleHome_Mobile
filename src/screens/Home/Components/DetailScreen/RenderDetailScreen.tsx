@@ -3,7 +3,7 @@ import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
 import globalStyle from '@styles/globalStyle';
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Post from 'src/models/class/Post.class';
 import BodyAdminContact from '../../../../components/ui/AdminContact';
@@ -13,6 +13,7 @@ import BodyFacilityField from './BodyFacilityField';
 import BodyReviewersField from './BodyReviewersField';
 import BodyTitleField from './BodyTitleField';
 import TopOverview from './TopOverview';
+import BodyInformationRoom from './BodyInformationRoom';
 
 type RenderDetailScreenProps = {
   post: Post;
@@ -35,6 +36,8 @@ const RenderDetailScreen = ({ post }: RenderDetailScreenProps) => {
 
           {/* Body Facilities  */}
           <BodyFacilityField apartment={post.apartment} />
+
+          <BodyInformationRoom apartment={post.apartment} />
 
           {/* Body Admin Contact */}
           <BodyAdminContact />

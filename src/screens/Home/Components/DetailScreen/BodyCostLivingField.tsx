@@ -1,5 +1,6 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import globalStyle from '@styles/globalStyle';
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Post from 'src/models/class/Post.class';
@@ -13,8 +14,8 @@ const BodyCostLivingField = ({ post }: BodyCostLivingFieldProps) => {
     <View>
       <View style={styles.titleContainer}>
         <TextComponent styles={styles.titleText} content='Cost of Living' />
-        <Pressable>
-          <TextComponent content='view details' />
+        <Pressable style={({ pressed }) => [pressed && globalStyle.pressed, styles.viewMoreField]}>
+          <TextComponent styles={{ color: typoColor.black1 }} content='View Details' />
         </Pressable>
       </View>
       <View style={styles.costBodyContainer}>
@@ -55,5 +56,10 @@ const styles = StyleSheet.create({
     color: typoColor.black1,
     fontSize: 12,
     marginLeft: 10
+  },
+  viewMoreField: {
+    backgroundColor: typoColor.yellow1,
+    padding: 5,
+    borderRadius: 20
   }
 });

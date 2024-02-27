@@ -1,4 +1,4 @@
-import { SuccessfullResponse } from '@type/response.types';
+import { SuccessfulResponse } from '@type/response.types';
 import httpClient from '@utils/httpClient';
 import ApartmentClass from 'src/models/class/ApartmentClass.class';
 
@@ -8,7 +8,7 @@ const EndPoint = {
 
 const apartmentApi = {
   getApartmentClass: () => {
-    return httpClient.get<SuccessfullResponse<ApartmentClass[]>>(EndPoint.getApartmentClasses);
+    return httpClient.get<SuccessfulResponse<ApartmentClass[]>>(EndPoint.getApartmentClasses);
   }
 };
 

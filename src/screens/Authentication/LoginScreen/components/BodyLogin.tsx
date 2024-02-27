@@ -4,7 +4,8 @@ import { accentColor, typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useRootContext from '@hooks/useRootContext';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { defaultFormSignIn, defaultFormSignInValue } from '@type/index';
 import { MainStackParamList } from '@type/navigation.types';
 import { Eye, EyeSlash } from 'iconsax-react-native';
@@ -35,7 +36,7 @@ const BodyLogin = () => {
     defaultValues: defaultFormSignInValue,
     mode: 'onBlur'
   });
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   const [isContinuePassword, setIsContinuePassword] = useState<boolean>(false);
   const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(true);
 

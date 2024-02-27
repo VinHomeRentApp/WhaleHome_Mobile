@@ -4,7 +4,8 @@ import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import { apartmentClassValue } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
-import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Canvas } from '@react-three/fiber';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
@@ -22,7 +23,7 @@ const View360Screen = () => {
   const { apartmentClass } = route.params;
   const apartmentClassName = apartmentClass.name;
   const [OrbitControls, events] = useControls();
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   let model3d;
 

@@ -47,11 +47,11 @@ const HomeScreen = () => {
       {/* CategoryField */}
       <HomeCategoryField zones={zones} />
 
-      {/* House Sale Field */}
-      <HomeSaleField />
-
       {/* Features Estate */}
       <HomeFeatureEstate posts={posts} />
+
+      {/* House Sale Field */}
+      <HomeSaleField />
 
       {/* Posts Field */}
       <HomePostsField />

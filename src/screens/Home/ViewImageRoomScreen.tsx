@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import BodyAdminContact from '@components/ui/AdminContact';
 import { typoColor } from '@constants/appColors';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { ArrowCircleLeft } from 'iconsax-react-native';
@@ -17,7 +18,7 @@ const imageBackground2 = require('@assets/images/room-detail-2.jpg');
 const imageBackground3 = require('@assets/images/room-detail-3.jpg');
 
 const ViewImageRoomScreen = () => {
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   return (
     <SafeAreaView style={[globalStyle.container, styles.container]}>

@@ -1,6 +1,5 @@
 import { FormSignUpData } from '@type/form.types';
 import { RegisterSuccessResponse, SuccessfulResponse } from '../types/response.types';
-import { User } from '../types/user.types';
 
 import httpClient from '@utils/httpClient';
 import UserCurrentResponse from 'src/models/class/User.class';
@@ -14,7 +13,7 @@ const EndPoint = {
 
 const userApi = {
   getUsers: () => {
-    return httpClient.get<SuccessfulResponse<User>>(EndPoint.getUser);
+    return httpClient.get<SuccessfulResponse<UserCurrentResponse[]>>(EndPoint.getUser);
   },
   registerAccount: (body: FormSignUpData) => {
     return httpClient.post<SuccessfulResponse<RegisterSuccessResponse>>(EndPoint.register, body);

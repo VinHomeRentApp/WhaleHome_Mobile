@@ -12,7 +12,7 @@ const data = [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }, {
 const UPDATING = 'Updating...';
 const IMAGE_DEFAULT = '../../assets/images/user/kien.jpg';
 
-const ProfileScreen = ({ navigation }: any) => {
+const ProfileScreen = () => {
   const {
     state: {
       auth: { currentUser }

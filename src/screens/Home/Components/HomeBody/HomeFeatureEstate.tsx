@@ -1,7 +1,8 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { DollarSquare, Heart, Location, Star } from 'iconsax-react-native';
@@ -14,7 +15,7 @@ type HomeFeaturesEstateProps = {
 };
 
 const HomeFeatureEstate = ({ posts }: HomeFeaturesEstateProps) => {
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   if (!posts) {
     return (

@@ -10,7 +10,6 @@ import View360Screen from '@screens/Home/View360Screen';
 import ViewImageRoomScreen from '@screens/Home/ViewImageRoomScreen';
 import SplashScreen from '@screens/Splash/SplashScreen';
 import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
-import React from 'react';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
 import DetailPostScreen from '@screens/Home/DetailPostScreen';

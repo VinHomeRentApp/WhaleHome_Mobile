@@ -2,7 +2,8 @@ import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import { PN1, PN2, PN3, apartmentClassValue, studioImage } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useApartmentClass } from '@services/queries/apartment.queries';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
@@ -22,7 +23,7 @@ const apartmentImageMap = {
 const HomeSaleField = () => {
   const data = useApartmentClass();
   const apartmentClasses = data.data?.data.data;
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   if (!apartmentClasses) {
     return (

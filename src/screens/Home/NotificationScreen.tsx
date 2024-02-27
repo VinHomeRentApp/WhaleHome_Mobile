@@ -1,6 +1,7 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { ArrowCircleLeft, Trash } from 'iconsax-react-native';
@@ -11,7 +12,7 @@ import TabCategory from './Components/NotificationScreen/TabCategory';
 import TabHeader from './Components/NotificationScreen/TabHeader';
 
 const NotificationScreen = () => {
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   return (
     <SafeAreaView style={[globalStyle.container, styles.container]}>

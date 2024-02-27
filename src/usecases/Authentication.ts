@@ -2,7 +2,7 @@ import userApi from '@apis/user.apis';
 import { AUTH_ACTION } from '@contexts/types/auth.types';
 import { RootAction } from '@contexts/types/root.types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NavigationProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FirebaseService from '@services/firebase/firebase.services';
 import { defaultFormSignIn, defaultFormSignInValue } from '@type/form.types';
 import { MainStackParamList } from '@type/navigation.types';
@@ -32,7 +32,7 @@ export const handleSignIn = async (
   data: defaultFormSignIn,
   dispatch: Dispatch<RootAction>,
   reset: UseFormReset<defaultFormSignIn>,
-  navigation: NavigationProp<MainStackParamList>
+  navigation: NativeStackNavigationProp<MainStackParamList>
 ) => {
   const { email, password } = data;
   dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: true });

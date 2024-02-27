@@ -1,5 +1,6 @@
 import { typoColor } from '@constants/appColors';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { Notification } from 'iconsax-react-native';
@@ -7,7 +8,7 @@ import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 
 export const NotiHeader = () => {
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   return (
     <Pressable

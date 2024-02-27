@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { ArrowCircleLeft, Heart, Star } from 'iconsax-react-native';
@@ -19,7 +20,7 @@ type TopOverViewProps = {
 };
 
 const TopOverview = ({ post }: TopOverViewProps) => {
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   const [imageBackgroundState, setImageBackgroundState] = useState(imageBackground);
 
   return (

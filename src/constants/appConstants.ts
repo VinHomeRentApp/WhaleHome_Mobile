@@ -9,6 +9,7 @@ export const bathRoomIconImage = require('@assets/images/icon/bath-room-icon.png
 export const airConditionerIconImage = require('@assets/images/icon/air-conditioner-icon.png');
 export const kitchenIconImage = require('@assets/images/icon/room-1.png');
 export const livingRoomIconImage = require('@assets/images/icon/a-living-room-1-512.png');
+export const defaultImage = require('@assets/images/user/kien.jpg');
 
 export const apartmentClassValue = {
   STUDIO: 'Studio',

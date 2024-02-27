@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { typoColor } from '@constants/appColors';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { ArrowCircleLeft } from 'iconsax-react-native';
@@ -15,7 +16,7 @@ type TopOverviewPostProps = {
 const imageBackground = require('@assets/images/room-detail.jpg');
 
 const TopOverviewPost = ({ post }: TopOverviewPostProps) => {
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   const imageUrl = post && post.postImages && post.postImages[0] && post.postImages[0].image_url;
   return (
     <ImageBackground style={{ height: 200 }} resizeMode='cover' source={imageUrl ?? imageBackground}>

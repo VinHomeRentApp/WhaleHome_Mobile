@@ -1,16 +1,16 @@
-import { View, StyleSheet, SafeAreaView } from 'react-native';
-import React from 'react';
-import globalStyle from '@styles/globalStyle';
 import TextComponent from '@components/ui/TextComponent';
-import fontFam from '@constants/fontFamilies';
-import { TouchableOpacity } from 'react-native';
-import { Card, CardCoin, Logout, ProfileCircle, Shield } from 'iconsax-react-native';
 import { typoColor } from '@constants/appColors';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import fontFam from '@constants/fontFamilies';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
+import { Card, CardCoin, Logout, ProfileCircle, Shield } from 'iconsax-react-native';
+import React from 'react';
+import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 const ManageProfile = () => {
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   return (
     <SafeAreaView style={[globalStyle.container]}>
       <View style={[styles.container]}>

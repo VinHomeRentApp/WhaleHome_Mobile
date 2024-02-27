@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import BodyAdminContact from '@components/ui/AdminContact';
 import { typoColor } from '@constants/appColors';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -9,6 +10,11 @@ import { ImageBackground, Pressable, SafeAreaView, StyleSheet, View } from 'reac
 import Swiper from 'react-native-swiper';
 import NextButton from './Components/ViewImageRoom/NextButton';
 import PrevButton from './Components/ViewImageRoom/PrevButton';
+
+const imageBackground = require('@assets/images/room-detail.jpg');
+const imageBackground1 = require('@assets/images/room-detail-1.jpg');
+const imageBackground2 = require('@assets/images/room-detail-2.jpg');
+const imageBackground3 = require('@assets/images/room-detail-3.jpg');
 
 const ViewImageRoomScreen = () => {
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
@@ -26,17 +32,22 @@ const ViewImageRoomScreen = () => {
         <ImageBackground
           style={globalStyle.imageBackground}
           resizeMode='cover'
-          source={require('@assets/images/room-detail-1.jpg')}
+          source={imageBackground}
         ></ImageBackground>
         <ImageBackground
           style={globalStyle.imageBackground}
           resizeMode='cover'
-          source={require('@assets/images/room-detail-2.jpg')}
+          source={imageBackground1}
         ></ImageBackground>
         <ImageBackground
           style={globalStyle.imageBackground}
           resizeMode='cover'
-          source={require('@assets/images/room-detail-3.jpg')}
+          source={imageBackground2}
+        ></ImageBackground>
+        <ImageBackground
+          style={globalStyle.imageBackground}
+          resizeMode='cover'
+          source={imageBackground3}
         ></ImageBackground>
       </Swiper>
 

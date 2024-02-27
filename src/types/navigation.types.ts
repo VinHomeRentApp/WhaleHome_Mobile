@@ -4,6 +4,8 @@ import UserCurrentResponse from 'src/models/class/User.class';
 type EditProfileScreenParams = {
   userEditProfile: Partial<UserCurrentResponse>;
 };
+import ApartmentClass from 'src/models/class/ApartmentClass.class';
+import Post from 'src/models/class/Post.class';
 
 // Main Navigation
 export type MainStackParamList = {
@@ -12,10 +14,10 @@ export type MainStackParamList = {
   HomeScreen: undefined;
   EditProfileScreen: EditProfileScreenParams;
   Building3d: undefined;
-  DetailRoomScreen: undefined;
+  DetailRoomScreen: { post: Post };
   SignUpScreen: undefined;
   ViewImageRoomScreen: undefined;
-  View360: undefined;
+  View360: { apartmentClass: ApartmentClass };
   Notification: undefined;
 };
 

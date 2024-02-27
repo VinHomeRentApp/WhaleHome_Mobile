@@ -4,8 +4,13 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MainStackParamList } from '@type/navigation.types';
 import React from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
+import ApartmentClass from 'src/models/class/ApartmentClass.class';
 
-const BodyButtonField = () => {
+type BodyButtonFieldProps = {
+  apartmentClass: ApartmentClass;
+};
+
+const BodyButtonField = ({ apartmentClass }: BodyButtonFieldProps) => {
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
   return (
     <View style={styles.buttonContainer}>
@@ -18,7 +23,7 @@ const BodyButtonField = () => {
         </Pressable>
       </View>
       <Pressable
-        onPress={() => navigation.navigate('View360')}
+        onPress={() => navigation.navigate('View360', { apartmentClass })}
         style={({ pressed }) => [styles.view3dButton, pressed && styles.activeButton]}
       >
         <Image style={styles.iconImage} resizeMode='contain' source={require('@assets/images/icon/360.png')} />

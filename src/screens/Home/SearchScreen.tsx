@@ -12,7 +12,7 @@ const SearchScreen = () => {
   let searchResult = <NotFound />;
 
   if (data.length > 0) {
-    searchResult = <SearchRender data={data} />;
+    searchResult = <SearchRender />;
   }
 
   return (

@@ -1,9 +1,11 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
-import { PN1, PN2, PN3, apartmentClass, studioImage } from '@constants/appConstants';
+import { PN1, PN2, PN3, apartmentClassValue, studioImage } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useApartmentClass } from '@services/queries/apartment.queries';
 import globalStyle from '@styles/globalStyle';
+import { MainStackParamList } from '@type/navigation.types';
 import { ArrowCircleRight2 } from 'iconsax-react-native';
 import React from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
@@ -11,20 +13,21 @@ import ApartmentClass from 'src/models/class/ApartmentClass.class';
 
 // Mapping of apartment names to image sources
 const apartmentImageMap = {
-  [apartmentClass.STUDIO]: studioImage,
-  [apartmentClass.PN1]: PN1,
-  [apartmentClass.PN2]: PN2,
-  [apartmentClass.PN3]: PN3
+  [apartmentClassValue.STUDIO]: studioImage,
+  [apartmentClassValue.PN1]: PN1,
+  [apartmentClassValue.PN2]: PN2,
+  [apartmentClassValue.PN3]: PN3
 };
 
 const HomeSaleField = () => {
   const data = useApartmentClass();
   const apartmentClasses = data.data?.data.data;
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
   if (!apartmentClasses) {
     return (
       <View>
-        <TextComponent content='Not Found Any' />
+        <TextComponent content='Not Found Any Class' />
       </View>
     );
   }
@@ -36,14 +39,17 @@ const HomeSaleField = () => {
 
   return (
     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-      {apartmentClasses.map((apartment: ApartmentClass, index: number) => (
+      {apartmentClasses.map((apartment: ApartmentClass) => (
         <View key={apartment.id} style={styles.saleFieldContainer}>
           <Image style={styles.saleImage} resizeMode='cover' source={getImageSource(apartment.name)} />
           <View style={styles.saleTextContainer}>
             <TextComponent content={apartment.name} styles={styles.saleTitle} />
             <TextComponent content={'Apartment Class'} styles={styles.saleText} />
           </View>
-          <Pressable style={({ pressed }) => [styles.buttonContainer, pressed && globalStyle.pressed]}>
+          <Pressable
+            onPress={() => navigation.navigate('View360', { apartmentClass: apartment })}
+            style={({ pressed }) => [styles.buttonContainer, pressed && globalStyle.pressed]}
+          >
             <ArrowCircleRight2 size='25' color={typoColor.white1} variant='Broken' />
           </Pressable>
         </View>

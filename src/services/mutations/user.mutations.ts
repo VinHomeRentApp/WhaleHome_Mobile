@@ -2,8 +2,8 @@ import userApi from '@apis/user.apis';
 import { AUTH_ACTION } from '@contexts/types/auth.types';
 import { RootAction } from '@contexts/types/root.types';
 import useRootContext from '@hooks/useRootContext';
-import { FormSignUpData } from '@screens/Authentication/SignUpScreen/SignUpScreen';
 import { useMutation } from '@tanstack/react-query';
+import { FormSignUpData } from '@type/form.types';
 import { Dispatch } from 'react';
 
 export const useRegisterAccount = () => {

@@ -17,7 +17,7 @@ const HomeSearchField = () => {
       <View style={styles.searchIcon}>
         <View style={styles.slider}></View>
         <Pressable style={styles.voiceSearch}>
-          <Microphone2 size='26' color={typoColor.white1} variant='Broken' />
+          <Microphone2 size='26' color={typoColor.yellow1} variant='Bold' />
         </Pressable>
       </View>
     </View>

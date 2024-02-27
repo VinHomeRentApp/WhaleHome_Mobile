@@ -1,4 +1,4 @@
-import { FormSignUpData } from '@screens/Authentication/SignUpScreen/SignUpScreen';
+import { FormSignUpData } from '@type/form.types';
 import { RegisterSuccessResponse, SuccessfulResponse } from '../types/response.types';
 import { User } from '../types/user.types';
 

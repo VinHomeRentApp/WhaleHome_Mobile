@@ -1,14 +1,16 @@
 import { accentColor } from '@constants/appColors';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HeaderBottomTabs from '@screens/Home/Components/HomeHeader/RightHeader/RightHeader';
+import PostScreenHeader from '@screens/Home/Components/PostScreenHeader/PostScreenHeader';
 import ProfileHeader from '@screens/Home/Components/ProfileHeader/ProfileHeader';
 import RightSearchHeader from '@screens/Home/Components/SearchHeader/SearchHeader';
 import FavoriteScreen from '@screens/Home/FavoriteScreen';
 import HomeScreen from '@screens/Home/HomeScreen';
+import PostScreen from '@screens/Home/PostScreen';
 import ProfileScreen from '@screens/Home/ProfileScreen';
 import SearchScreen from '@screens/Home/SearchScreen';
 import { RootBottomTabsList } from '@type/navigation.types';
-import { Heart, Home, Profile, SearchNormal1 } from 'iconsax-react-native';
+import { Heart, Home, PathToolSquare, Profile, SearchNormal1 } from 'iconsax-react-native';
 import React from 'react';
 
 const BottomTabs = createBottomTabNavigator<RootBottomTabsList>();
@@ -66,6 +68,20 @@ const BottomNavigator = () => {
       />
       <BottomTabs.Screen
         options={{
+          header: () => <PostScreenHeader />,
+          tabBarIcon: ({ focused }) => (
+            <PathToolSquare
+              size='30'
+              color={focused ? accentColor.isFocused : accentColor.isNotFocused}
+              variant='Bold'
+            />
+          )
+        }}
+        name='PostScreen'
+        component={PostScreen}
+      />
+      <BottomTabs.Screen
+        options={{
           header: () => <RightSearchHeader content='Favorite List' />,
           tabBarIcon: ({ focused }) => (
             <Heart size='30' color={focused ? accentColor.isFocused : accentColor.isNotFocused} variant='Bold' />
@@ -74,6 +90,7 @@ const BottomNavigator = () => {
         name='FavoriteScreen'
         component={FavoriteScreen}
       />
+
       <BottomTabs.Screen
         options={{
           header: () => <ProfileHeader />,

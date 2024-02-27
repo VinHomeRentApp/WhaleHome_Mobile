@@ -6,7 +6,7 @@ import { Pressable, StyleSheet } from 'react-native';
 export const SettingHeader = () => {
   return (
     <Pressable style={HeaderStyles.container}>
-      <Setting2 size='24' color='#F5F4F8' />
+      <Setting2 size='24' color={typoColor.yellow1} variant='Bold' />
     </Pressable>
   );
 };
@@ -14,7 +14,6 @@ export const SettingHeader = () => {
 const HeaderStyles = StyleSheet.create({
   container: {
     marginTop: 30,
-    marginRight: 15,
     marginBottom: 25,
     width: 35,
     height: 35,

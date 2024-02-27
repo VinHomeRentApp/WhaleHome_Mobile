@@ -7,6 +7,7 @@ import { backgroundColor, typoColor } from '@constants/appColors';
 import * as ImagePicker from 'expo-image-picker';
 import { EditProfileScreenProps } from '@type/navigation.types';
 import TextComponent from '@components/ui/TextComponent';
+import useRootContext from '@hooks/useRootContext';
 
 interface FormData {
   username: string;
@@ -19,7 +20,12 @@ const IMAGE_DEFAULT = '../../assets/images/user/kien.jpg';
 
 const EditProfileScreen = ({ route }: EditProfileScreenProps) => {
   const [image, setImage] = useState<string>();
-  const profileEditInfo = route.params.userEditProfile;
+  const {
+    state: {
+      auth: { currentUser }
+    }
+  } = useRootContext();
+  const profileEditInfo = currentUser;
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
       email: profileEditInfo.email,
@@ -54,7 +60,7 @@ const EditProfileScreen = ({ route }: EditProfileScreenProps) => {
     <ScrollView style={[globalStyle.container]}>
       <View style={[styles.fullScreen]}>
         <View style={[styles.profileInfo]}>
-          <Image style={[styles.profileImage]} source={{ uri: route.params.userEditProfile.image || IMAGE_DEFAULT }} />
+          <Image style={[styles.profileImage]} source={{ uri: currentUser.image || IMAGE_DEFAULT }} />
           <TouchableOpacity style={[styles.editButton]} onPress={pickImage}>
             <GalleryAdd size='20' color={backgroundColor.black1} />
           </TouchableOpacity>

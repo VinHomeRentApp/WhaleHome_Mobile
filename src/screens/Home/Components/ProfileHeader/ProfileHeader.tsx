@@ -1,24 +1,27 @@
 import TextComponent from '@components/ui/TextComponent';
-import { backgroundColor, typoColor } from '@constants/appColors';
+import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
-import { ArrowCircleLeft } from 'iconsax-react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Notepad2 } from 'iconsax-react-native';
 import React from 'react';
-import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
-import NotiHeader from '../HomeHeader/NotiHeader/NotiIconHeader';
+import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import SettingHeader from './SettingHeader/SettingHeader';
 
 const ProfileHeader = () => {
+  const navigation = useNavigation<any>();
   return (
     <SafeAreaView style={styles.outerContainer}>
       <View style={styles.backIconContainer}>
-        <Pressable>
-          <ArrowCircleLeft size='34' color={backgroundColor.black1} variant='Outline' />
-        </Pressable>
+        <TouchableOpacity style={[styles.containerButton]}>
+          <Notepad2 size='24' color={typoColor.yellow1} variant='Bold' />
+        </TouchableOpacity>
       </View>
       <View style={[styles.innerContainer]}>
         <TextComponent styles={styles.title} content='Profile' />
       </View>
-      <SettingHeader />
+      <TouchableOpacity style={{ marginRight: 15 }} onPress={() => navigation.navigate('ManageProfileScreen')}>
+        <SettingHeader />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -31,19 +34,29 @@ const styles = StyleSheet.create({
     backgroundColor: typoColor.black1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 15
+    padding: 15,
+    alignItems: 'center'
   },
   innerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
+    flexDirection: 'row'
   },
   backIconContainer: {
-    marginLeft: 20,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginLeft: 15
   },
   title: {
-    fontFamily: fontFam.bold
+    fontFamily: fontFam.bold,
+    fontSize: 18
+  },
+  containerButton: {
+    marginTop: 30,
+    marginBottom: 25,
+    width: 35,
+    height: 35,
+    justifyContent: 'center',
+    backgroundColor: typoColor.gray4,
+    borderRadius: 40,
+    alignItems: 'center'
   }
 });

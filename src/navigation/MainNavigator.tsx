@@ -1,5 +1,6 @@
 import { useAuthentication } from '@hooks/useAuthentication';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Building3D from '@screens/Home/Building3D';
 import EditProfileHeader from '@screens/Home/Components/EditProfileHeader/EditProfileHeader';
 import DetailScreen from '@screens/Home/DetailScreen';
@@ -13,9 +14,12 @@ import React from 'react';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
 import DetailPostScreen from '@screens/Home/DetailPostScreen';
+import ManageProfile from '@screens/Home/ManageProfile';
+import SettingProfileHeader from '@screens/Home/Components/SettingProfileHeader/SettingProfileHeader';
+import PostScreen from '@screens/Home/PostScreen';
+import PostScreenHeader from '@screens/Home/Components/PostScreenHeader/PostScreenHeader';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
-
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
   const { isAuth } = useAuthentication();
 
@@ -37,11 +41,17 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             component={ViewImageRoomScreen}
           />
           <MainStack.Screen
-            options={{ header: () => <EditProfileHeader /> }}
+            options={{ header: () => <EditProfileHeader />, presentation: 'modal' }}
             name='EditProfileScreen'
             component={EditProfileScreen}
           />
           <MainStack.Screen options={{ headerShown: false }} name='DetailPostScreen' component={DetailPostScreen} />
+          <MainStack.Screen
+            options={{ header: () => <SettingProfileHeader /> }}
+            name='ManageProfileScreen'
+            component={ManageProfile}
+          />
+          {/* Payment Method, History, Changepassword */}
         </>
       )}
     </MainStack.Navigator>

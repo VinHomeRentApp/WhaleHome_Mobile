@@ -1,22 +1,22 @@
-import TextComponent from '@components/ui/TextComponent';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { ArrowCircleLeft2 } from 'iconsax-react-native';
 import { backgroundColor, typoColor } from '@constants/appColors';
+import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MainStackParamList } from '@type/navigation.types';
-import { ArrowCircleLeft2, CloseCircle } from 'iconsax-react-native';
-import React from 'react';
-import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-const EditProfileHeader = () => {
+const SettingProfileHeader = () => {
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
   return (
     <SafeAreaView style={[{ backgroundColor: backgroundColor.black1 }]}>
       <View style={[styles.headerContainer]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <CloseCircle size='32' color={typoColor.yellow1} variant='Bold' />
+          <ArrowCircleLeft2 size='32' color={typoColor.yellow1} variant='Bold' />
         </TouchableOpacity>
-        <TextComponent content='Manage account' fontFamily={fontFam.extraBold} />
+        <TextComponent content='Setting & Privacy' fontFamily={fontFam.extraBold} />
         <ArrowCircleLeft2 size='32' color={backgroundColor.black1} variant='Bold' />
       </View>
     </SafeAreaView>
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EditProfileHeader;
+export default SettingProfileHeader;

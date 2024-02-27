@@ -1,27 +1,46 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import globalStyle from '@styles/globalStyle';
+import { MainStackParamList } from '@type/navigation.types';
 import { Heart, Location, Star } from 'iconsax-react-native';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
+import Post from 'src/models/class/Post.class';
 
-const RoomItem = () => {
+type HomePostItemProps = {
+  post: Post;
+};
+
+const HomePostItem = ({ post }: HomePostItemProps) => {
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+
   return (
-    <View style={styles.roomsOptionField}>
+    <Pressable
+      onPress={() => navigation.navigate('DetailPostScreen', { post })}
+      style={({ pressed }) => [styles.roomsOptionField, pressed && globalStyle.pressed]}
+    >
       <View style={styles.roomsOption}>
         <View style={styles.imageField}>
-          <Image style={styles.image} resizeMode='cover' source={require('@assets/images/house.png')} />
+          <Image style={styles.image} resizeMode='cover' source={require('@assets/images/modern-bedroom.jpg')} />
         </View>
         <View style={styles.heartField}>
-          <Heart size='18' color='#FF8A65' variant='Bold' />
+          <Heart size='18' color={typoColor.pink1} variant='Bold' />
         </View>
         <View style={styles.priceField}>
-          <TextComponent styles={styles.priceText} content='$ 235' />
+          <TextComponent
+            numberOfLines={1}
+            styles={styles.priceText}
+            content={String(post.apartment.apartmentClass.buy_price)}
+          />
           <TextComponent styles={{ fontSize: 10 }} content='/month' />
         </View>
       </View>
       <View style={styles.detailField}>
-        <TextComponent numberOfLines={1} styles={styles.detailTitle} content='Bungalow House' />
+        <TextComponent numberOfLines={1} styles={styles.detailTitle} content={post.title} />
+        <TextComponent numberOfLines={1} styles={styles.detailText} content={`${post.description}`} />
+        <TextComponent numberOfLines={1} styles={styles.detailText} content={`Time: ${post.createDate}`} />
         <View style={styles.detail}>
           <Star size='18' color={typoColor.yellow1} variant='Bold' />
           <TextComponent styles={styles.detailText} content='4.9' />
@@ -29,20 +48,22 @@ const RoomItem = () => {
           <TextComponent numberOfLines={1} styles={styles.detailText} content='Jakarta, Indonesia' />
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
+
+export default HomePostItem;
+
 const styles = StyleSheet.create({
   roomsOptionField: {
-    width: '50%', // Adjust the width to leave some space between items
-    padding: '3%',
-    marginBottom: 20
+    marginTop: 10,
+    marginHorizontal: 10,
+    marginBottom: -25
   },
   roomsOption: {
-    height: 300,
+    height: 320,
     borderRadius: 20,
-    backgroundColor: typoColor.white1,
-    overflow: 'hidden'
+    backgroundColor: typoColor.white1
   },
   imageField: {
     position: 'relative',
@@ -52,7 +73,7 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 20,
-    height: '85%',
+    height: '80%',
     width: '90%'
   },
   heartField: {
@@ -81,12 +102,13 @@ const styles = StyleSheet.create({
     width: 100
   },
   priceText: {
+    maxWidth: 50,
     fontSize: 16,
     fontFamily: fontFam.bold
   },
   detailField: {
-    position: 'absolute',
-    bottom: 25,
+    position: 'relative',
+    top: -100,
     marginVertical: 10,
     marginHorizontal: 20
   },
@@ -95,6 +117,7 @@ const styles = StyleSheet.create({
   },
   detailText: {
     marginRight: 5,
+    marginBottom: 5,
     color: typoColor.black2,
     fontSize: 11,
     maxWidth: 100
@@ -103,9 +126,6 @@ const styles = StyleSheet.create({
     maxWidth: 150,
     fontFamily: fontFam.bold,
     fontSize: 16,
-    color: typoColor.black2,
-    marginVertical: 10
+    color: typoColor.black2
   }
 });
-
-export default RoomItem;

@@ -12,7 +12,8 @@ export const typoColor = {
   gray4: '#3E3E3E',
   gray5: '#9c9c9c',
   blue1: '#234F68',
-  blue2: '#0A84FF'
+  blue2: '#0A84FF',
+  pink1: '#FF8A65'
 } as const;
 
 export const backgroundColor = {

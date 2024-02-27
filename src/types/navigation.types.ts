@@ -12,6 +12,7 @@ export type MainStackParamList = {
   EditProfileScreen: undefined;
   Building3d: undefined;
   DetailRoomScreen: { post: Post };
+  DetailPostScreen: { post: Post };
   SignUpScreen: undefined;
   ViewImageRoomScreen: undefined;
   View360: { apartmentClass: ApartmentClass };

@@ -13,8 +13,11 @@ const postApi = {
     return httpClient.get<SuccessfulResponse<Post[]>>(EndPoint.getAllPost);
   },
   getPostWithLimit: ({ page, size, field }: getPostLimitParams) => {
+    const currentPage = page || 1;
+    const currentSize = size || 5;
+    const currentField = field || 'title';
     return httpClient.get<SuccessfulResponse<PaginationResponse<Post[]>>>(
-      `${EndPoint.getPost}/${page}?sizePage=${size}&field=${field}`
+      `${EndPoint.getPost}/${currentPage}?sizePage=${currentSize}&field=${currentField}`
     );
   }
 };

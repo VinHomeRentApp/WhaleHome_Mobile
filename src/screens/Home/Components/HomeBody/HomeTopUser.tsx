@@ -48,7 +48,7 @@ const HomeTopUser = () => {
 export default HomeTopUser;
 
 const styles = StyleSheet.create({
-  topUser: { marginBottom: 100 },
+  topUser: { marginBottom: 100, marginTop: -50 },
   topUserTitleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',

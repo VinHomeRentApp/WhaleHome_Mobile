@@ -14,7 +14,7 @@ export const NotiHeader = () => {
       onPress={() => navigation.navigate('Notification')}
       style={({ pressed }) => [HeaderStyles.container, pressed && globalStyle.pressed]}
     >
-      <Notification size='30' color={typoColor.yellow1} variant='Bold' />
+      <Notification size='24' color={typoColor.yellow1} variant='Bold' />
     </Pressable>
   );
 };
@@ -24,8 +24,18 @@ const HeaderStyles = StyleSheet.create({
     marginTop: 30,
     marginRight: 15,
     marginBottom: 25,
-    width: 45,
-    height: 45,
+    width: 35,
+    height: 35,
+    justifyContent: 'center',
+    backgroundColor: typoColor.gray4,
+    borderRadius: 40,
+    alignItems: 'center'
+  },
+  test: {
+    marginTop: 30,
+    marginBottom: 25,
+    width: 35,
+    height: 35,
     justifyContent: 'center',
     backgroundColor: typoColor.gray4,
     borderRadius: 40,

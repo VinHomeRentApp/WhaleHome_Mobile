@@ -1,33 +1,30 @@
-import TextComponent from '@components/ui/TextComponent';
-import { typoColor } from '@constants/appColors';
-import fontFam from '@constants/fontFamilies';
-import { ArrowCircleLeft } from 'iconsax-react-native';
+import { View, SafeAreaView, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import React from 'react';
-import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
+import { ArrowCircleLeft, ArrowCircleLeft2 } from 'iconsax-react-native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { MainStackParamList } from '@type/navigation.types';
+import { backgroundColor, typoColor } from '@constants/appColors';
+import TextComponent from '@components/ui/TextComponent';
+import fontFam from '@constants/fontFamilies';
 import NotiHeader from '../HomeHeader/NotiHeader/NotiIconHeader';
 
-type RightSearchHeaderProps = {
-  content: string;
-};
+const PostScreenHeader = () => {
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
-const RightSearchHeader = ({ content }: RightSearchHeaderProps) => {
   return (
     <SafeAreaView style={styles.outerContainer}>
       <View style={styles.backIconContainer}>
         <Pressable>
-          <ArrowCircleLeft size='33' color={typoColor.yellow2} variant='Bulk' />
+          <ArrowCircleLeft size='33' color={typoColor.black1} variant='Bulk' />
         </Pressable>
       </View>
       <View style={[styles.innerContainer]}>
-        <TextComponent styles={styles.title} fontSize={18} content={content} />
+        <TextComponent styles={styles.title} content='Create Post' fontSize={18} />
       </View>
       <NotiHeader />
     </SafeAreaView>
   );
 };
-
-export default RightSearchHeader;
-
 const styles = StyleSheet.create({
   outerContainer: {
     zIndex: 0,
@@ -50,3 +47,5 @@ const styles = StyleSheet.create({
     fontFamily: fontFam.bold
   }
 });
+
+export default PostScreenHeader;

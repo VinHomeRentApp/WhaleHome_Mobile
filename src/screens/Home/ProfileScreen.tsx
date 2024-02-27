@@ -1,26 +1,18 @@
 import TextComponent from '@components/ui/TextComponent';
-import { backgroundColor, typoColor } from '@constants/appColors';
+import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import useRootContext from '@hooks/useRootContext';
 import globalStyle from '@styles/globalStyle';
-import { MainStackParamList } from '@type/navigation.types';
-import { UserEdit } from 'iconsax-react-native';
-import React, { useContext } from 'react';
-import { Image, Pressable, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { Image, StyleSheet, View } from 'react-native';
 import ProfileCounter from './Components/ProfileCounter/ProfileCounter';
 import ProfileTransaction from './Components/ProfileTransaction/ProfileTransaction';
-import { RootContext } from '@contexts/providers/AppProvider';
-import { useGetCurrentUser } from '@services/mutations/user.mutations';
-import useRootContext from '@hooks/useRootContext';
 
 const data = [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }, { id: '6' }];
 const UPDATING = 'Updating...';
 const IMAGE_DEFAULT = '../../assets/images/user/kien.jpg';
 
-const ProfileScreen = () => {
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
-
+const ProfileScreen = ({ navigation }: any) => {
   const {
     state: {
       auth: { currentUser }
@@ -32,12 +24,6 @@ const ProfileScreen = () => {
       <View style={[styles.containerProfile]}>
         <View style={[styles.profileInfo]}>
           <Image style={[styles.profileImage]} source={{ uri: currentUser.image || IMAGE_DEFAULT }} />
-          <Pressable
-            style={[styles.editButton]}
-            onPress={() => navigation.navigate('EditProfileScreen', { userEditProfile: currentUser })}
-          >
-            <UserEdit size='20' color={backgroundColor.black1} />
-          </Pressable>
         </View>
         <View style={[{ marginVertical: 10 }]}></View>
         <View style={[styles.fullNameContainer]}>

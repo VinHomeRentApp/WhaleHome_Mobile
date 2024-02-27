@@ -1,9 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import UserCurrentResponse from 'src/models/class/User.class';
 
-type EditProfileScreenParams = {
-  userEditProfile: Partial<UserCurrentResponse>;
-};
 import ApartmentClass from 'src/models/class/ApartmentClass.class';
 import Post from 'src/models/class/Post.class';
 
@@ -12,13 +9,15 @@ export type MainStackParamList = {
   SplashScreen: undefined;
   AuthScreen: undefined;
   HomeScreen: undefined;
-  EditProfileScreen: EditProfileScreenParams;
+  EditProfileScreen: undefined;
   Building3d: undefined;
   DetailRoomScreen: { post: Post };
   SignUpScreen: undefined;
   ViewImageRoomScreen: undefined;
   View360: { apartmentClass: ApartmentClass };
   Notification: undefined;
+  ManageProfileScreen: undefined;
+  PostScreen: undefined;
 };
 
 export type MainNavigatorProps = {
@@ -33,6 +32,7 @@ export type RootBottomTabsList = {
   SearchScreen: undefined;
   FavoriteScreen: undefined;
   ProfileScreen: undefined;
+  PostScreen: undefined;
 };
 
 export type HomePageProps = NativeStackScreenProps<RootBottomTabsList, 'HomePage'>;

@@ -9,12 +9,11 @@ import { Image, StyleSheet, View } from 'react-native';
 import ProfileCounter from './Components/ProfileCounter/ProfileCounter';
 import ProfileTransaction from './Components/ProfileTransaction/ProfileTransaction';
 
-const data = [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }, { id: '6' }];
-
 const ProfileScreen = () => {
   const {
     state: {
-      auth: { currentUser }
+      auth: { currentUser },
+      post: { posts }
     }
   } = useRootContext();
 
@@ -47,7 +46,7 @@ const ProfileScreen = () => {
           <ProfileCounter counter={28} title='Reviews' />
         </View>
       </View>
-      <ProfileTransaction data={data} />
+      <ProfileTransaction posts={posts} />
     </View>
   );
 };

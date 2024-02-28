@@ -5,22 +5,24 @@ import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
 const HomeSearchField = () => {
   return (
-    <View style={styles.searchContainer}>
-      <View style={styles.searchFieldContainer}>
-        <SearchNormal1 style={styles.searchIcon} size='18' color={typoColor.white1} variant='Broken' />
-        <TextInput
-          placeholder='Search House, Apartment, etc'
-          placeholderTextColor={typoColor.white1}
-          style={{ color: typoColor.white1, maxWidth: 230 }}
-        />
+    <>
+      <View style={styles.searchContainer}>
+        <View style={styles.searchFieldContainer}>
+          <SearchNormal1 style={styles.searchIcon} size='18' color={typoColor.white1} variant='Broken' />
+          <TextInput
+            placeholder='Search House, Apartment, etc'
+            placeholderTextColor={typoColor.white1}
+            style={{ color: typoColor.white1, maxWidth: 230 }}
+          />
+        </View>
+        <View style={styles.searchIcon}>
+          <View style={styles.slider}></View>
+          <Pressable style={styles.voiceSearch}>
+            <Microphone2 size='26' color={typoColor.yellow1} variant='Bold' />
+          </Pressable>
+        </View>
       </View>
-      <View style={styles.searchIcon}>
-        <View style={styles.slider}></View>
-        <Pressable style={styles.voiceSearch}>
-          <Microphone2 size='26' color={typoColor.yellow1} variant='Bold' />
-        </Pressable>
-      </View>
-    </View>
+    </>
   );
 };
 

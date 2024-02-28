@@ -1,5 +1,6 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import fontFam from '@constants/fontFamilies';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Post from 'src/models/class/Post.class';
@@ -36,17 +37,13 @@ export default BodyDescriptionField;
 
 const styles = StyleSheet.create({
   descriptionField: {
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: typoColor.white1,
     margin: 10,
     borderRadius: 20,
     padding: 10
   },
   descriptionTextField: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 20
+    marginLeft: 40
   },
   descriptionText: {
     color: typoColor.black1
@@ -54,6 +51,6 @@ const styles = StyleSheet.create({
   descriptionTextTitle: {
     color: typoColor.black1,
     fontSize: 18,
-    fontWeight: 'bold'
+    fontFamily: fontFam.bold
   }
 });

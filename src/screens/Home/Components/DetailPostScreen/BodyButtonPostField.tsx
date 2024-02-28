@@ -1,6 +1,7 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import { kitchenIconImage } from '@constants/appConstants';
+import fontFam from '@constants/fontFamilies';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MainStackParamList } from '@type/navigation.types';
@@ -48,8 +49,8 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: typoColor.black2,
-    fontWeight: 'bold',
-    fontSize: 16
+    fontSize: 16,
+    fontFamily: fontFam.extraBold
   },
   activeButton: {
     backgroundColor: typoColor.yellow1

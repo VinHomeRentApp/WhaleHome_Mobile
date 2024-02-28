@@ -5,6 +5,8 @@ const ZoneReducer: Reducer<ZoneContextType, ZoneAction> = (state, action) => {
   switch (action.type) {
     case ZONE_ACTION.SET_ZONE_IS_LOADING:
       return { ...state, isZoneLoading: action.payload };
+    case ZONE_ACTION.SET_ZONES:
+      return { ...state, zones: action.payload };
     default:
       return state;
   }

@@ -17,9 +17,13 @@ const imageBackground = require('@assets/images/room-detail.jpg');
 
 const TopOverviewPost = ({ post }: TopOverviewPostProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
-  const imageUrl = post && post.postImages && post.postImages[0] && post.postImages[0].image_url;
+
   return (
-    <ImageBackground style={{ height: 200 }} resizeMode='cover' source={imageUrl ?? imageBackground}>
+    <ImageBackground
+      style={{ height: 200 }}
+      resizeMode='cover'
+      source={{ uri: post.postImages[0].image_url ? post.postImages[0].image_url : imageBackground }}
+    >
       <View style={styles.iconContainer}>
         <Pressable onPress={() => navigation.goBack()} style={({ pressed }) => [pressed && globalStyle.pressed]}>
           <ArrowCircleLeft size='45' color={typoColor.yellow1} variant='Bold' />

@@ -1,19 +1,20 @@
 import RoomItem from '@components/room/RoomItem';
 import React from 'react';
 import { FlatList } from 'react-native';
+import Post from 'src/models/class/Post.class';
 
 type RoomListProps = {
-  data: { id: string }[]; // fix type item later
+  posts: Post[];
 };
 
-const RoomList = ({ data }: RoomListProps) => {
+const RoomList = ({ posts }: RoomListProps) => {
   return (
     <FlatList
-      data={data}
-      keyExtractor={(item) => item.id}
+      data={posts}
+      keyExtractor={(item) => item.id.toString()}
       numColumns={2}
       columnWrapperStyle={{ justifyContent: 'space-between' }}
-      renderItem={(item) => <RoomItem key={item.item.id} />}
+      renderItem={(item) => <RoomItem item={item.item} key={item.item.id} />}
     />
   );
 };

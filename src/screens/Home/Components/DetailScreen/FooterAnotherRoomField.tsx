@@ -1,4 +1,5 @@
 import RoomItem from '@components/room/RoomItem';
+import useRootContext from '@hooks/useRootContext';
 import globalStyle from '@styles/globalStyle';
 import React, { ReactElement } from 'react';
 import { FlatList } from 'react-native';
@@ -6,20 +7,23 @@ import { FlatList } from 'react-native';
 type FooterAnotherRoomFieldProps = {
   ListHeaderComponent: ReactElement;
   ListFooterComponent: ReactElement;
-  data: { id: string }[]; // fix type item later
 };
 
 const FooterAnotherRoomField = (props: FooterAnotherRoomFieldProps) => {
-  const { data, ListHeaderComponent, ListFooterComponent } = props;
+  const { state, dispatch } = useRootContext();
+  const {
+    post: { posts }
+  } = state;
+  const { ListHeaderComponent, ListFooterComponent } = props;
   return (
     <FlatList
       ListHeaderComponent={ListHeaderComponent}
       ListFooterComponent={ListFooterComponent}
-      data={data}
-      keyExtractor={(item) => item.id}
+      data={posts}
+      keyExtractor={(item) => item.id.toString()}
       numColumns={2}
       columnWrapperStyle={{ justifyContent: 'space-between' }}
-      renderItem={(item) => <RoomItem key={item.item.id} />}
+      renderItem={(item) => <RoomItem item={item.item} key={item.item.id} />}
       style={globalStyle.container}
     />
   );

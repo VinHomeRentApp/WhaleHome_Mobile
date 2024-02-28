@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
   saleFieldContainer: {
     justifyContent: 'flex-start',
     marginHorizontal: 10,
-    marginVertical: 20
+    marginTop: 10,
+    marginBottom: 30
   },
   saleImage: {
     borderRadius: 10,

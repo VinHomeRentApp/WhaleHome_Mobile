@@ -12,10 +12,12 @@ const NotFound = () => {
 export default NotFound;
 
 const styles = StyleSheet.create({
-  imageContainer: {},
+  imageContainer: {
+    flex: 1
+  },
   image: {
     marginTop: 100,
-    height: 250,
-    width: 385
+    height: 300,
+    width: '100%'
   }
 });

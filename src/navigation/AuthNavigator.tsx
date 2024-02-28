@@ -7,7 +7,6 @@ import { AuthStackParamList } from '@type/navigation.types';
 import React from 'react';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
-
 const AuthNavigator = () => {
   return (
     <Stack.Navigator>

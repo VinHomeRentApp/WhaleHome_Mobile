@@ -19,8 +19,6 @@ const HomePostItem = ({ post }: HomePostItemProps) => {
 
   const route = useRoute<RouteProp<MainStackParamList>>();
 
-  console.log(route.name);
-
   const handleNavigation = (post: Post) => {
     if (route.name === 'DetailPostScreen') {
       navigation.push('DetailPostScreen', { post });
@@ -36,7 +34,13 @@ const HomePostItem = ({ post }: HomePostItemProps) => {
     >
       <View style={styles.roomsOption}>
         <View style={styles.imageField}>
-          <Image style={styles.image} resizeMode='cover' source={require('@assets/images/modern-bedroom.jpg')} />
+          <Image
+            style={styles.image}
+            resizeMode='cover'
+            source={{
+              uri: post?.postImages[0]?.image_url ? post.postImages[0].image_url : require('@assets/images/tower.png')
+            }}
+          />
         </View>
         <View style={styles.heartField}>
           <Heart size='18' color={typoColor.pink1} variant='Bold' />

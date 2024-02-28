@@ -1,5 +1,6 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import { UPDATING, defaultImage } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
 import useRootContext from '@hooks/useRootContext';
 import globalStyle from '@styles/globalStyle';
@@ -8,14 +9,11 @@ import { Image, StyleSheet, View } from 'react-native';
 import ProfileCounter from './Components/ProfileCounter/ProfileCounter';
 import ProfileTransaction from './Components/ProfileTransaction/ProfileTransaction';
 
-const data = [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }, { id: '6' }];
-const UPDATING = 'Updating...';
-const IMAGE_DEFAULT = '../../assets/images/user/kien.jpg';
-
 const ProfileScreen = () => {
   const {
     state: {
-      auth: { currentUser }
+      auth: { currentUser },
+      post: { posts }
     }
   } = useRootContext();
 
@@ -23,7 +21,7 @@ const ProfileScreen = () => {
     <View style={[globalStyle.container]}>
       <View style={[styles.containerProfile]}>
         <View style={[styles.profileInfo]}>
-          <Image style={[styles.profileImage]} source={{ uri: currentUser.image || IMAGE_DEFAULT }} />
+          <Image style={[styles.profileImage]} source={{ uri: currentUser.image || defaultImage }} />
         </View>
         <View style={[{ marginVertical: 10 }]}></View>
         <View style={[styles.fullNameContainer]}>
@@ -48,7 +46,7 @@ const ProfileScreen = () => {
           <ProfileCounter counter={28} title='Reviews' />
         </View>
       </View>
-      <ProfileTransaction data={data} />
+      <ProfileTransaction posts={posts} />
     </View>
   );
 };

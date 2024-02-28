@@ -1,19 +1,31 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import { Heart, Location, Star } from 'iconsax-react-native';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
+import Post from 'src/models/class/Post.class';
 
-const RoomItem = () => {
+const houseDefaultImage = require('../../assets/images/house.png');
+
+type RoomItemProps = {
+  item: Post;
+};
+
+const RoomItem = ({ item }: RoomItemProps) => {
   return (
     <View style={styles.roomsOptionField}>
       <View style={styles.roomsOption}>
         <View style={styles.imageField}>
-          <Image style={styles.image} resizeMode='cover' source={require('@assets/images/house.png')} />
+          <Image
+            style={styles.image}
+            resizeMode='cover'
+            source={{ uri: item?.postImages[0]?.image_url ? item.postImages[0].image_url : houseDefaultImage }}
+          />
         </View>
         <View style={styles.heartField}>
-          <Heart size='18' color='#FF8A65' variant='Bold' />
+          <Heart size='18' color={typoColor.pink1} variant='Bold' />
         </View>
         <View style={styles.priceField}>
           <TextComponent styles={styles.priceText} content='$ 235' />
@@ -21,12 +33,18 @@ const RoomItem = () => {
         </View>
       </View>
       <View style={styles.detailField}>
-        <TextComponent numberOfLines={1} styles={styles.detailTitle} content='Bungalow House' />
+        <TextComponent numberOfLines={1} styles={styles.detailTitle} content={item.title} />
+        <TextComponent numberOfLines={2} styles={styles.detailText} content={`${item.description}`} />
+        <TextComponent numberOfLines={1} styles={styles.detailText} content={`Time: ${item.createDate}`} />
         <View style={styles.detail}>
           <Star size='18' color={typoColor.yellow1} variant='Bold' />
           <TextComponent styles={styles.detailText} content='4.9' />
           <Location size='18' color={typoColor.blue1} variant='Bold' />
-          <TextComponent numberOfLines={1} styles={styles.detailText} content='Jakarta, Indonesia' />
+          <TextComponent
+            numberOfLines={3}
+            styles={styles.detailText}
+            content={`${item.apartment.building.name}-${item.apartment.building.zone.name} - ${item.apartment.building.zone.area.name}`}
+          />
         </View>
       </View>
     </View>
@@ -36,7 +54,7 @@ const styles = StyleSheet.create({
   roomsOptionField: {
     width: '50%', // Adjust the width to leave some space between items
     padding: '3%',
-    marginBottom: 20
+    marginBottom: -60
   },
   roomsOption: {
     height: 300,
@@ -52,8 +70,8 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 20,
-    height: '85%',
-    width: '90%'
+    height: '80%',
+    width: '95%'
   },
   heartField: {
     position: 'absolute',
@@ -85,8 +103,8 @@ const styles = StyleSheet.create({
     fontFamily: fontFam.bold
   },
   detailField: {
-    position: 'absolute',
-    bottom: 25,
+    position: 'relative',
+    bottom: 110,
     marginVertical: 10,
     marginHorizontal: 20
   },
@@ -97,14 +115,14 @@ const styles = StyleSheet.create({
     marginRight: 5,
     color: typoColor.black2,
     fontSize: 11,
-    maxWidth: 100
+    maxWidth: '80%'
   },
   detailTitle: {
     maxWidth: 150,
     fontFamily: fontFam.bold,
     fontSize: 16,
     color: typoColor.black2,
-    marginVertical: 10
+    marginTop: 10
   }
 });
 

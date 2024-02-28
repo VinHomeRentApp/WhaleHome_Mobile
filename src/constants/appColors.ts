@@ -21,6 +21,6 @@ export const backgroundColor = {
 } as const;
 
 export const accentColor = {
-  isFocused: '#FFA02A',
+  isFocused: typoColor.yellow1,
   isNotFocused: '#A9A9B0'
 } as const;

@@ -46,6 +46,7 @@ export type AuthStackParamList = {
   LoginScreen: undefined;
   OnboardingScreen: undefined;
   SignUpScreen: undefined;
+  HomeScreen: undefined;
 };
 export type OnBoardingProps = NativeStackScreenProps<AuthStackParamList, 'OnboardingScreen'>;
 export type LoginScreenProps = NativeStackScreenProps<AuthStackParamList, 'LoginScreen'>;

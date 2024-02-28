@@ -4,8 +4,13 @@ import fontFam from '@constants/fontFamilies';
 import { Heart, Location, Star } from 'iconsax-react-native';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
+import Post from 'src/models/class/Post.class';
 
-const RoomItem = () => {
+type RoomItemProps = {
+  item: Post;
+};
+
+const RoomItem = ({ item }: RoomItemProps) => {
   return (
     <View style={styles.roomsOptionField}>
       <View style={styles.roomsOption}>
@@ -36,7 +41,7 @@ const styles = StyleSheet.create({
   roomsOptionField: {
     width: '50%', // Adjust the width to leave some space between items
     padding: '3%',
-    marginBottom: 20
+    marginBottom: -60
   },
   roomsOption: {
     height: 300,
@@ -53,7 +58,7 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 20,
     height: '85%',
-    width: '90%'
+    width: '95%'
   },
   heartField: {
     position: 'absolute',
@@ -85,8 +90,8 @@ const styles = StyleSheet.create({
     fontFamily: fontFam.bold
   },
   detailField: {
-    position: 'absolute',
-    bottom: 25,
+    position: 'relative',
+    bottom: 85,
     marginVertical: 10,
     marginHorizontal: 20
   },

@@ -19,8 +19,6 @@ const HomePostItem = ({ post }: HomePostItemProps) => {
 
   const route = useRoute<RouteProp<MainStackParamList>>();
 
-  console.log(route.name);
-
   const handleNavigation = (post: Post) => {
     if (route.name === 'DetailPostScreen') {
       navigation.push('DetailPostScreen', { post });

@@ -9,6 +9,10 @@ const PostReducer: Reducer<PostContextType, PostAction> = (state, action) => {
       return { ...state, posts: action.payload };
     case POST_ACTION.SET_POST_IS_LOADING:
       return { ...state, isLoadingPost: action.payload };
+    case POST_ACTION.SET_SEARCH_POSTS:
+      return { ...state, searchPosts: action.payload };
+    case POST_ACTION.SET_FIRST_LOADING:
+      return { ...state, isFirstLoading: action.payload };
     default:
       return state;
   }

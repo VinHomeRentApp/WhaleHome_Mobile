@@ -8,7 +8,7 @@ const OnboardingScreenStyle = StyleSheet.create({
     alignItems: 'center',
     width: appInfo.sizes.WIDTH,
     height: appInfo.sizes.HEIGHT,
-    resizeMode: 'cover'
+    resizeMode: 'contain'
   }
 });
 

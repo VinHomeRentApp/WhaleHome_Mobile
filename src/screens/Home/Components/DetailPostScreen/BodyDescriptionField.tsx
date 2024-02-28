@@ -36,12 +36,16 @@ export default BodyDescriptionField;
 
 const styles = StyleSheet.create({
   descriptionField: {
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: typoColor.white1,
     margin: 10,
     borderRadius: 20,
     padding: 10
   },
   descriptionTextField: {
+    justifyContent: 'center',
+    alignItems: 'center',
     marginLeft: 20
   },
   descriptionText: {

@@ -1,14 +1,17 @@
 import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
-import { useUsers } from '@services/queries/user.queries';
+import { useUsersWithPagination } from '@services/queries/user.queries';
 import React from 'react';
 import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import HomeUserItem from './HomeUserItem';
 
 const HomeTopUser = () => {
-  const userQueries = useUsers();
+  const currentPage = 1;
+  const currentLimit = 5;
+  const currentField = 'email';
+  const userQueries = useUsersWithPagination({ field: currentField, page: currentPage, size: currentLimit });
 
-  const users = userQueries.data?.data.data;
+  const users = userQueries.data?.data.data.listResult;
 
   if (!users) {
     return (

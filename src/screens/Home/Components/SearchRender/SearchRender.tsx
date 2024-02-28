@@ -28,10 +28,6 @@ const SearchRender = ({ postLength }: SearchRenderProps) => {
   const buildings = buildingQuery.data?.data.data;
   const areas = areaQuery.data?.data.data;
 
-  console.log('zones', zones);
-  console.log('buildings', buildings);
-  console.log('areas', areas);
-
   return (
     <>
       <View style={styles.titleFoundRoomField}>

@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     width: 200,
     borderRadius: 20,
     marginBottom: 20,
-    marginHorizontal: 10
+    marginHorizontal: 5
   },
   topBuildingTitleContainer: {
     marginLeft: 7,

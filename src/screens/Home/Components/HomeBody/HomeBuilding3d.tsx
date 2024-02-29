@@ -32,7 +32,7 @@ const HomeBuilding3dScreen = () => {
           <directionalLight position={[0, 0, -1]} args={['white', 5]} />
           <directionalLight position={[0, 1, 0]} args={['white', 5]} />
           <directionalLight position={[0, -1, 0]} args={['white', 5]} />
-          <Suspense fallback={null}>{<Building1 />}</Suspense>
+          <Suspense>{<Building1 />}</Suspense>
         </Canvas>
       </View>
       <View style={styles.textField}>

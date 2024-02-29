@@ -17,7 +17,7 @@ type GLTFResult = GLTF & {
 export default function Building2(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = useGLTF(require('@assets/buildingModel/Building2.glb')) as GLTFResult;
   return (
-    <group {...props} dispose={null}>
+    <group {...props} dispose={null} scale={[7, 7, 7]} position={[-6.5, -1.5, 1]}>
       <mesh
         castShadow
         receiveShadow

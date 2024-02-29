@@ -1,23 +1,22 @@
 /* eslint-disable react/no-unescaped-entities */
 import postApi from '@apis/post.apis';
+import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import fontFam from '@constants/fontFamilies';
 import { POST_ACTION } from '@contexts/types/post.types';
 import useRootContext from '@hooks/useRootContext';
 import { useZones } from '@services/queries/zone.queries';
 import { HttpStatusCode } from 'axios';
 import { useEffect } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import HomeCategoryField from './Components/HomeBody/HomeCategoryField';
 import HomeFeatureEstate from './Components/HomeBody/HomeFeatureEstate';
 import HomePostsField from './Components/HomeBody/HomePostsField';
 import HomeSaleField from './Components/HomeBody/HomeSaleField';
 import HomeSearchField from './Components/HomeBody/HomeSearchField';
+import HomeTopBuilding from './Components/HomeBody/HomeTopBuilding';
 import HomeTopUser from './Components/HomeBody/HomeTopUser';
 import HomeWelcomeField from './Components/HomeBody/HomeWelcomeField';
-import TextComponent from '@components/ui/TextComponent';
-import fontFam from '@constants/fontFamilies';
-import globalStyle from '@styles/globalStyle';
-import HomeTopBuilding from './Components/HomeBody/HomeTopBuilding';
 
 const HomeScreen = () => {
   const { state, dispatch } = useRootContext();

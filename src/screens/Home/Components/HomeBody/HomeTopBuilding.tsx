@@ -1,18 +1,24 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import useRootContext from '@hooks/useRootContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useBuildings } from '@services/queries/building.queries';
+import { useBuildingsWithArea } from '@services/queries/building.queries';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import React from 'react';
 import { FlatList, Image, Pressable, StyleSheet, View } from 'react-native';
 
 const HomeTopBuilding = () => {
-  const buildingQuery = useBuildings();
-  const buildings = buildingQuery.data?.data.data;
+  const { state } = useRootContext();
+  const { selectedZone } = state.zone;
+  const size = 9;
+  const page = 1;
+  const buildingQuery = useBuildingsWithArea({ areaId: selectedZone.area?.id || 1, size, page });
+  const buildings = buildingQuery.data?.data.data.listResult;
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
   if (!buildings) {
     <View>
       <TextComponent content='Not Found Any Building' />
@@ -65,7 +71,8 @@ const styles = StyleSheet.create({
     width: 200,
     borderRadius: 20,
     marginBottom: 20,
-    marginHorizontal: 5
+    marginHorizontal: 5,
+    marginRight: 20
   },
   topBuildingTitleContainer: {
     marginLeft: 7,

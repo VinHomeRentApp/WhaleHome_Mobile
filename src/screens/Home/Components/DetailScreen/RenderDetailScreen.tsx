@@ -3,17 +3,17 @@ import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
 import globalStyle from '@styles/globalStyle';
 import React from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Post from 'src/models/class/Post.class';
 import BodyAdminContact from '../../../../components/ui/AdminContact';
 import BodyButtonField from './BodyButtonField';
 import BodyCostLivingField from './BodyCostLivingField';
 import BodyFacilityField from './BodyFacilityField';
+import BodyInformationRoom from './BodyInformationRoom';
 import BodyReviewersField from './BodyReviewersField';
 import BodyTitleField from './BodyTitleField';
 import TopOverview from './TopOverview';
-import BodyInformationRoom from './BodyInformationRoom';
 
 type RenderDetailScreenProps = {
   post: Post;
@@ -46,7 +46,7 @@ const RenderDetailScreen = ({ post }: RenderDetailScreenProps) => {
           <BodyCostLivingField post={post} />
 
           {/* Review Field */}
-          <BodyReviewersField />
+          <BodyReviewersField post={post} />
           <View style={styles.otherField}>
             <Seperate content='Other' />
           </View>

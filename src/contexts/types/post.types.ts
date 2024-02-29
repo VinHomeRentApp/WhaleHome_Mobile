@@ -9,7 +9,8 @@ export enum POST_ACTION {
   SET_SEARCH_POSTS = 'SET_SEARCH_POSTS',
   SET_FIRST_LOADING = 'SET_FIRST_LOADING',
   SET_IS_LOADING_DATA = 'SET_IS_LOADING_DATA',
-  SET_IS_LAST_PAGE = 'SET_IS_LAST_PAGE'
+  SET_IS_LAST_PAGE = 'SET_IS_LAST_PAGE',
+  SET_SEARCH_TEXT = 'SET_SEARCH_TEXT'
 }
 
 export type PostContextType = {
@@ -20,6 +21,7 @@ export type PostContextType = {
   isFirstLoading: boolean;
   isLoadingData: boolean;
   isLastPage: boolean;
+  searchText: string;
 };
 
 export const initialPostState: PostContextType = {
@@ -29,7 +31,8 @@ export const initialPostState: PostContextType = {
   isLastPage: false,
   allPosts: [],
   posts: [],
-  searchPosts: []
+  searchPosts: [],
+  searchText: ''
 };
 
 export type setAllPostsAction = {
@@ -67,6 +70,11 @@ export type SetIsLastPageAction = {
   payload: boolean;
 };
 
+export type SetSearchTextAction = {
+  type: POST_ACTION.SET_SEARCH_TEXT;
+  payload: string;
+};
+
 export type PostAction =
   | setAllPostsAction
   | SetPostsAction
@@ -74,4 +82,5 @@ export type PostAction =
   | SetSearchPostsAction
   | SetIsFirstLoadingAction
   | SetIsLoadingDataAction
-  | SetIsLastPageAction;
+  | SetIsLastPageAction
+  | SetSearchTextAction;

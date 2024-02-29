@@ -1,81 +1,89 @@
+import Loading from '@components/ui/Loading';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import useRootContext from '@hooks/useRootContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { DollarSquare, Heart, Location, Star } from 'iconsax-react-native';
+import { isEmpty } from 'lodash';
 import React from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import Post from 'src/models/class/Post.class';
+import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
-type HomeFeaturesEstateProps = {
-  posts: Post[] | undefined;
-};
-
-const HomeFeatureEstate = ({ posts }: HomeFeaturesEstateProps) => {
+const HomeFeatureEstate = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+  const { state } = useRootContext();
+  const { posts, isLoadingPost } = state.post;
 
-  if (!posts) {
-    return (
-      <View>
-        <TextComponent content='Not Found Any Posts' />
-      </View>
-    );
+  console.log(posts);
+
+  if (isLoadingPost) {
+    return <Loading />;
   }
 
   return (
     <View style={styles.featuresContainer}>
       <View style={styles.featureTitleContainer}>
         <TextComponent content='Featured Estates' styles={styles.featureTitle} />
-
         <Pressable style={({ pressed }) => [pressed && globalStyle.pressed]}>
           <TextComponent content='More' />
         </Pressable>
       </View>
-      <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-        {posts.map((post, key) => (
-          <Pressable
-            key={key}
-            onPress={() => navigation.navigate('DetailRoomScreen', { post: post })}
-            style={({ pressed }) => [styles.featureOptionField, pressed && globalStyle.pressed]}
-          >
-            <View style={styles.featureOption}>
-              <View style={styles.featureImage}>
-                <Image resizeMode='contain' source={require('@assets/images/tower.png')} />
-              </View>
-              <View style={styles.featureOptionTextField}>
-                <View style={styles.featureOptionTitleField}>
-                  <TextComponent styles={styles.featureOptionTitle} content={post.apartment.name} />
-                  <View style={styles.featureGroup}>
-                    <Star size='18' color={typoColor.yellow1} variant='Bold' />
-                    <Text style={styles.ratingText}>4.9</Text>
+      {isLoadingPost ? (
+        <Loading />
+      ) : isEmpty(posts) ? (
+        <View>
+          <TextComponent content='Not Found Any Posts' />
+        </View>
+      ) : (
+        <FlatList
+          data={posts}
+          horizontal={true}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ index: key, item: post }) => (
+            <Pressable
+              key={key}
+              onPress={() => navigation.navigate('DetailRoomScreen', { post: post })}
+              style={({ pressed }) => [styles.featureOptionField, pressed && globalStyle.pressed]}
+            >
+              <View style={styles.featureOption}>
+                <View style={styles.featureImage}>
+                  <Image resizeMode='contain' source={require('@assets/images/tower.png')} />
+                </View>
+                <View style={styles.featureOptionTextField}>
+                  <View style={styles.featureOptionTitleField}>
+                    <TextComponent styles={styles.featureOptionTitle} content={post.apartment.name} />
+                    <View style={styles.featureGroup}>
+                      <Star size='18' color={typoColor.yellow1} variant='Bold' />
+                      <Text style={styles.ratingText}>4.9</Text>
+                    </View>
+                    <View style={styles.featureGroup}>
+                      <Location size='18' color={typoColor.blue1} variant='Bold' />
+                      <TextComponent
+                        styles={styles.ratingText}
+                        content={`${post.apartment.building.name}-${post.apartment.building.zone.name} - ${post.apartment.building.zone.area.name}`}
+                      />
+                    </View>
                   </View>
                   <View style={styles.featureGroup}>
-                    <Location size='18' color={typoColor.blue1} variant='Bold' />
-                    <TextComponent
-                      styles={styles.ratingText}
-                      content={`${post.apartment.building.name}-${post.apartment.building.zone.name} - ${post.apartment.building.zone.area.name}`}
-                    />
+                    <DollarSquare size='24' color={typoColor.yellow1} variant='Bold' />
+                    <TextComponent styles={styles.priceText} content={`${post.apartment.apartmentClass.rent_price}`} />
+                    <TextComponent content='/Month' />
                   </View>
                 </View>
-                <View style={styles.featureGroup}>
-                  <DollarSquare size='24' color={typoColor.yellow1} variant='Bold' />
-                  <TextComponent styles={styles.priceText} content={`${post.apartment.apartmentClass.rent_price}`} />
-                  <TextComponent content='/Month' />
-                </View>
               </View>
-            </View>
-            <View style={styles.categoryField}>
-              <TextComponent styles={styles.cateText} content={post.apartment.apartmentClass.name} />
-            </View>
-            <View style={styles.heartField}>
-              <Heart size='18' color='#FF8A65' variant='Bold' />
-            </View>
-          </Pressable>
-        ))}
-      </ScrollView>
+              <View style={styles.categoryField}>
+                <TextComponent styles={styles.cateText} content={post.apartment.apartmentClass.name} />
+              </View>
+              <View style={styles.heartField}>
+                <Heart size='18' color='#FF8A65' variant='Bold' />
+              </View>
+            </Pressable>
+          )}
+        />
+      )}
     </View>
   );
 };

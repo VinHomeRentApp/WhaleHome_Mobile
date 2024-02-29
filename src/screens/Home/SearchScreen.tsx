@@ -3,28 +3,34 @@ import Loading from '@components/ui/Loading';
 import { typoColor } from '@constants/appColors';
 import useRootContext from '@hooks/useRootContext';
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, Keyboard, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { fetchSearchPosts } from '../../usecases/SearchPosts';
 import HomeSearchField from './Components/HomeBody/HomeSearchField';
 import NotFound from './Components/NotFound/NotFound';
 import SearchRender from './Components/SearchRender/SearchRender';
+import { POST_ACTION } from '@contexts/types/post.types';
 
 const SearchScreen = () => {
-  const size = 4;
+  const [page, setPage] = useState(1);
+  const size = 6;
   const field = 'title';
   const { state, dispatch } = useRootContext();
-  const { searchPosts, isLoadingPost, isFirstLoading, isLastPage, isLoadingData } = state.post;
-  const [page, setPage] = useState(1);
+  const { searchPosts, isLoadingPost, isFirstLoading, isLastPage, isLoadingData, searchText } = state.post;
+
+  console.log(page);
+
+  const handleSearch = () => {
+    setPage(1);
+    dispatch({ type: POST_ACTION.SET_IS_LAST_PAGE, payload: false });
+    dispatch({ type: POST_ACTION.SET_FIRST_LOADING, payload: true });
+    fetchSearchPosts(dispatch, { size, page: 1, field, title: searchText }, []);
+  };
 
   useEffect(() => {
-    fetchSearchPosts(dispatch, { size, page, field }, searchPosts);
+    fetchSearchPosts(dispatch, { size, page, field, title: searchText }, searchPosts);
   }, [page]);
 
-  if (isFirstLoading) {
-    return <Loading />;
-  }
-
-  const searchResult = searchPosts.length < 0 && <NotFound />;
+  const searchResult = searchPosts.length === 0 && <NotFound />;
 
   const handleEndReached = () => {
     if (!isLoadingData && !isLastPage) {
@@ -34,20 +40,26 @@ const SearchScreen = () => {
 
   return (
     <View style={styles.container}>
-      <HomeSearchField />
-      <SearchRender postLength={searchPosts.length} />
-      <View>{searchResult}</View>
-      <FlatList
-        style={{ marginBottom: 70 }}
-        data={searchPosts}
-        keyExtractor={(item, index) => `${item.id}-${index}`}
-        numColumns={2}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
-        renderItem={({ item }) => <RoomItem item={item} />}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
-        ListFooterComponent={() => (isLoadingPost ? <Loading style={{ marginBottom: 50 }} /> : null)}
-      />
+      <View>
+        <HomeSearchField handleSearch={handleSearch} />
+        <SearchRender postLength={searchPosts.length} />
+        <View>{searchResult}</View>
+      </View>
+      {isFirstLoading ? (
+        <Loading />
+      ) : (
+        <FlatList
+          style={{ marginBottom: 70 }}
+          data={searchPosts}
+          keyExtractor={(item, index) => `${item.id}-${index}`}
+          numColumns={2}
+          columnWrapperStyle={{ justifyContent: 'space-between' }}
+          renderItem={({ item }) => <RoomItem item={item} />}
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={() => (isLoadingPost ? <Loading style={{ marginBottom: 50 }} /> : null)}
+        />
+      )}
     </View>
   );
 };

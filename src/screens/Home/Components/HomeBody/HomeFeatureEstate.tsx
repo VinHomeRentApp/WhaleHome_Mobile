@@ -17,8 +17,6 @@ const HomeFeatureEstate = () => {
   const { state } = useRootContext();
   const { posts, isLoadingPost } = state.post;
 
-  console.log(posts);
-
   if (isLoadingPost) {
     return <Loading />;
   }

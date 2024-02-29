@@ -17,8 +17,6 @@ const SearchScreen = () => {
   const { state, dispatch } = useRootContext();
   const { searchPosts, isLoadingPost, isFirstLoading, isLastPage, isLoadingData, searchText } = state.post;
 
-  console.log(page);
-
   const handleSearch = () => {
     setPage(1);
     dispatch({ type: POST_ACTION.SET_IS_LAST_PAGE, payload: false });

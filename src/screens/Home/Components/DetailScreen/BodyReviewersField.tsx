@@ -1,10 +1,20 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MainStackParamList } from '@type/navigation.types';
 import React from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 import StarRating from 'react-native-star-rating-widget';
+import Post from 'src/models/class/Post.class';
 
-const BodyReviewersField = () => {
+type BodyReviewerFieldProps = {
+  post: Post;
+};
+
+const BodyReviewersField = ({ post }: BodyReviewerFieldProps) => {
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
   return (
     <View style={styles.reviewContainer}>
       <View>
@@ -70,7 +80,10 @@ const BodyReviewersField = () => {
         </View>
       </View>
 
-      <Pressable style={({ pressed }) => [styles.viewAllButtonContainer, pressed && styles.activeButton]}>
+      <Pressable
+        onPress={() => navigation.navigate('ReviewDetailScreen', { post })}
+        style={({ pressed }) => [styles.viewAllButtonContainer, pressed && styles.activeButton]}
+      >
         <TextComponent styles={styles.viewAllText} content='View All Reviews' />
       </Pressable>
     </View>
@@ -92,7 +105,8 @@ const styles = StyleSheet.create({
     backgroundColor: typoColor.white1,
     marginHorizontal: 10,
     borderRadius: 15,
-    marginBottom: 20
+    marginBottom: 20,
+    padding: 5
   },
   reviewDetail: {
     padding: 10,

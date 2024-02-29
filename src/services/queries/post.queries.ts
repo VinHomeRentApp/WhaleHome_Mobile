@@ -1,6 +1,6 @@
 import postApi from '@apis/post.apis';
 import { useQuery } from '@tanstack/react-query';
-import { getWithPagination } from '@type/post.types';
+import { getWithPagination, searchPostsParamsTypes } from '@type/post.types';
 
 export const usePosts = () => {
   return useQuery({
@@ -9,9 +9,16 @@ export const usePosts = () => {
   });
 };
 
-export const usePostWithLimit = ({ page, size, field }: getWithPagination) => {
+export const usePostWithLimit = (params: getWithPagination) => {
   return useQuery({
-    queryKey: ['posts', { page, size, field }],
-    queryFn: () => postApi.getPostWithLimit({ page, size, field })
+    queryKey: ['posts', params],
+    queryFn: () => postApi.getPostWithLimit(params)
+  });
+};
+
+export const useSearchPosts = (params: searchPostsParamsTypes) => {
+  return useQuery({
+    queryKey: ['search-posts'],
+    queryFn: () => postApi.searchPost(params)
   });
 };

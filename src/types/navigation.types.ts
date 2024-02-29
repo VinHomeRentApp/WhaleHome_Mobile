@@ -1,9 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import UserCurrentResponse from 'src/models/class/User.class';
 
 import ApartmentClass from 'src/models/class/ApartmentClass.class';
-import Post from 'src/models/class/Post.class';
 import Building from 'src/models/class/Building.class';
+import Post from 'src/models/class/Post.class';
 
 // Main Navigation
 export type MainStackParamList = {
@@ -21,6 +20,8 @@ export type MainStackParamList = {
   ManageProfileScreen: undefined;
   PostScreen: undefined;
   Building3dScreen: { building: Building };
+  SearchScreen: undefined;
+  ReviewDetailScreen: { post: Post };
 };
 
 export type MainNavigatorProps = {

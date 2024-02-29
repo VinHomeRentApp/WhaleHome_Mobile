@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Building3D from '@screens/Home/Building3D';
 import EditProfileHeader from '@screens/Home/Components/EditProfileHeader/EditProfileHeader';
+import HomeBuilding3dScreen from '@screens/Home/Components/HomeBody/HomeBuilding3d';
 import SettingProfileHeader from '@screens/Home/Components/SettingProfileHeader/SettingProfileHeader';
 import DetailPostScreen from '@screens/Home/DetailPostScreen';
 import DetailScreen from '@screens/Home/DetailScreen';
@@ -13,7 +14,8 @@ import SplashScreen from '@screens/Splash/SplashScreen';
 import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
-import HomeBuilding3dScreen from '@screens/Home/Components/HomeBody/HomeBuilding3d';
+import ReviewDetailScreen from '@screens/Home/ReviewDetailScreen';
+import ReviewDetailHeader from '@screens/Home/Components/ReviewDetailScreen/ReviewDetailHeader';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
@@ -29,6 +31,11 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
           <MainStack.Screen options={{ headerShown: false }} name='DetailRoomScreen' component={DetailScreen} />
           <MainStack.Screen options={{ headerShown: false }} name='View360' component={View360Screen} />
           <MainStack.Screen options={{ headerShown: false }} name='Notification' component={NotificationScreen} />
+          <MainStack.Screen
+            options={{ header: () => <ReviewDetailHeader /> }}
+            name='ReviewDetailScreen'
+            component={ReviewDetailScreen}
+          />
           <MainStack.Screen
             options={{ headerShown: false }}
             name='ViewImageRoomScreen'

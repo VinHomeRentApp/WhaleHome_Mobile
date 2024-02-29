@@ -78,7 +78,7 @@ export default HomePostItem;
 const styles = StyleSheet.create({
   roomsOptionField: {
     marginTop: 10,
-    marginHorizontal: 10,
+    marginLeft: 15,
     marginBottom: -25
   },
   roomsOption: {

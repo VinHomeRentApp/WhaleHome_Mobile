@@ -21,7 +21,13 @@ const RoomItem = ({ item }: RoomItemProps) => {
           <Image
             style={styles.image}
             resizeMode='cover'
-            source={{ uri: item?.postImages[0]?.image_url ? item.postImages[0].image_url : houseDefaultImage }}
+            source={
+              item?.postImages[0]?.image_url
+                ? {
+                    uri: item.postImages[0].image_url
+                  }
+                : houseDefaultImage
+            }
           />
         </View>
         <View style={styles.heartField}>

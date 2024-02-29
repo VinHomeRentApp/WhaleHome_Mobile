@@ -12,7 +12,7 @@ import { ArrowCircleLeft } from 'iconsax-react-native';
 import useControls from 'r3f-native-orbitcontrols';
 import React, { Suspense } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
-import Building1 from '../../../../models/3D/Building1';
+import Building3 from '../../../../models/3D/Building3';
 
 const HomeBuilding3dScreen = () => {
   const route = useRoute<RouteProp<MainStackParamList, 'Building3dScreen'>>();
@@ -32,7 +32,7 @@ const HomeBuilding3dScreen = () => {
           <directionalLight position={[0, 0, -1]} args={['white', 5]} />
           <directionalLight position={[0, 1, 0]} args={['white', 5]} />
           <directionalLight position={[0, -1, 0]} args={['white', 5]} />
-          <Suspense fallback={null}>{<Building1 />}</Suspense>
+          <Suspense>{<Building3 />}</Suspense>
         </Canvas>
       </View>
       <View style={styles.textField}>

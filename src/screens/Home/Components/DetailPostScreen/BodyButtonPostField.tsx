@@ -1,9 +1,12 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { kitchenIconImage } from '@constants/appConstants';
+import fontFam from '@constants/fontFamilies';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MainStackParamList } from '@type/navigation.types';
 import React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import Post from 'src/models/class/Post.class';
 
 type BodyButtonPostFieldProps = {
@@ -11,7 +14,7 @@ type BodyButtonPostFieldProps = {
 };
 
 const BodyButtonPostField = ({ post }: BodyButtonPostFieldProps) => {
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   return (
     <View style={styles.buttonContainer}>
@@ -19,6 +22,7 @@ const BodyButtonPostField = ({ post }: BodyButtonPostFieldProps) => {
         onPress={() => navigation.navigate('DetailRoomScreen', { post })}
         style={({ pressed }) => [styles.button, pressed && styles.activeButton]}
       >
+        <Image style={styles.facilityIcon} resizeMode='contain' source={kitchenIconImage} />
         <TextComponent styles={styles.textButton} content='View Apartment' />
       </Pressable>
     </View>
@@ -35,6 +39,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   button: {
+    flexDirection: 'row',
     width: '90%',
     backgroundColor: typoColor.white1,
     justifyContent: 'center',
@@ -44,10 +49,17 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: typoColor.black2,
-    fontWeight: 'bold',
-    fontSize: 16
+    fontSize: 16,
+    fontFamily: fontFam.extraBold
   },
   activeButton: {
     backgroundColor: typoColor.yellow1
+  },
+  facilityIcon: {
+    position: 'relative',
+    top: -2,
+    margin: 5,
+    height: 20,
+    width: 20
   }
 });

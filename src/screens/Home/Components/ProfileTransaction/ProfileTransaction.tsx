@@ -1,14 +1,15 @@
-import { View, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
-import React from 'react';
 import TextComponent from '@components/ui/TextComponent';
-import { Category2 } from 'iconsax-react-native';
-import RoomItem from '../../../../components/room/RoomItem';
 import fontFam from '@constants/fontFamilies';
+import { Category2 } from 'iconsax-react-native';
+import React from 'react';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import Post from 'src/models/class/Post.class';
+import RoomItem from '../../../../components/room/RoomItem';
 interface Props {
-  data: { id: string }[];
+  posts: Post[];
 }
 
-const ProfileTransaction = ({ data }: Props) => {
+const ProfileTransaction = ({ posts }: Props) => {
   return (
     <View style={[styles.transactionContainer]}>
       <View style={[styles.titleTransaction]}>
@@ -21,11 +22,11 @@ const ProfileTransaction = ({ data }: Props) => {
       </View>
       <FlatList
         style={{ marginBottom: 70 }}
-        data={data}
-        keyExtractor={(item) => item.id}
+        data={posts}
+        keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         columnWrapperStyle={{ justifyContent: 'space-between' }}
-        renderItem={(item) => <RoomItem key={item.item.id} />}
+        renderItem={({ item }) => <RoomItem item={item} />}
       />
     </View>
   );

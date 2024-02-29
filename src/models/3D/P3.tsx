@@ -213,7 +213,7 @@ const P3Model = require('@assets/roomModel/P3.glb');
 export default function P3(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = useGLTF(P3Model) as GLTFResult;
   return (
-    <group {...props} dispose={null}>
+    <group {...props} dispose={null} scale={[0.3, 0.3, 0.3]} position={[1.5, -2, 1]}>
       <group position={[1.38, 0, -12.65]} rotation={[-Math.PI / 2, 0, -Math.PI / 2]}>
         <mesh castShadow receiveShadow geometry={nodes.Object_2.geometry} material={materials['20210814-113542-edt']} />
         <mesh castShadow receiveShadow geometry={nodes.Object_3.geometry} material={materials.balcony_3_bis___glass} />

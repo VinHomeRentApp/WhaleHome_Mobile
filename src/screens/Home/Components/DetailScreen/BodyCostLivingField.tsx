@@ -1,5 +1,6 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import fontFam from '@constants/fontFamilies';
 import globalStyle from '@styles/globalStyle';
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -36,8 +37,8 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   titleText: {
-    fontSize: 16,
-    fontWeight: 'bold'
+    fontSize: 18,
+    fontFamily: fontFam.bold
   },
   costBodyContainer: {
     backgroundColor: typoColor.white1,
@@ -60,6 +61,7 @@ const styles = StyleSheet.create({
   viewMoreField: {
     backgroundColor: typoColor.yellow1,
     padding: 5,
-    borderRadius: 20
+    borderRadius: 20,
+    fontFamily: fontFam.bold
   }
 });

@@ -1,30 +1,24 @@
-import { useAuthentication } from '@hooks/useAuthentication';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import Building3D from '@screens/Home/Building3D';
 import EditProfileHeader from '@screens/Home/Components/EditProfileHeader/EditProfileHeader';
+import SettingProfileHeader from '@screens/Home/Components/SettingProfileHeader/SettingProfileHeader';
+import DetailPostScreen from '@screens/Home/DetailPostScreen';
 import DetailScreen from '@screens/Home/DetailScreen';
 import EditProfileScreen from '@screens/Home/EditProfileScreen';
+import ManageProfile from '@screens/Home/ManageProfile';
 import NotificationScreen from '@screens/Home/NotificationScreen';
 import View360Screen from '@screens/Home/View360Screen';
 import ViewImageRoomScreen from '@screens/Home/ViewImageRoomScreen';
 import SplashScreen from '@screens/Splash/SplashScreen';
 import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
-import React from 'react';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
-import DetailPostScreen from '@screens/Home/DetailPostScreen';
-import ManageProfile from '@screens/Home/ManageProfile';
-import SettingProfileHeader from '@screens/Home/Components/SettingProfileHeader/SettingProfileHeader';
-import PostScreen from '@screens/Home/PostScreen';
-import PostScreenHeader from '@screens/Home/Components/PostScreenHeader/PostScreenHeader';
+import HomeBuilding3dScreen from '@screens/Home/Components/HomeBody/HomeBuilding3d';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
-  const { isAuth } = useAuthentication();
-
   return (
-    <MainStack.Navigator initialRouteName={isAuth ? 'HomeScreen' : 'AuthScreen'}>
+    <MainStack.Navigator initialRouteName={'AuthScreen'}>
       {isShowSplash ? (
         <MainStack.Screen options={{ headerShown: false }} name='SplashScreen' component={SplashScreen} />
       ) : (
@@ -51,6 +45,7 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             name='ManageProfileScreen'
             component={ManageProfile}
           />
+          <MainStack.Screen options={{ headerShown: false }} name='Building3dScreen' component={HomeBuilding3dScreen} />
           {/* Payment Method, History, Changepassword */}
         </>
       )}

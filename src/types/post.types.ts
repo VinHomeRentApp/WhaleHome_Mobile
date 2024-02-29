@@ -1,1 +1,1 @@
-export type getPostLimitParams = { page?: number; size?: number; field?: string };
+export type getWithPagination = { page: number; size: number; field?: string };

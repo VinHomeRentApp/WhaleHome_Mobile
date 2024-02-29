@@ -1,15 +1,16 @@
-import { View, SafeAreaView, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
-import React from 'react';
-import { ArrowCircleLeft, ArrowCircleLeft2 } from 'iconsax-react-native';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { MainStackParamList } from '@type/navigation.types';
-import { backgroundColor, typoColor } from '@constants/appColors';
 import TextComponent from '@components/ui/TextComponent';
+import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MainStackParamList } from '@type/navigation.types';
+import { ArrowCircleLeft } from 'iconsax-react-native';
+import React from 'react';
+import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
 import NotiHeader from '../HomeHeader/NotiHeader/NotiIconHeader';
 
 const PostScreenHeader = () => {
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   return (
     <SafeAreaView style={styles.outerContainer}>

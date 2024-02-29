@@ -1,4 +1,4 @@
-import { getPostLimitParams } from '@type/post.types';
+import { getWithPagination } from '@type/post.types';
 import { PaginationResponse, SuccessfulResponse } from '@type/response.types';
 import httpClient from '@utils/httpClient';
 import Post from 'src/models/class/Post.class';
@@ -12,7 +12,7 @@ const postApi = {
   getAllPost: () => {
     return httpClient.get<SuccessfulResponse<Post[]>>(EndPoint.getAllPost);
   },
-  getPostWithLimit: ({ page, size, field }: getPostLimitParams) => {
+  getPostWithLimit: ({ page, size, field }: getWithPagination) => {
     const currentPage = page || 1;
     const currentSize = size || 5;
     const currentField = field || 'title';

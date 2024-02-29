@@ -1,10 +1,26 @@
 import TextComponent from '@components/ui/TextComponent';
-import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import { useUsersWithPagination } from '@services/queries/user.queries';
 import React from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import HomeUserItem from './HomeUserItem';
 
 const HomeTopUser = () => {
+  const currentPage = 1;
+  const currentLimit = 5;
+  const currentField = 'email';
+  const userQueries = useUsersWithPagination({ field: currentField, page: currentPage, size: currentLimit });
+
+  const users = userQueries.data?.data.data.listResult;
+
+  if (!users) {
+    return (
+      <View>
+        <TextComponent content='Not Found Any Users' />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.topUser}>
       <View>
@@ -15,32 +31,12 @@ const HomeTopUser = () => {
           </Pressable>
         </View>
       </View>
-      <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-        <View style={styles.topUserContainer}>
-          <View style={styles.topUserImageContainer}>
-            <Image style={styles.topUserImage} resizeMode='contain' source={require('@assets/images/user/kien.jpg')} />
-          </View>
-          <TextComponent styles={styles.topUserName} content='Kien Dep Trai' />
-        </View>
-        <View style={styles.topUserContainer}>
-          <View style={styles.topUserImageContainer}>
-            <Image style={styles.topUserImage} resizeMode='contain' source={require('@assets/images/user/kien.jpg')} />
-          </View>
-          <TextComponent styles={styles.topUserName} content='Kien Dep Trai' />
-        </View>
-        <View style={styles.topUserContainer}>
-          <View style={styles.topUserImageContainer}>
-            <Image style={styles.topUserImage} resizeMode='contain' source={require('@assets/images/user/kien.jpg')} />
-          </View>
-          <TextComponent styles={styles.topUserName} content='Kien Dep Trai' />
-        </View>
-        <View style={styles.topUserContainer}>
-          <View style={styles.topUserImageContainer}>
-            <Image style={styles.topUserImage} resizeMode='contain' source={require('@assets/images/user/kien.jpg')} />
-          </View>
-          <TextComponent styles={styles.topUserName} content='Kien Dep Trai' />
-        </View>
-      </ScrollView>
+      <FlatList
+        horizontal={true}
+        data={users}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <HomeUserItem user={item} />}
+      />
     </View>
   );
 };
@@ -54,31 +50,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: 20
   },
-  topUserContainer: {
-    marginLeft: 20
-  },
   topUserTitle: {
     fontSize: 18,
-    fontFamily: fontFam.bold
-  },
-  topUserImageContainer: {
-    height: 100,
-    width: 100,
-    backgroundColor: typoColor.white1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 50,
-    marginVertical: 20
-  },
-  topUserImage: {
-    height: 90,
-    width: 90,
-    borderRadius: 50
-  },
-  topUserName: {
-    marginLeft: 8,
-    textAlign: 'center',
-    width: 90,
     fontFamily: fontFam.bold
   }
 });

@@ -1,5 +1,6 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import fontFam from '@constants/fontFamilies';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Post from 'src/models/class/Post.class';
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   descriptionTextField: {
-    marginLeft: 20
+    marginLeft: 40
   },
   descriptionText: {
     color: typoColor.black1
@@ -50,6 +51,6 @@ const styles = StyleSheet.create({
   descriptionTextTitle: {
     color: typoColor.black1,
     fontSize: 18,
-    fontWeight: 'bold'
+    fontFamily: fontFam.bold
   }
 });

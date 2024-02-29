@@ -1,7 +1,8 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { Heart, Location, Star } from 'iconsax-react-native';
@@ -14,16 +15,32 @@ type HomePostItemProps = {
 };
 
 const HomePostItem = ({ post }: HomePostItemProps) => {
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
+  const route = useRoute<RouteProp<MainStackParamList>>();
+
+  const handleNavigation = (post: Post) => {
+    if (route.name === 'DetailPostScreen') {
+      navigation.push('DetailPostScreen', { post });
+    } else {
+      navigation.navigate('DetailPostScreen', { post });
+    }
+  };
 
   return (
     <Pressable
-      onPress={() => navigation.navigate('DetailPostScreen', { post })}
+      onPress={() => handleNavigation(post)}
       style={({ pressed }) => [styles.roomsOptionField, pressed && globalStyle.pressed]}
     >
       <View style={styles.roomsOption}>
         <View style={styles.imageField}>
-          <Image style={styles.image} resizeMode='cover' source={require('@assets/images/modern-bedroom.jpg')} />
+          <Image
+            style={styles.image}
+            resizeMode='cover'
+            source={{
+              uri: post?.postImages[0]?.image_url ? post.postImages[0].image_url : require('@assets/images/tower.png')
+            }}
+          />
         </View>
         <View style={styles.heartField}>
           <Heart size='18' color={typoColor.pink1} variant='Bold' />
@@ -45,7 +62,11 @@ const HomePostItem = ({ post }: HomePostItemProps) => {
           <Star size='18' color={typoColor.yellow1} variant='Bold' />
           <TextComponent styles={styles.detailText} content='4.9' />
           <Location size='18' color={typoColor.blue1} variant='Bold' />
-          <TextComponent numberOfLines={1} styles={styles.detailText} content='Jakarta, Indonesia' />
+          <TextComponent
+            numberOfLines={1}
+            styles={styles.detailText}
+            content={`${post.apartment.building.name}-${post.apartment.building.zone.name} - ${post.apartment.building.zone.area.name}`}
+          />
         </View>
       </View>
     </Pressable>

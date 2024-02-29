@@ -6,7 +6,7 @@ import useRootContext from '@hooks/useRootContext';
 import { useZones } from '@services/queries/zone.queries';
 import { HttpStatusCode } from 'axios';
 import { useEffect } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import HomeCategoryField from './Components/HomeBody/HomeCategoryField';
 import HomeFeatureEstate from './Components/HomeBody/HomeFeatureEstate';
 import HomePostsField from './Components/HomeBody/HomePostsField';
@@ -14,6 +14,10 @@ import HomeSaleField from './Components/HomeBody/HomeSaleField';
 import HomeSearchField from './Components/HomeBody/HomeSearchField';
 import HomeTopUser from './Components/HomeBody/HomeTopUser';
 import HomeWelcomeField from './Components/HomeBody/HomeWelcomeField';
+import TextComponent from '@components/ui/TextComponent';
+import fontFam from '@constants/fontFamilies';
+import globalStyle from '@styles/globalStyle';
+import HomeTopBuilding from './Components/HomeBody/HomeTopBuilding';
 
 const HomeScreen = () => {
   const { state, dispatch } = useRootContext();
@@ -47,11 +51,15 @@ const HomeScreen = () => {
       {/* CategoryField */}
       <HomeCategoryField zones={zones} />
 
-      {/* House Sale Field */}
-      <HomeSaleField />
-
       {/* Features Estate */}
       <HomeFeatureEstate posts={posts} />
+
+      {/* House Sale Field */}
+      <TextComponent styles={styles.title} content='Apartment Class' />
+      <HomeSaleField />
+
+      {/* Building Block */}
+      <HomeTopBuilding />
 
       {/* Posts Field */}
       <HomePostsField />
@@ -66,6 +74,11 @@ const styles = StyleSheet.create({
   homeContainer: {
     flex: 1,
     backgroundColor: typoColor.black3
+  },
+  title: {
+    marginLeft: 20,
+    fontSize: 18,
+    fontFamily: fontFam.bold
   }
 });
 

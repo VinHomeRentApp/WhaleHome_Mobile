@@ -106,13 +106,6 @@ const UserReviews = () => {
 export default UserReviews;
 
 const styles = StyleSheet.create({
-  reviewTitle: {
-    fontSize: 16,
-    marginLeft: 20,
-    marginTop: 80,
-    marginBottom: 15,
-    fontFamily: fontFam.bold
-  },
   reviewItem: {
     backgroundColor: typoColor.white1,
     marginHorizontal: 10,

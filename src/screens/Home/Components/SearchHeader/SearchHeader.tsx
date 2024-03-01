@@ -1,9 +1,9 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
-import { ArrowCircleLeft } from 'iconsax-react-native';
+import { ArrowCircleLeft2 } from 'iconsax-react-native';
 import React from 'react';
-import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import NotiHeader from '../HomeHeader/NotiHeader/NotiIconHeader';
 
 type RightSearchHeaderProps = {
@@ -14,9 +14,9 @@ const RightSearchHeader = ({ content }: RightSearchHeaderProps) => {
   return (
     <SafeAreaView style={styles.outerContainer}>
       <View style={styles.backIconContainer}>
-        <Pressable>
-          <ArrowCircleLeft size='33' color={typoColor.yellow2} variant='Bulk' />
-        </Pressable>
+        <TouchableOpacity>
+          <ArrowCircleLeft2 size='35' color={typoColor.yellow1} variant='Bold' />
+        </TouchableOpacity>
       </View>
       <View style={[styles.innerContainer]}>
         <TextComponent styles={styles.title} fontSize={18} content={content} />

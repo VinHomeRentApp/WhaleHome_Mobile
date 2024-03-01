@@ -2,9 +2,12 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MainStackParamList } from '@type/navigation.types';
 import { Heart, Location, Star } from 'iconsax-react-native';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Post from 'src/models/class/Post.class';
 
 const houseDefaultImage = require('../../assets/images/house.png');
@@ -14,8 +17,13 @@ type RoomItemProps = {
 };
 
 const RoomItem = ({ item }: RoomItemProps) => {
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
   return (
-    <View style={styles.roomsOptionField}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('DetailPostScreen', { post: item })}
+      style={styles.roomsOptionField}
+    >
       <View style={styles.roomsOption}>
         <View style={styles.imageField}>
           <Image
@@ -53,7 +61,7 @@ const RoomItem = ({ item }: RoomItemProps) => {
           />
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 const styles = StyleSheet.create({

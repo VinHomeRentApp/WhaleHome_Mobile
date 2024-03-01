@@ -8,7 +8,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Canvas } from '@react-three/fiber';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
-import { ArrowCircleLeft } from 'iconsax-react-native';
+import { ArrowCircleLeft2 } from 'iconsax-react-native';
 import useControls from 'r3f-native-orbitcontrols';
 import React, { Suspense } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
@@ -45,7 +45,7 @@ const HomeBuilding3dScreen = () => {
       {/* Back button */}
       <View style={styles.iconContainer}>
         <Pressable onPress={() => navigation.goBack()} style={({ pressed }) => [pressed && globalStyle.pressed]}>
-          <ArrowCircleLeft size='45' color={typoColor.yellow1} variant='Bold' />
+          <ArrowCircleLeft2 size='35' color={typoColor.yellow1} variant='Bold' />
         </Pressable>
       </View>
 

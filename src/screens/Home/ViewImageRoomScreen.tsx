@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
-import { ArrowCircleLeft } from 'iconsax-react-native';
+import { ArrowCircleLeft2 } from 'iconsax-react-native';
 import React from 'react';
 import { ImageBackground, Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
 import Swiper from 'react-native-swiper';
@@ -55,7 +55,7 @@ const ViewImageRoomScreen = () => {
       {/* Back button */}
       <View style={styles.iconContainer}>
         <Pressable onPress={() => navigation.goBack()} style={({ pressed }) => [pressed && globalStyle.pressed]}>
-          <ArrowCircleLeft size='45' color={typoColor.yellow1} variant='Bold' />
+          <ArrowCircleLeft2 size='35' color={typoColor.yellow1} variant='Bold' />
         </Pressable>
       </View>
 

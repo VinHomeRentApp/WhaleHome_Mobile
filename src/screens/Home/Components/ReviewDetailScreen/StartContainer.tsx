@@ -7,7 +7,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 const StartContainer = () => {
   return (
-    <View style={{ height: 60 }}>
+    <View style={{ height: 80 }}>
       <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={styles.starReviewContainer}>
         <View style={[styles.starReviewItem, styles.activeItem]}>
           <Star1 size='22' color={typoColor.yellow1} variant='Bold' />

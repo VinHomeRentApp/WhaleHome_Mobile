@@ -4,7 +4,7 @@ import fontFam from '@constants/fontFamilies';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MainStackParamList } from '@type/navigation.types';
-import { ArrowCircleLeft } from 'iconsax-react-native';
+import { ArrowCircleLeft2 } from 'iconsax-react-native';
 import React from 'react';
 import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
 import NotiHeader from '../HomeHeader/NotiHeader/NotiIconHeader';
@@ -16,7 +16,7 @@ const PostScreenHeader = () => {
     <SafeAreaView style={styles.outerContainer}>
       <View style={styles.backIconContainer}>
         <Pressable>
-          <ArrowCircleLeft size='33' color={typoColor.black1} variant='Bulk' />
+          <ArrowCircleLeft2 size='35' color={typoColor.black1} variant='Bulk' />
         </Pressable>
       </View>
       <View style={[styles.innerContainer]}>

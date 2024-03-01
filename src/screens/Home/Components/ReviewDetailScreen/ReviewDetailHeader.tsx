@@ -13,7 +13,7 @@ const ReviewDetailHeader = () => {
     <SafeAreaView style={styles.outerContainer}>
       <View style={styles.backIconContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.containerButton]}>
-          <ArrowCircleLeft2 size='36' color={typoColor.yellow1} variant='Bold' />
+          <ArrowCircleLeft2 size='35' color={typoColor.yellow1} variant='Bold' />
         </TouchableOpacity>
       </View>
       <View style={[styles.innerContainer]}>

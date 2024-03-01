@@ -7,10 +7,7 @@ import StarRating from 'react-native-star-rating-widget';
 
 const UserReviews = () => {
   return (
-    <View>
-      <View>
-        <TextComponent styles={styles.reviewTitle} content='User Reviews' />
-      </View>
+    <>
       <ScrollView>
         {/* Review Field */}
         <View style={styles.reviewItem}>
@@ -102,20 +99,13 @@ const UserReviews = () => {
           </View>
         </View>
       </ScrollView>
-    </View>
+    </>
   );
 };
 
 export default UserReviews;
 
 const styles = StyleSheet.create({
-  reviewTitle: {
-    fontSize: 16,
-    marginLeft: 20,
-    marginTop: 80,
-    marginBottom: 15,
-    fontFamily: fontFam.bold
-  },
   reviewItem: {
     backgroundColor: typoColor.white1,
     marginHorizontal: 10,

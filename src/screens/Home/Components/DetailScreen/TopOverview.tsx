@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
-import { ArrowCircleLeft, Heart, Star } from 'iconsax-react-native';
+import { ArrowCircleLeft2, Heart, Star } from 'iconsax-react-native';
 import React, { useState } from 'react';
 import { Image, ImageBackground, Pressable, StyleSheet, View } from 'react-native';
 import Post from 'src/models/class/Post.class';
@@ -29,10 +29,10 @@ const TopOverview = ({ post }: TopOverViewProps) => {
         {/* Pressable Back and Favorite */}
         <View style={styles.iconContainer}>
           <Pressable onPress={() => navigation.goBack()} style={({ pressed }) => [pressed && globalStyle.pressed]}>
-            <ArrowCircleLeft size='45' color={typoColor.yellow1} variant='Bold' />
+            <ArrowCircleLeft2 size='35' color={typoColor.yellow1} variant='Bold' />
           </Pressable>
           <Pressable>
-            <Heart size='45' color={typoColor.yellow1} variant='Bold' />
+            <Heart size='35' color={typoColor.yellow1} variant='Bold' />
           </Pressable>
         </View>
         <View style={styles.ratingField}>

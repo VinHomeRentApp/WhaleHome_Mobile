@@ -1,12 +1,17 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MainStackParamList } from '@type/navigation.types';
 import { Messages2 } from 'iconsax-react-native';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 const BodyAdminContact = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
   return (
-    <View style={styles.contactContainer}>
+    <TouchableOpacity onPress={() => navigation.navigate('ChatScreen')} style={styles.contactContainer}>
       <View style={styles.titleAdminContainer}>
         <Image style={styles.mainLogo} resizeMode='contain' source={require('@assets/images/main-logo.png')} />
         <View style={styles.titleContainer}>
@@ -17,7 +22,7 @@ const BodyAdminContact = () => {
       <View style={styles.messageIcon}>
         <Messages2 size='26' color={typoColor.black1} variant='Outline' />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

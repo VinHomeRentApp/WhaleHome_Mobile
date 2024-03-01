@@ -7,10 +7,7 @@ import StarRating from 'react-native-star-rating-widget';
 
 const UserReviews = () => {
   return (
-    <View>
-      <View>
-        <TextComponent styles={styles.reviewTitle} content='User Reviews' />
-      </View>
+    <>
       <ScrollView>
         {/* Review Field */}
         <View style={styles.reviewItem}>
@@ -102,7 +99,7 @@ const UserReviews = () => {
           </View>
         </View>
       </ScrollView>
-    </View>
+    </>
   );
 };
 

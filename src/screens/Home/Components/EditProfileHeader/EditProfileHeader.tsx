@@ -15,10 +15,10 @@ const EditProfileHeader = () => {
     <SafeAreaView style={[{ backgroundColor: backgroundColor.black1 }]}>
       <View style={[styles.headerContainer]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <CloseCircle size='32' color={typoColor.yellow1} variant='Bold' />
+          <CloseCircle size='35' color={typoColor.yellow1} variant='Bold' />
         </TouchableOpacity>
         <TextComponent content='Manage account' fontFamily={fontFam.extraBold} />
-        <ArrowCircleLeft2 size='32' color={backgroundColor.black1} variant='Bold' />
+        <ArrowCircleLeft2 size='35' color={backgroundColor.black1} variant='Bold' />
       </View>
     </SafeAreaView>
   );

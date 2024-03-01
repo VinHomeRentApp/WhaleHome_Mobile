@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
-import { ArrowCircleLeft, Trash } from 'iconsax-react-native';
+import { ArrowCircleLeft2, Trash } from 'iconsax-react-native';
 import React from 'react';
 import { Image, Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
 import ListNotification from './Components/NotificationScreen/ListNotification';
@@ -19,7 +19,7 @@ const NotificationScreen = () => {
       {/* Header */}
       <View style={styles.iconContainer}>
         <Pressable onPress={() => navigation.goBack()} style={({ pressed }) => [pressed && globalStyle.pressed]}>
-          <ArrowCircleLeft size='40' color={typoColor.yellow1} variant='Bold' />
+          <ArrowCircleLeft2 size='35' color={typoColor.yellow1} variant='Bold' />
         </Pressable>
         <Image style={styles.mainLogo} resizeMode='contain' source={require('../../assets/images/main-logo.png')} />
         <Pressable style={({ pressed }) => [pressed && globalStyle.pressed]}>

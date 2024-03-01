@@ -22,6 +22,7 @@ export type MainStackParamList = {
   Building3dScreen: { building: Building };
   SearchScreen: undefined;
   ReviewDetailScreen: { post: Post };
+  ChatScreen: undefined;
 };
 
 export type MainNavigatorProps = {

@@ -1,8 +1,10 @@
+import TextComponent from '@components/ui/TextComponent';
+import fontFam from '@constants/fontFamilies';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import ReviewPostItem from './Components/ReviewDetailScreen/ReviewPostItem';
 import StartContainer from './Components/ReviewDetailScreen/StartContainer';
 import UserReviews from './Components/ReviewDetailScreen/UserReviews';
@@ -19,6 +21,9 @@ const ReviewDetailScreen = () => {
       <StartContainer />
 
       {/* User Reviews */}
+      <View>
+        <TextComponent styles={styles.reviewTitle} content='User Reviews' />
+      </View>
       <UserReviews />
     </SafeAreaView>
   );
@@ -26,4 +31,11 @@ const ReviewDetailScreen = () => {
 
 export default ReviewDetailScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  reviewTitle: {
+    fontSize: 16,
+    marginLeft: 20,
+    marginBottom: 15,
+    fontFamily: fontFam.bold
+  }
+});

@@ -5,43 +5,56 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { ArrowCircleLeft2, Trash } from 'iconsax-react-native';
-import React from 'react';
-import { Image, Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
+import { Image, Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import ListNotification from './Components/NotificationScreen/ListNotification';
 import TabCategory from './Components/NotificationScreen/TabCategory';
 import TabHeader from './Components/NotificationScreen/TabHeader';
+import ChatList from './ChatListScreen';
 
 const NotificationScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
-
+  const [tabNotification, setTabNotification] = useState(true);
+  const [tabMessages, setTabMessages] = useState(false);
   return (
     <SafeAreaView style={[globalStyle.container, styles.container]}>
       {/* Header */}
       <View style={styles.iconContainer}>
-        <Pressable onPress={() => navigation.goBack()} style={({ pressed }) => [pressed && globalStyle.pressed]}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <ArrowCircleLeft2 size='35' color={typoColor.yellow1} variant='Bold' />
-        </Pressable>
+        </TouchableOpacity>
         <Image style={styles.mainLogo} resizeMode='contain' source={require('../../assets/images/main-logo.png')} />
         <Pressable style={({ pressed }) => [pressed && globalStyle.pressed]}>
-          <Trash size='40' color={typoColor.yellow1} variant='Bold' />
+          <Trash size='35' color={typoColor.yellow1} variant='Bold' />
         </Pressable>
       </View>
 
       {/* Tab Header */}
-      <TabHeader />
+      <TabHeader
+        setTabMessages={setTabMessages}
+        setTabNotification={setTabNotification}
+        tabMessages={tabMessages}
+        tabNotification={tabNotification}
+      />
 
-      {/* Categories tab */}
-      <TabCategory />
+      {tabNotification && (
+        <>
+          {/* Categories tab */}
+          <TabCategory />
 
-      <View>
-        <TextComponent styles={styles.notificationTitle} content='Today' />
-      </View>
-      {/* List Notification */}
-      <ListNotification />
+          <View>
+            <TextComponent styles={styles.notificationTitle} content='Today' />
+          </View>
+          {/* List Notification */}
+          <ListNotification />
 
-      <Pressable style={({ pressed }) => [styles.viewAllButtonContainer, pressed && styles.activeButton]}>
-        <TextComponent styles={styles.viewAllText} content='View All Notifications' />
-      </Pressable>
+          <Pressable style={({ pressed }) => [styles.viewAllButtonContainer, pressed && styles.activeButton]}>
+            <TextComponent styles={styles.viewAllText} content='View All Notifications' />
+          </Pressable>
+        </>
+      )}
+
+      {tabMessages && <ChatList />}
     </SafeAreaView>
   );
 };

@@ -1,13 +1,17 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import globalStyle from '@styles/globalStyle';
-import React, { useState } from 'react';
+import React, { Dispatch } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-const TabHeader = () => {
-  const [tabNotification, setTabNotification] = useState(true);
-  const [tabMessages, setTabMessages] = useState(false);
+type TabHeaderProps = {
+  tabMessages: boolean;
+  tabNotification: boolean;
+  setTabMessages: Dispatch<React.SetStateAction<boolean>>;
+  setTabNotification: Dispatch<React.SetStateAction<boolean>>;
+};
 
+const TabHeader = ({ tabMessages, tabNotification, setTabMessages, setTabNotification }: TabHeaderProps) => {
   function handleSetMessagesTab() {
     setTabMessages(true);
     setTabNotification(false);

@@ -10,7 +10,7 @@ type FooterAnotherRoomFieldProps = {
 };
 
 const FooterAnotherRoomField = (props: FooterAnotherRoomFieldProps) => {
-  const { state, dispatch } = useRootContext();
+  const { state } = useRootContext();
   const {
     post: { posts }
   } = state;

@@ -17,6 +17,8 @@ const PostReducer: Reducer<PostContextType, PostAction> = (state, action) => {
       return { ...state, isLoadingData: action.payload };
     case POST_ACTION.SET_IS_LAST_PAGE:
       return { ...state, isLastPage: action.payload };
+    case POST_ACTION.SET_SEARCH_TEXT:
+      return { ...state, searchText: action.payload };
     default:
       return state;
   }

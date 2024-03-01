@@ -8,11 +8,11 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Canvas } from '@react-three/fiber';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
-import { ArrowCircleLeft } from 'iconsax-react-native';
+import { ArrowCircleLeft2 } from 'iconsax-react-native';
 import useControls from 'r3f-native-orbitcontrols';
 import React, { Suspense } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
-import Building1 from '../../../../models/3D/Building1';
+import Building3 from '../../../../models/3D/Building3';
 
 const HomeBuilding3dScreen = () => {
   const route = useRoute<RouteProp<MainStackParamList, 'Building3dScreen'>>();
@@ -32,7 +32,7 @@ const HomeBuilding3dScreen = () => {
           <directionalLight position={[0, 0, -1]} args={['white', 5]} />
           <directionalLight position={[0, 1, 0]} args={['white', 5]} />
           <directionalLight position={[0, -1, 0]} args={['white', 5]} />
-          <Suspense fallback={null}>{<Building1 />}</Suspense>
+          <Suspense>{<Building3 />}</Suspense>
         </Canvas>
       </View>
       <View style={styles.textField}>
@@ -45,7 +45,7 @@ const HomeBuilding3dScreen = () => {
       {/* Back button */}
       <View style={styles.iconContainer}>
         <Pressable onPress={() => navigation.goBack()} style={({ pressed }) => [pressed && globalStyle.pressed]}>
-          <ArrowCircleLeft size='45' color={typoColor.yellow1} variant='Bold' />
+          <ArrowCircleLeft2 size='35' color={typoColor.yellow1} variant='Bold' />
         </Pressable>
       </View>
 

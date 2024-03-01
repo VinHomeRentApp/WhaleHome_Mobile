@@ -21,6 +21,7 @@ export type MainStackParamList = {
   ManageProfileScreen: undefined;
   PostScreen: undefined;
   Building3dScreen: { building: Building };
+  TransactionReviewScreen: undefined;
 };
 
 export type MainNavigatorProps = {

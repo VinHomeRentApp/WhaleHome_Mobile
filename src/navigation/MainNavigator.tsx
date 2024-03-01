@@ -17,6 +17,10 @@ import SplashScreen from '@screens/Splash/SplashScreen';
 import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
+import HomeBuilding3dScreen from '@screens/Home/Components/HomeBody/HomeBuilding3d';
+import TransactionReviewScreen from '@screens/Home/TransactionReviewScreen';
+import TransactionReviewHeader from '@screens/Home/Components/TransactionReviewHeader/TransactionReviewHeader';
+=======
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
@@ -59,6 +63,12 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             component={ManageProfile}
           />
           <MainStack.Screen options={{ headerShown: false }} name='Building3dScreen' component={HomeBuilding3dScreen} />
+          <MainStack.Screen
+            options={{ header: () => <TransactionReviewHeader /> }}
+            name='TransactionReviewScreen'
+            component={TransactionReviewScreen}
+          />
+
           {/* Payment Method, History, Changepassword */}
         </>
       )}

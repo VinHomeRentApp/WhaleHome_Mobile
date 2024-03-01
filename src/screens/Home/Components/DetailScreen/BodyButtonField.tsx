@@ -15,7 +15,10 @@ const BodyButtonField = ({ apartmentClass }: BodyButtonFieldProps) => {
   return (
     <View style={styles.buttonContainer}>
       <View style={styles.buyAndRentContainer}>
-        <Pressable style={({ pressed }) => [styles.button, pressed && styles.activeButton]}>
+        <Pressable
+          style={({ pressed }) => [styles.button, pressed && styles.activeButton]}
+          onPress={() => navigation.navigate('TransactionReviewScreen')}
+        >
           <TextComponent styles={styles.textButton} content='Rent' />
         </Pressable>
         <Pressable style={({ pressed }) => [styles.button, pressed && styles.activeButton]}>

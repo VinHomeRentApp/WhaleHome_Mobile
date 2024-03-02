@@ -11,6 +11,7 @@ export const kitchenIconImage = require('@assets/images/icon/room-1.png');
 export const livingRoomIconImage = require('@assets/images/icon/a-living-room-1-512.png');
 export const defaultImage = require('@assets/images/user/kien.jpg');
 export const UPDATING = 'Updating...';
+export const defaultLogo = require('@assets/images/main-logo.png');
 
 export const apartmentClassValue = {
   STUDIO: 'Studio',

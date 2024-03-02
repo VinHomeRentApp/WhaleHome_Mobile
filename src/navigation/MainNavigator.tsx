@@ -1,26 +1,26 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Building3D from '@screens/Home/Building3D';
 import ChatScreen from '@screens/Home/ChatScreen';
+import CheckoutScreen from '@screens/Home/CheckoutScreen';
+import CheckOutScreenHeader from '@screens/Home/Components/CheckOutScreenHeader/CheckOutScreenHeader';
 import EditProfileHeader from '@screens/Home/Components/EditProfileHeader/EditProfileHeader';
 import HomeBuilding3dScreen from '@screens/Home/Components/HomeBody/HomeBuilding3d';
 import ReviewDetailHeader from '@screens/Home/Components/ReviewDetailScreen/ReviewDetailHeader';
 import SettingProfileHeader from '@screens/Home/Components/SettingProfileHeader/SettingProfileHeader';
+import TransactionReviewHeader from '@screens/Home/Components/TransactionReviewHeader/TransactionReviewHeader';
 import DetailPostScreen from '@screens/Home/DetailPostScreen';
 import DetailScreen from '@screens/Home/DetailScreen';
 import EditProfileScreen from '@screens/Home/EditProfileScreen';
 import ManageProfile from '@screens/Home/ManageProfile';
 import NotificationScreen from '@screens/Home/NotificationScreen';
 import ReviewDetailScreen from '@screens/Home/ReviewDetailScreen';
+import TransactionReviewScreen from '@screens/Home/TransactionReviewScreen';
 import View360Screen from '@screens/Home/View360Screen';
 import ViewImageRoomScreen from '@screens/Home/ViewImageRoomScreen';
 import SplashScreen from '@screens/Splash/SplashScreen';
 import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
-import TransactionReviewScreen from '@screens/Home/TransactionReviewScreen';
-import TransactionReviewHeader from '@screens/Home/Components/TransactionReviewHeader/TransactionReviewHeader';
-import CheckoutScreen from '@screens/Home/CheckoutScreen';
-import CheckOutScreenHeader from '@screens/Home/Components/CheckOutScreenHeader/CheckOutScreenHeader';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {

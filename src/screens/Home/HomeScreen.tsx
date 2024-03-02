@@ -9,7 +9,6 @@ import useRootContext from '@hooks/useRootContext';
 import { useZones } from '@services/queries/zone.queries';
 import { HttpStatusCode } from 'axios';
 import { useEffect } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
 
 import { Keyboard, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import HomeCategoryField from './Components/HomeBody/HomeCategoryField';

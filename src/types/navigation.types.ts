@@ -20,9 +20,11 @@ export type MainStackParamList = {
   ManageProfileScreen: undefined;
   PostScreen: undefined;
   Building3dScreen: { building: Building };
+  TransactionReviewScreen: undefined;
   SearchScreen: undefined;
   ReviewDetailScreen: { post: Post };
   ChatScreen: undefined;
+  CheckOutScreen: undefined;
 };
 
 export type MainNavigatorProps = {

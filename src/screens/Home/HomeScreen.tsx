@@ -9,11 +9,14 @@ import useRootContext from '@hooks/useRootContext';
 import { useZones } from '@services/queries/zone.queries';
 import { HttpStatusCode } from 'axios';
 import { useEffect } from 'react';
+
 import { Keyboard, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import HomeCategoryField from './Components/HomeBody/HomeCategoryField';
 import HomeFeatureEstate from './Components/HomeBody/HomeFeatureEstate';
 import HomePostsField from './Components/HomeBody/HomePostsField';
 import HomeSaleField from './Components/HomeBody/HomeSaleField';
+import HomeSearchField from './Components/HomeBody/HomeSearchField';
+
 import HomeTopBuilding from './Components/HomeBody/HomeTopBuilding';
 import HomeTopUser from './Components/HomeBody/HomeTopUser';
 import HomeWelcomeField from './Components/HomeBody/HomeWelcomeField';

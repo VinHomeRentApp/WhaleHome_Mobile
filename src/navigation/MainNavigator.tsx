@@ -17,10 +17,10 @@ import SplashScreen from '@screens/Splash/SplashScreen';
 import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
-import HomeBuilding3dScreen from '@screens/Home/Components/HomeBody/HomeBuilding3d';
 import TransactionReviewScreen from '@screens/Home/TransactionReviewScreen';
 import TransactionReviewHeader from '@screens/Home/Components/TransactionReviewHeader/TransactionReviewHeader';
-=======
+import CheckoutScreen from '@screens/Home/CheckoutScreen';
+import CheckOutScreenHeader from '@screens/Home/Components/CheckOutScreenHeader/CheckOutScreenHeader';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
@@ -67,6 +67,11 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             options={{ header: () => <TransactionReviewHeader /> }}
             name='TransactionReviewScreen'
             component={TransactionReviewScreen}
+          />
+          <MainStack.Screen
+            options={{ header: () => <CheckOutScreenHeader /> }}
+            name='CheckOutScreen'
+            component={CheckoutScreen}
           />
 
           {/* Payment Method, History, Changepassword */}

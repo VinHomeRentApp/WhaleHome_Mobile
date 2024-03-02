@@ -6,7 +6,6 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 
 import { Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Location } from 'iconsax-react-native';
-// const countries = ['Egypt', 'Canada', 'Australia', 'Ireland'];
 
 export type BANK_INFOR = {
   id: number;
@@ -26,6 +25,7 @@ const CheckoutScreen = () => {
       setIsOpenCard(true);
     }, 2000);
   }, []);
+
   return (
     <SafeAreaView style={[globalStyle.container]}>
       <View style={[{ paddingHorizontal: 30, flex: 1 }]}>

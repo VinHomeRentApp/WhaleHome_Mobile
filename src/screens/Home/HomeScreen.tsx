@@ -1,21 +1,19 @@
 /* eslint-disable react/no-unescaped-entities */
-import postApi from '@apis/post.apis';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import { POST_ACTION } from '@contexts/types/post.types';
 import { ZONE_ACTION } from '@contexts/types/zone.types';
 import useRootContext from '@hooks/useRootContext';
+import postApi from '@services/apis/post.apis';
 import { useZones } from '@services/queries/zone.queries';
 import { HttpStatusCode } from 'axios';
 import { useEffect } from 'react';
-
 import { Keyboard, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import HomeCategoryField from './Components/HomeBody/HomeCategoryField';
 import HomeFeatureEstate from './Components/HomeBody/HomeFeatureEstate';
 import HomePostsField from './Components/HomeBody/HomePostsField';
 import HomeSaleField from './Components/HomeBody/HomeSaleField';
-import HomeSearchField from './Components/HomeBody/HomeSearchField';
 
 import HomeTopBuilding from './Components/HomeBody/HomeTopBuilding';
 import HomeTopUser from './Components/HomeBody/HomeTopUser';

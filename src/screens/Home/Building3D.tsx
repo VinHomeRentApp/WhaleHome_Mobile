@@ -1,12 +1,12 @@
 /* eslint-disable react/no-unknown-property */
 import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
+import BuildingBlockA from '@models/3D/BuildingBlockA';
 import { Canvas } from '@react-three/fiber';
 import globalStyle from '@styles/globalStyle';
 import useControls from 'r3f-native-orbitcontrols';
 import React, { Suspense } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
-import BuildingBlockA from '../../models/3D/BuildingBlockA';
 
 const Building3D = () => {
   const [OrbitControls, events] = useControls();

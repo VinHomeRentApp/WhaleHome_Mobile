@@ -4,10 +4,12 @@ import { accentColor, typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useRootContext from '@hooks/useRootContext';
+import formSignInSchema from '@models/schema/formSignInSchema';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { defaultFormSignIn, defaultFormSignInValue } from '@type/index';
 import { MainStackParamList } from '@type/navigation.types';
+import { handleSignIn } from '@usecases/Authentication';
 import { Eye, EyeSlash } from 'iconsax-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -22,8 +24,6 @@ import {
   View
 } from 'react-native';
 import Animated, { BounceInLeft } from 'react-native-reanimated';
-import formSignInSchema from '../../../../models/schema/formSignInSchema';
-import { handleSignIn } from '../../../../usecases/Authentication';
 
 const BodyLogin = () => {
   const {
@@ -34,7 +34,7 @@ const BodyLogin = () => {
   } = useForm<defaultFormSignIn>({
     resolver: yupResolver(formSignInSchema),
     defaultValues: defaultFormSignInValue,
-    mode: 'onBlur'
+    mode: 'onChange'
   });
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   const [isContinuePassword, setIsContinuePassword] = useState<boolean>(false);

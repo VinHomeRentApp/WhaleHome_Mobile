@@ -1,4 +1,4 @@
-import userApi from '@apis/user.apis';
+import userApi from '@services/apis/user.apis';
 import { AUTH_ACTION } from '@contexts/types/auth.types';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
@@ -8,7 +8,7 @@ import useRootContext from './useRootContext';
 export function useAuthentication() {
   const { state, dispatch } = useRootContext();
   const {
-    auth: { user, isAuth, accessToken }
+    auth: { user, isAuth, accessToken, currentUser }
   } = state;
   useEffect(() => {
     const unsubscribeFromAuthStatusChanged = onAuthStateChanged(auth, async (user) => {
@@ -32,6 +32,7 @@ export function useAuthentication() {
   return {
     user,
     isAuth,
-    accessToken
+    accessToken,
+    currentUser
   };
 }

@@ -1,4 +1,4 @@
-import zoneApi from '@apis/zone.apis';
+import zoneApi from '@services/apis/zone.apis';
 import { useQuery } from '@tanstack/react-query';
 
 export const useZones = () => {

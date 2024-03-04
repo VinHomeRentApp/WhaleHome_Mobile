@@ -1,4 +1,4 @@
-import userApi from '@apis/user.apis';
+import userApi from '@services/apis/user.apis';
 import { AUTH_ACTION } from '@contexts/types/auth.types';
 import { RootAction } from '@contexts/types/root.types';
 import useRootContext from '@hooks/useRootContext';
@@ -24,6 +24,19 @@ export const useGetCurrentUser = () => {
       const user = response.data.data;
       dispatch({ type: AUTH_ACTION.SET_CURRENT_USER, payload: user });
       return user;
+    }
+  });
+};
+
+interface UpdateUserImageParams {
+  formData: FormData;
+  userId: string;
+}
+
+export const useUpdateUserImage = () => {
+  return useMutation({
+    mutationFn: async ({ formData, userId }: UpdateUserImageParams) => {
+      return userApi.updateUserImage(formData, userId);
     }
   });
 };

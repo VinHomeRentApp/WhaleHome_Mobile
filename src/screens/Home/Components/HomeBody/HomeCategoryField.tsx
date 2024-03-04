@@ -4,9 +4,9 @@ import { typoColor } from '@constants/appColors';
 import useRootContext from '@hooks/useRootContext';
 import { useZones } from '@services/queries/zone.queries';
 import globalStyle from '@styles/globalStyle';
+import { handlePressCategory } from '@usecases/HandleCategories';
 import { isEmpty } from 'lodash';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { handlePressCategory } from '../../../../usecases/HandleCategories';
 
 const HomeCategoryField = () => {
   const { state, dispatch } = useRootContext();

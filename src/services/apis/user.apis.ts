@@ -1,5 +1,5 @@
 import { FormSignUpData } from '@type/form.types';
-import { PaginationResponse, RegisterSuccessResponse, SuccessfulResponse } from '../types/response.types';
+import { PaginationResponse, RegisterSuccessResponse, SuccessfulResponse } from '../../types/response.types';
 
 import { getWithPagination } from '@type/post.types';
 import httpClient from '@utils/httpClient';
@@ -10,7 +10,8 @@ const EndPoint = {
   getUser: 'api/v1/user',
   login: 'api/v1/auth/authenticate',
   getCurrentUser: '/api/v1/auth/getUser',
-  getUserWithPagination: '/api/v1/user/get-page'
+  getUserWithPagination: '/api/v1/user/get-page',
+  updateUserImage: '/api/v1/user/update-image'
 };
 
 const userApi = {
@@ -35,6 +36,13 @@ const userApi = {
     return httpClient.get<SuccessfulResponse<PaginationResponse<UserCurrentResponse[]>>>(
       `${EndPoint.getUserWithPagination}/${currentPage}?sizePage=${currentSize}&field=${currentField}`
     );
+  },
+  updateUserImage: (formData: FormData, userId: string) => {
+    return httpClient.put<SuccessfulResponse<UserCurrentResponse>>(`${EndPoint.updateUserImage}/${userId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data' // Đặt header 'Content-Type' là 'multipart/form-data'
+      }
+    });
   }
 };
 

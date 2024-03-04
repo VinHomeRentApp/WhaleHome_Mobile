@@ -1,15 +1,18 @@
 import LoadingOverlay from '@components/ui/LoadingOverlay';
 import TextComponent from '@components/ui/TextComponent';
 import { backgroundColor, typoColor } from '@constants/appColors';
+import { AUTH_ACTION } from '@contexts/types/auth.types';
 import useRootContext from '@hooks/useRootContext';
+import userApi from '@services/apis/user.apis';
 import globalStyle from '@styles/globalStyle';
 import { handlePickImage } from '@usecases/HandlePickImage';
+import { HttpStatusCode } from 'axios';
 import { Blend, Call, GalleryAdd, Home3, Message, Profile } from 'iconsax-react-native';
 import React from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Image, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
-interface FormData {
+export interface FormDataUpdate {
   username: string;
   phoneNumber: string;
   email: string;
@@ -26,7 +29,7 @@ const EditProfileScreen = () => {
     dispatch
   } = useRootContext();
   const profileEditInfo = currentUser;
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit } = useForm<FormDataUpdate>({
     defaultValues: {
       email: profileEditInfo.email,
       phoneNumber: profileEditInfo.phone,
@@ -36,8 +39,20 @@ const EditProfileScreen = () => {
     }
   });
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormDataUpdate> = async (data) => {
+    try {
+      dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: true });
+      const response = await userApi.updateUserInfo(data, currentUser.id?.toString() || '13');
+      if (response.status === HttpStatusCode.Ok) {
+        dispatch({ type: AUTH_ACTION.SET_CURRENT_USER, payload: response.data.data });
+      } else {
+        alert('Update User Info Failed!!!');
+      }
+    } catch (error: any) {
+      Alert.alert('Updating Error', error.message);
+    } finally {
+      dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });
+    }
   };
 
   const onPressHandlePickImage = () => handlePickImage(currentUser.id?.toString() || '13', dispatch);

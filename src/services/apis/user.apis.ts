@@ -4,6 +4,7 @@ import { PaginationResponse, RegisterSuccessResponse, SuccessfulResponse } from 
 import { getWithPagination } from '@type/post.types';
 import httpClient from '@utils/httpClient';
 import UserCurrentResponse from 'src/models/class/User.class';
+import { FormDataUpdate } from '@screens/Home/EditProfileScreen';
 
 const EndPoint = {
   register: 'api/v1/auth/register',
@@ -11,7 +12,8 @@ const EndPoint = {
   login: 'api/v1/auth/authenticate',
   getCurrentUser: '/api/v1/auth/getUser',
   getUserWithPagination: '/api/v1/user/get-page',
-  updateUserImage: '/api/v1/user/update-image'
+  updateUserImage: '/api/v1/user/update-image',
+  updateUserInfo: '/api/v1/user/update'
 };
 
 const userApi = {
@@ -43,6 +45,12 @@ const userApi = {
         'Content-Type': 'multipart/form-data' // Đặt header 'Content-Type' là 'multipart/form-data'
       }
     });
+  },
+  updateUserInfo: (formDataUpdate: FormDataUpdate, userId: string) => {
+    return httpClient.put<SuccessfulResponse<UserCurrentResponse>>(
+      `${EndPoint.updateUserInfo}/${userId}`,
+      formDataUpdate
+    );
   }
 };
 

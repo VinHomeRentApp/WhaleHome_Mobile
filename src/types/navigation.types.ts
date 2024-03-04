@@ -25,6 +25,7 @@ export type MainStackParamList = {
   ReviewDetailScreen: { post: Post };
   ChatScreen: undefined;
   CheckOutScreen: undefined;
+  LoginScreen: undefined;
 };
 
 export type MainNavigatorProps = {

@@ -1,7 +1,6 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
-import useRootContext from '@hooks/useRootContext';
 import { useAreas } from '@services/queries/area.queries';
 import { useBuildings } from '@services/queries/building.queries';
 import { useZones } from '@services/queries/zone.queries';
@@ -15,65 +14,85 @@ type SearchRenderProps = {
 };
 
 const SearchRender = ({ postLength }: SearchRenderProps) => {
-  const { dispatch } = useRootContext();
-  const [zone, setZone] = useState('');
-  const [area, setArea] = useState('');
-  const [building, setBuilding] = useState('');
+  const [selectedArea, setSelectedArea] = useState('');
+  const [selectedZone, setSelectedZone] = useState('');
+  const [selectedBuilding, setSelectedBuilding] = useState('');
 
   const areaQuery = useAreas();
   const buildingQuery = useBuildings();
-  const zoneQuery = useZones(dispatch);
+  const zoneQuery = useZones();
 
-  const zones = zoneQuery.data?.data.data;
-  const buildings = buildingQuery.data?.data.data;
-  const areas = areaQuery.data?.data.data;
+  const areas = areaQuery.data?.data.data || [];
+  const allZones = zoneQuery.data?.data.data || [];
+  const allBuildings = buildingQuery.data?.data.data || [];
+
+  // Lọc zones dựa vào area đã chọn
+  const zones = selectedArea ? allZones.filter((zone) => zone.area.id.toString() === selectedArea) : [];
+
+  // Lọc buildings dựa vào area và zone đã chọn
+  const buildings = allBuildings.filter((building) => {
+    return (
+      building.zone.area.id.toString() === selectedArea &&
+      (!selectedZone || building.zone.id.toString() === selectedZone)
+    );
+  });
+
+  // Xử lý khi thay đổi giá trị của area
+  const handleAreaChange = (value: string) => {
+    setSelectedArea(value);
+    setSelectedZone(''); // Reset zone khi thay đổi area
+    setSelectedBuilding(''); // Reset building khi thay đổi area
+  };
+
+  // Xử lý khi thay đổi giá trị của zone
+  const handleZoneChange = (value: string) => {
+    setSelectedZone(value);
+    setSelectedBuilding(''); // Reset building khi thay đổi zone
+  };
 
   return (
     <>
       <View style={styles.titleFoundRoomField}>
+        {/* Area selection */}
         <View style={styles.selectFieldContainer}>
           <View style={styles.selectField}>
             <RNPickerSelect
-              style={{
-                inputIOS: {
-                  color: typoColor.black1
-                },
-                placeholder: { color: typoColor.black1 }
-              }}
-              placeholder={{ label: 'Select Area', color: typoColor.black1, value: '' }}
-              darkTheme={true}
-              onValueChange={(value) => setArea(value)}
-              items={areas ? areas.map((area) => ({ label: area.name, value: area.id })) : []} // Check if areas is defined before mapping
+              style={pickerSelectStyles}
+              placeholder={{ label: 'Select Area', value: '' }}
+              value={selectedArea}
+              onValueChange={handleAreaChange}
+              items={areas.map((area) => ({ label: area.name, value: area.id.toString() }))}
             />
           </View>
         </View>
 
+        {/* Zone selection */}
         <View style={styles.selectFieldContainer}>
           <View style={styles.selectField}>
             <RNPickerSelect
-              style={{
-                placeholder: { color: typoColor.black1 }
-              }}
+              style={pickerSelectStyles}
               placeholder={{ label: 'Select Zone', value: '' }}
-              onValueChange={(value) => setZone(value)}
-              items={zones ? zones.map((zone) => ({ label: zone.name, value: zone.id })) : []} // Check if zones is defined before mapping
+              value={selectedZone}
+              onValueChange={handleZoneChange}
+              items={zones.map((zone) => ({ label: zone.name, value: zone.id.toString() }))}
             />
           </View>
         </View>
 
+        {/* Building selection */}
         <View style={styles.selectFieldContainer}>
           <View style={styles.selectField}>
             <RNPickerSelect
-              style={{
-                placeholder: { color: typoColor.black1 }
-              }}
+              style={pickerSelectStyles}
+              value={selectedBuilding}
               placeholder={{ label: 'Select Building', value: '' }}
-              onValueChange={(value) => setBuilding(value)}
-              items={buildings ? buildings.map((building) => ({ label: building.name, value: building.id })) : []} // Check if buildings is defined before mapping
+              onValueChange={(value) => setSelectedBuilding(value)}
+              items={buildings.map((building) => ({ label: building.name, value: building.id.toString() }))}
             />
           </View>
         </View>
       </View>
+
       <View style={styles.titleFoundRoomField}>
         <TextComponent styles={styles.titleFoundRooms} content={`Found ${postLength} Posts`} />
         <Pressable style={({ pressed }) => [pressed && globalStyle.pressed]}>
@@ -116,4 +135,21 @@ const styles = StyleSheet.create({
     top: 1,
     left: 2
   }
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    color: typoColor.black1,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: 'white',
+    borderRadius: 4
+  },
+  inputAndroid: {
+    color: typoColor.black1,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 8
+  },
+  placeholder: { color: typoColor.black1 }
 });

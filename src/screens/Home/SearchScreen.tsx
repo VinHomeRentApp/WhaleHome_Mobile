@@ -9,6 +9,7 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import HomeSearchField from './Components/HomeBody/HomeSearchField';
 import NotFound from './Components/NotFound/NotFound';
 import SearchRender from './Components/SearchRender/SearchRender';
+import LoadingOverlay from '@components/ui/LoadingOverlay';
 
 const SearchScreen = () => {
   const [page, setPage] = useState(1);
@@ -38,14 +39,13 @@ const SearchScreen = () => {
 
   return (
     <View style={styles.container}>
+      <LoadingOverlay isLoading={isFirstLoading} message='Loading...' />
       <View>
         <HomeSearchField handleSearch={handleSearch} />
         <SearchRender postLength={searchPosts.length} />
         <View>{searchResult}</View>
       </View>
-      {isFirstLoading ? (
-        <Loading />
-      ) : (
+      {!isFirstLoading && (
         <FlatList
           style={{ marginBottom: 70 }}
           data={searchPosts}

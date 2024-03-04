@@ -1,4 +1,4 @@
-import buildingApi from '@apis/building.apis';
+import buildingApi from '@services/apis/building.apis';
 import { THREE_MINUTES } from '@constants/appConstants';
 import { useQuery } from '@tanstack/react-query';
 import { getBuildingWithAreaParams } from '@type/post.types';

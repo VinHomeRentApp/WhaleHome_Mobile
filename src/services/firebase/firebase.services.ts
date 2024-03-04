@@ -1,8 +1,10 @@
 /* eslint-disable no-useless-catch */
-import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, User } from 'firebase/auth';
-import { Alert } from 'react-native';
-import { auth } from '../../config/firebaseConfig';
 import { AUTH_API_ERROR } from '@constants/authConstants';
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, User } from 'firebase/auth';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { Alert } from 'react-native';
+import { v4 as uuidv4 } from 'uuid';
+import { auth } from '../../config/firebaseConfig';
 
 type AuthErrorMap = Record<string, string>;
 
@@ -70,6 +72,19 @@ export default class FirebaseService {
       Alert.alert('Logged Out', 'You have been successfully logged out.');
     } catch (error: any) {
       console.error('Sign Out Error:', error);
+      throw error;
+    }
+  }
+
+  public async uploadFile(file: File): Promise<string | undefined> {
+    try {
+      const storage = getStorage();
+      const storageRef = ref(storage, `uploads/${uuidv4()}_${file.name}`);
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+      return downloadURL;
+    } catch (error: any) {
+      console.error('Upload File Error:', error);
       throw error;
     }
   }

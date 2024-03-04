@@ -9,7 +9,6 @@
       "@screens/*": ["src/screens/*"],
       "@navigation/*": ["src/navigation/*"],
       "@utils/*": ["src/utils/*"],
-      "@apis/*": ["src/apis/*"],
       "@services/*": ["src/services/*"],
       "@constants/*": ["src/constants/*"],
       "@contexts/*": ["src/contexts/*"],
@@ -17,6 +16,8 @@
       "@assets/*": ["src/assets/*"],
       "@hooks/*": ["src/hooks/*"],
       "@type/*": ["src/types/*"],
+      "@usecases/*": ["src/usecases/*"],
+      "@models/*": ["src/models/*"],
       "@firebase/auth": ["node_modules/@firebase/auth/dist/index.rn.d.ts"]
     }
   }

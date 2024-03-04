@@ -1,4 +1,4 @@
-import apartmentApi from '@apis/apartment.apis';
+import apartmentApi from '@services/apis/apartment.apis';
 import { useQuery } from '@tanstack/react-query';
 
 export const useApartmentClass = () => {

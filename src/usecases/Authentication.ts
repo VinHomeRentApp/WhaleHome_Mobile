@@ -1,4 +1,4 @@
-import userApi from '@apis/user.apis';
+import userApi from '@services/apis/user.apis';
 import { AUTH_ACTION } from '@contexts/types/auth.types';
 import { RootAction } from '@contexts/types/root.types';
 import AsyncStorage from '@react-native-async-storage/async-storage';

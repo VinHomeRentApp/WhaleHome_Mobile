@@ -35,7 +35,6 @@ const ManageProfile = () => {
       Alert.alert('Error', error.message);
     }
   };
-
   return (
     <SafeAreaView style={[globalStyle.container]}>
       <View style={[styles.container]}>

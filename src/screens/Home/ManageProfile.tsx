@@ -3,14 +3,38 @@ import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import FirebaseService from '@services/firebase/firebase.services';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { Card, CardCoin, Logout, ProfileCircle, Shield } from 'iconsax-react-native';
 import React from 'react';
-import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+
+const fireBaseService = new FirebaseService();
 
 const ManageProfile = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
+  const handleLogout = () => {
+    Alert.alert(
+      'Confirm Logout',
+      'Are you sure you want to logout?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Logout', onPress: logout }
+      ],
+      { cancelable: true }
+    );
+  };
+
+  const logout = async () => {
+    try {
+      await fireBaseService.signOut();
+      navigation.navigate('LoginScreen');
+    } catch (error: any) {
+      Alert.alert('Error', error.message);
+    }
+  };
   return (
     <SafeAreaView style={[globalStyle.container]}>
       <View style={[styles.container]}>
@@ -39,7 +63,7 @@ const ManageProfile = () => {
         </TouchableOpacity>
       </View>
       <View style={[{ flex: 1, padding: 15, justifyContent: 'flex-end' }]}>
-        <TouchableOpacity style={[styles.partEdit]}>
+        <TouchableOpacity onPress={() => handleLogout()} style={[styles.partEdit]}>
           <Logout size='25' color={typoColor.yellow1} />
           <View style={{ marginHorizontal: 5 }}></View>
           <TextComponent fontSize={15} content='Sign out' fontFamily={fontFam.semiBold} />

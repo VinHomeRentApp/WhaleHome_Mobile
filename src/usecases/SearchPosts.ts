@@ -1,4 +1,4 @@
-import postApi from '@apis/post.apis';
+import postApi from '@services/apis/post.apis';
 import { POST_ACTION } from '@contexts/types/post.types';
 import { RootAction } from '@contexts/types/root.types';
 import { searchPostsParamsTypes } from '@type/post.types';

@@ -1,55 +1,32 @@
 import { typoColor } from '@constants/appColors';
+import useRootContext from '@hooks/useRootContext';
 import globalStyle from '@styles/globalStyle';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  View,
   FlatList,
-  TextInput,
-  TouchableOpacity,
-  Text,
-  Image,
-  ImageSourcePropType,
   KeyboardAvoidingView,
   Platform,
-  Keyboard
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
-
-interface User {
-  avatar: ImageSourcePropType;
-}
-
-interface Message {
-  id: string;
-  text: string;
-  time: string;
-  user: User;
-}
-
-interface AvatarProps {
-  source: ImageSourcePropType;
-}
-
-const Avatar: React.FC<AvatarProps> = ({ source }) => <Image source={source} style={styles.avatar} />;
-
-interface MessageItemProps {
-  message: Message;
-}
-
-const MessageItem: React.FC<MessageItemProps> = ({ message }) => (
-  <View style={styles.messageRow}>
-    <Avatar source={message.user.avatar} />
-    <View style={styles.messageBubble}>
-      <Text style={styles.messageText}>{message.text}</Text>
-      <Text style={styles.messageTime}>{message.time}</Text>
-    </View>
-  </View>
-);
+import MessageItem, { Message } from './Components/ChatScreen/MessageItem';
+import { DirectRight, More2 } from 'iconsax-react-native';
+import { isEmpty } from 'lodash';
 
 const ChatScreen: React.FC = () => {
+  const { state } = useRootContext();
+  const { currentUser } = state.auth;
   const [messages, setMessages] = useState<Message[]>([
-    { id: '1', text: 'Xin chào!', time: '14:00', user: { avatar: { uri: 'https://example.com/avatar1.png' } } }
+    {
+      id: '1',
+      text: 'Hi There I Want to talk to you! There I Want to talk to you There I Want to talk to you There I Want to talk to you There I Want to talk to you There I Want to talk to you',
+      time: '14:00',
+      user: { id: 11, email: 'trungkiennguyen@gmail.com', avatar: { uri: 'https://example.com/avatar1.png' } }
+    }
   ]);
   const [inputText, setInputText] = useState('');
   const flatListRef = useRef<FlatList<Message>>(null);
@@ -65,7 +42,11 @@ const ChatScreen: React.FC = () => {
         id: Date.now().toString(),
         text: inputText,
         time: new Date().toLocaleTimeString().slice(0, 5),
-        user: { avatar: { uri: 'https://example.com/yourAvatar.png' } } // Thay đổi avatar của bạn ở đây
+        user: {
+          id: currentUser.id || 14,
+          email: currentUser.email || 'trungkiennguyen0310@gmail.com',
+          avatar: { uri: 'https://example.com/yourAvatar.png' }
+        }
       };
       setMessages((prevMessages) => [...prevMessages, newMessage]);
       setInputText('');
@@ -88,6 +69,9 @@ const ChatScreen: React.FC = () => {
           keyboardShouldPersistTaps='handled'
         />
         <View style={styles.inputContainer}>
+          <TouchableOpacity>
+            <More2 style={{ padding: 10 }} size='35' color={typoColor.yellow1} variant='Bold' />
+          </TouchableOpacity>
           <TextInput
             style={styles.input}
             value={inputText}
@@ -95,8 +79,8 @@ const ChatScreen: React.FC = () => {
             placeholder='Nhập tin nhắn...'
             onSubmitEditing={sendMessage}
           />
-          <TouchableOpacity onPress={sendMessage}>
-            <Text style={styles.sendButton}>Gửi</Text>
+          <TouchableOpacity disabled={isEmpty(TextInput)} onPress={sendMessage}>
+            <DirectRight style={styles.sendButton} variant='Bold' size='35' color={typoColor.yellow1} />
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -114,31 +98,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'flex-end'
   },
-  messageRow: {
-    flexDirection: 'row',
-    padding: 10,
-    alignSelf: 'flex-end'
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20
-  },
-  messageBubble: {
-    marginLeft: 10,
-    padding: 10,
-    backgroundColor: typoColor.white1,
-    borderRadius: 20,
-    maxWidth: '80%'
-  },
-  messageText: {
-    fontSize: 16
-  },
-  messageTime: {
-    fontSize: 12,
-    marginTop: 4,
-    alignSelf: 'flex-end'
-  },
+
   inputContainer: {
     flexDirection: 'row',
     padding: 5,
@@ -161,6 +121,6 @@ const styles = StyleSheet.create({
     marginRight: 8
   },
   sendButton: {
-    padding: 10
+    marginRight: 20
   }
 });

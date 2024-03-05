@@ -4,6 +4,10 @@ import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import { apartmentClassValue } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
+import P1 from '@models/3D/P1';
+import P2 from '@models/3D/P2';
+import P3 from '@models/3D/P3';
+import Studio from '@models/3D/Studio';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Canvas } from '@react-three/fiber';
@@ -13,10 +17,6 @@ import { ArrowCircleLeft2 } from 'iconsax-react-native';
 import useControls from 'r3f-native-orbitcontrols';
 import React, { Suspense } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
-import P1 from '../../models/3D/P1';
-import P2 from '../../models/3D/P2';
-import P3 from '../../models/3D/P3';
-import Studio from '../../models/3D/Studio';
 
 const View360Screen = () => {
   const route = useRoute<RouteProp<MainStackParamList, 'View360'>>();

@@ -84,8 +84,9 @@ const TransactionReviewScreen = () => {
             source={require('../../assets/images/rooms/PN1.jpg')}
           />
           <View style={[styles.wrapperInformationApartment]}>
-            <View style={[{ maxWidth: 200 }]}>
+            <View>
               <TextComponent
+                styles={{ maxWidth: '95%' }}
                 content='Sky Dandelions Apartment'
                 fontFamily={fontFam.semiBold}
                 fontSize={16}
@@ -224,7 +225,8 @@ const styles = StyleSheet.create({
   },
   wrapperInformationApartment: {
     height: '100%',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    width: '45%'
   },
   wrapperPeriod: {
     gap: 10

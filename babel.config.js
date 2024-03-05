@@ -20,6 +20,8 @@ module.exports = function (api) {
             '@assets': './src/assets',
             '@hooks': './src/hooks',
             '@type': './src/types',
+            '@usecases': './src/usecases',
+            '@models': './src/models',
             '@contexts': './src/contexts'
           }
         }

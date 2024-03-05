@@ -1,4 +1,4 @@
-import postApi from '@apis/post.apis';
+import postApi from '@services/apis/post.apis';
 import { useQuery } from '@tanstack/react-query';
 import { getWithPagination, searchPostsParamsTypes } from '@type/post.types';
 

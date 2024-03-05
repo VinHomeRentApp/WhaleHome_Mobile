@@ -1,13 +1,13 @@
-import { View, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import React, { useState } from 'react';
-import globalStyle from '@styles/globalStyle';
-import { Call, GalleryAdd, Message, Profile, Blend, Home3 } from 'iconsax-react-native';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { backgroundColor, typoColor } from '@constants/appColors';
-import * as ImagePicker from 'expo-image-picker';
-import { EditProfileScreenProps } from '@type/navigation.types';
+import LoadingOverlay from '@components/ui/LoadingOverlay';
 import TextComponent from '@components/ui/TextComponent';
+import { backgroundColor, typoColor } from '@constants/appColors';
 import useRootContext from '@hooks/useRootContext';
+import globalStyle from '@styles/globalStyle';
+import { handlePickImage } from '@usecases/HandlePickImage';
+import { Blend, Call, GalleryAdd, Home3, Message, Profile } from 'iconsax-react-native';
+import React from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Image, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface FormData {
   username: string;
@@ -18,12 +18,12 @@ interface FormData {
 }
 const IMAGE_DEFAULT = '../../assets/images/user/kien.jpg';
 
-const EditProfileScreen = ({ route }: EditProfileScreenProps) => {
-  const [image, setImage] = useState<string>();
+const EditProfileScreen = () => {
   const {
     state: {
-      auth: { currentUser }
-    }
+      auth: { currentUser, isLoading }
+    },
+    dispatch
   } = useRootContext();
   const profileEditInfo = currentUser;
   const { control, handleSubmit } = useForm<FormData>({
@@ -40,28 +40,15 @@ const EditProfileScreen = ({ route }: EditProfileScreenProps) => {
     console.log(data);
   };
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1
-    });
-
-    console.log(result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
+  const onPressHandlePickImage = () => handlePickImage(currentUser.id?.toString() || '13', dispatch);
 
   return (
     <ScrollView style={[globalStyle.container]}>
+      <LoadingOverlay isLoading={isLoading} message='Updating...' />
       <View style={[styles.fullScreen]}>
         <View style={[styles.profileInfo]}>
           <Image style={[styles.profileImage]} source={{ uri: currentUser.image || IMAGE_DEFAULT }} />
-          <TouchableOpacity style={[styles.editButton]} onPress={pickImage}>
+          <TouchableOpacity style={[styles.editButton]} onPress={onPressHandlePickImage}>
             <GalleryAdd size='20' color={backgroundColor.black1} />
           </TouchableOpacity>
         </View>

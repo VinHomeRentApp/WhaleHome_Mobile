@@ -3,6 +3,7 @@ import BodyAdminContact from '@components/ui/AdminContact';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import Building3 from '@models/3D/Building3';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Canvas } from '@react-three/fiber';
@@ -12,7 +13,6 @@ import { ArrowCircleLeft2 } from 'iconsax-react-native';
 import useControls from 'r3f-native-orbitcontrols';
 import React, { Suspense } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
-import Building3 from '../../../../models/3D/Building3';
 
 const HomeBuilding3dScreen = () => {
   const route = useRoute<RouteProp<MainStackParamList, 'Building3dScreen'>>();

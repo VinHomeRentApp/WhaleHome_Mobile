@@ -1,14 +1,14 @@
 import RoomItem from '@components/room/RoomItem';
 import Loading from '@components/ui/Loading';
 import { typoColor } from '@constants/appColors';
+import { POST_ACTION } from '@contexts/types/post.types';
 import useRootContext from '@hooks/useRootContext';
+import { fetchSearchPosts } from '@usecases/SearchPosts';
 import React, { useEffect, useState } from 'react';
-import { FlatList, Keyboard, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
-import { fetchSearchPosts } from '../../usecases/SearchPosts';
+import { FlatList, StyleSheet, View } from 'react-native';
 import HomeSearchField from './Components/HomeBody/HomeSearchField';
 import NotFound from './Components/NotFound/NotFound';
 import SearchRender from './Components/SearchRender/SearchRender';
-import { POST_ACTION } from '@contexts/types/post.types';
 
 const SearchScreen = () => {
   const [page, setPage] = useState(1);

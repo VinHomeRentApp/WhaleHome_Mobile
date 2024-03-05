@@ -1,4 +1,4 @@
-import userApi from '@apis/user.apis';
+import userApi from '@services/apis/user.apis';
 import { THREE_MINUTES } from '@constants/appConstants';
 import { useQuery } from '@tanstack/react-query';
 import { getWithPagination } from '@type/post.types';

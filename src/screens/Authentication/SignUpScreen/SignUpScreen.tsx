@@ -9,7 +9,8 @@ import { FormSignUpData } from '@type/form.types';
 import { SignUpScreenProps } from '@type/navigation.types';
 import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Alert, StyleSheet, Switch, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Switch, TextInput, TouchableOpacity, View } from 'react-native';
+import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 import RNPickerSelect from 'react-native-picker-select';
 
 const fireBaseService = new FirebaseService();
@@ -76,8 +77,10 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
     try {
       await fireBaseService.signUp(data.email, data.password);
       registerAccountMutation.mutate(data);
+      navigation.navigate('HomeScreen');
     } catch (error: any) {
-      Alert.alert('Sign Up Error', error.message);
+      // Alert.alert('Sign Up Error', error.message);
+      Toast.show({ type: ALERT_TYPE.DANGER, title: 'Sign Up Error', textBody: error.message });
     }
   });
 

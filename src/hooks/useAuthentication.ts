@@ -1,5 +1,6 @@
-import userApi from '@services/apis/user.apis';
 import { AUTH_ACTION } from '@contexts/types/auth.types';
+import userApi from '@services/apis/user.apis';
+import { useGetCurrentUser } from '@services/mutations/user.mutations';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
 import { auth } from '../config/firebaseConfig';
@@ -7,6 +8,8 @@ import useRootContext from './useRootContext';
 
 export function useAuthentication() {
   const { state, dispatch } = useRootContext();
+  const getCurrentUserMutation = useGetCurrentUser();
+  const { isPending } = getCurrentUserMutation;
   const {
     auth: { user, isAuth, accessToken, currentUser }
   } = state;
@@ -16,6 +19,7 @@ export function useAuthentication() {
         if (user.email) {
           const signInResponse = await userApi.signIn(user.email, '123456');
           dispatch({ type: AUTH_ACTION.SET_ACCESS_TOKEN, payload: signInResponse.data.data.access_token });
+          getCurrentUserMutation.mutate({ accessToken, dispatch });
         }
         dispatch({ type: AUTH_ACTION.SET_USER, payload: user });
         dispatch({ type: AUTH_ACTION.SET_IS_AUTH, payload: true });
@@ -30,6 +34,7 @@ export function useAuthentication() {
   }, [dispatch]);
 
   return {
+    isPending,
     user,
     isAuth,
     accessToken,

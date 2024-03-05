@@ -18,10 +18,13 @@ import HomeSaleField from './Components/HomeBody/HomeSaleField';
 import HomeTopBuilding from './Components/HomeBody/HomeTopBuilding';
 import HomeTopUser from './Components/HomeBody/HomeTopUser';
 import HomeWelcomeField from './Components/HomeBody/HomeWelcomeField';
+import { useAuthentication } from '@hooks/useAuthentication';
+import LoadingOverlay from '@components/ui/LoadingOverlay';
 
 const HomeScreen = () => {
   const { dispatch } = useRootContext();
   const useZone = useZones();
+  const { isPending } = useAuthentication();
 
   useEffect(() => {
     const getPostsLimit = async () => {
@@ -48,31 +51,35 @@ const HomeScreen = () => {
   }, [dispatch, useZone.data?.data.data]);
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <ScrollView showsVerticalScrollIndicator={false} style={[styles.homeContainer]}>
-        {/* Hello Field */}
-        <HomeWelcomeField />
+    <>
+      <LoadingOverlay isLoading={isPending} message='Loading...' />
 
-        {/* CategoryField */}
-        <HomeCategoryField />
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <ScrollView showsVerticalScrollIndicator={false} style={[styles.homeContainer]}>
+          {/* Hello Field */}
+          <HomeWelcomeField />
 
-        {/* Features Estate */}
-        <HomeFeatureEstate />
+          {/* CategoryField */}
+          <HomeCategoryField />
 
-        {/* House Sale Field */}
-        <TextComponent styles={styles.title} content='Apartment Class' />
-        <HomeSaleField />
+          {/* Features Estate */}
+          <HomeFeatureEstate />
 
-        {/* Building Block */}
-        <HomeTopBuilding />
+          {/* House Sale Field */}
+          <TextComponent styles={styles.title} content='Apartment Class' />
+          <HomeSaleField />
 
-        {/* Posts Field */}
-        <HomePostsField />
+          {/* Building Block */}
+          <HomeTopBuilding />
 
-        {/* Top Estate */}
-        <HomeTopUser />
-      </ScrollView>
-    </TouchableWithoutFeedback>
+          {/* Posts Field */}
+          <HomePostsField />
+
+          {/* Top Estate */}
+          <HomeTopUser />
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </>
   );
 };
 

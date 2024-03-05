@@ -59,7 +59,7 @@ const BodyLogin = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 350 : -100}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 250 : -100}
       style={styles.bodyLogin}
     >
       <LoadingOverlay isLoading={isLoading} message='Loading...' />
@@ -171,7 +171,8 @@ const styles = StyleSheet.create({
   bodyLogin: {
     flex: 1,
     padding: 10,
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 200
   },
   buttonContainer: {
     width: '85%'

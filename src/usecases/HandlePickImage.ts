@@ -34,7 +34,12 @@ export const handlePickImage = async (userId: string, dispatch: Dispatch<RootAct
       const response = await userApi.updateUserImage(formData, userId);
       if (response.status === HttpStatusCode.Ok) {
         dispatch({ type: AUTH_ACTION.SET_CURRENT_USER, payload: response.data.data });
-        Toast.show({ type: ALERT_TYPE.SUCCESS, title: 'Success', textBody: 'Update Image Successfully!' });
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: 'Success',
+          textBody: 'Update Image Successfully!',
+          autoClose: true
+        });
       }
     } catch (error: any) {
       if (error.response && error.response.status === 413) {

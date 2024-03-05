@@ -5,6 +5,7 @@ import { appInfo } from '@constants/appInfo';
 import { useAuthentication } from '@hooks/useAuthentication';
 import globalStyle from '@styles/globalStyle';
 import { OnBoardingProps } from '@type/navigation.types';
+import isEmpty from 'lodash/isEmpty';
 import React from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import Swiper from 'react-native-swiper';

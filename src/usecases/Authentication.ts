@@ -9,8 +9,7 @@ import { MainStackParamList } from '@type/navigation.types';
 import { HttpStatusCode } from 'axios';
 import { Dispatch } from 'react';
 import { UseFormReset } from 'react-hook-form';
-import { Alert } from 'react-native';
-import { ALERT_TYPE, Dialog, Toast } from 'react-native-alert-notification';
+import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 
 const firebaseService = new FirebaseService();
 
@@ -61,6 +60,7 @@ export const handleSignIn = async (
       navigation.navigate('HomeScreen');
     }
   } catch (error: any) {
+    Toast.show({ type: ALERT_TYPE.DANGER, title: 'Sign In Error', textBody: error.message });
     Toast.show({ type: ALERT_TYPE.DANGER, title: 'Sign In Error', textBody: error.message });
   } finally {
     dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });

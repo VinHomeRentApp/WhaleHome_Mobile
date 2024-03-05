@@ -58,10 +58,10 @@ const SearchRender = ({ postLength }: SearchRenderProps) => {
           <View style={styles.selectField}>
             <RNPickerSelect
               style={pickerSelectStyles}
-              placeholder={{ label: 'Select Area', value: '' }}
+              placeholder={{ label: 'Area', value: '' }}
               value={selectedArea}
               onValueChange={handleAreaChange}
-              items={areas.map((area) => ({ label: area.name, value: area.id.toString() }))}
+              items={areas.map((area) => ({ label: `Area ${area.name}`, value: area.id.toString() }))}
             />
           </View>
         </View>
@@ -71,10 +71,10 @@ const SearchRender = ({ postLength }: SearchRenderProps) => {
           <View style={styles.selectField}>
             <RNPickerSelect
               style={pickerSelectStyles}
-              placeholder={{ label: 'Select Zone', value: '' }}
+              placeholder={{ label: 'Zone', value: '' }}
               value={selectedZone}
               onValueChange={handleZoneChange}
-              items={zones.map((zone) => ({ label: zone.name, value: zone.id.toString() }))}
+              items={zones.map((zone) => ({ label: `Zone ${zone.name}`, value: zone.id.toString() }))}
             />
           </View>
         </View>
@@ -87,7 +87,10 @@ const SearchRender = ({ postLength }: SearchRenderProps) => {
               value={selectedBuilding}
               placeholder={{ label: 'Select Building', value: '' }}
               onValueChange={(value) => setSelectedBuilding(value)}
-              items={buildings.map((building) => ({ label: building.name, value: building.id.toString() }))}
+              items={buildings.map((building) => ({
+                label: `Building ${building.name}`,
+                value: building.id.toString()
+              }))}
             />
           </View>
         </View>
@@ -142,7 +145,7 @@ const pickerSelectStyles = StyleSheet.create({
     color: typoColor.black1,
     paddingVertical: 10,
     paddingHorizontal: 12,
-    backgroundColor: 'white',
+    backgroundColor: typoColor.yellow1,
     borderRadius: 4
   },
   inputAndroid: {

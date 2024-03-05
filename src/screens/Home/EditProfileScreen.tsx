@@ -1,6 +1,7 @@
 import LoadingOverlay from '@components/ui/LoadingOverlay';
 import TextComponent from '@components/ui/TextComponent';
 import { backgroundColor, typoColor } from '@constants/appColors';
+import fontFam from '@constants/fontFamilies';
 import { AUTH_ACTION } from '@contexts/types/auth.types';
 import useRootContext from '@hooks/useRootContext';
 import userApi from '@services/apis/user.apis';
@@ -10,7 +11,18 @@ import { HttpStatusCode } from 'axios';
 import { Blend, Call, GalleryAdd, Home3, Message, Profile } from 'iconsax-react-native';
 import React from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Alert, Image, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 export interface FormDataUpdate {
   username: string;
@@ -28,14 +40,13 @@ const EditProfileScreen = () => {
     },
     dispatch
   } = useRootContext();
-  const profileEditInfo = currentUser;
   const { control, handleSubmit } = useForm<FormDataUpdate>({
     defaultValues: {
-      email: profileEditInfo.email,
-      phoneNumber: profileEditInfo.phone,
-      username: profileEditInfo.fullName,
-      gender: profileEditInfo.gender,
-      address: profileEditInfo.address
+      email: currentUser.email,
+      phoneNumber: currentUser.phone,
+      username: currentUser.fullName,
+      gender: currentUser.gender,
+      address: currentUser.address
     }
   });
 
@@ -58,70 +69,82 @@ const EditProfileScreen = () => {
   const onPressHandlePickImage = () => handlePickImage(currentUser.id?.toString() || '13', dispatch);
 
   return (
-    <ScrollView style={[globalStyle.container]}>
-      <LoadingOverlay isLoading={isLoading} message='Updating...' />
-      <View style={[styles.fullScreen]}>
-        <View style={[styles.profileInfo]}>
-          <Image style={[styles.profileImage]} source={{ uri: currentUser.image || IMAGE_DEFAULT }} />
-          <TouchableOpacity style={[styles.editButton]} onPress={onPressHandlePickImage}>
-            <GalleryAdd size='20' color={backgroundColor.black1} />
-          </TouchableOpacity>
-        </View>
-        <Controller
-          control={control}
-          name='username'
-          render={({ field: { value, onChange } }) => (
-            <View style={[styles.inputContainer]}>
-              <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
-              <Profile size='25' color='#252B5C' />
+    <AlertNotificationRoot theme='light'>
+      <ScrollView style={[globalStyle.container]}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 150 : -100}
+          style={globalStyle.container}
+        >
+          <LoadingOverlay isLoading={isLoading} message='Updating...' />
+          <View style={[styles.fullScreen]}>
+            <View style={[styles.profileInfo]}>
+              <Image style={[styles.profileImage]} source={{ uri: currentUser.image || IMAGE_DEFAULT }} />
+              <TouchableOpacity style={[styles.editButton]} onPress={onPressHandlePickImage}>
+                <GalleryAdd size='20' color={backgroundColor.black1} />
+              </TouchableOpacity>
             </View>
-          )}
-        />
-        <Controller
-          control={control}
-          name='phoneNumber'
-          render={({ field: { value, onChange } }) => (
-            <View style={[styles.inputContainer]}>
-              <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
-              <Call size='25' color='#252B5C' />
-            </View>
-          )}
-        />
-        <Controller
-          control={control}
-          name='email'
-          render={({ field: { value, onChange } }) => (
-            <View style={[styles.inputContainer]}>
-              <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
-              <Message size='25' color='#252B5C' />
-            </View>
-          )}
-        />
-        <Controller
-          control={control}
-          name='gender'
-          render={({ field: { value, onChange } }) => (
-            <View style={[styles.inputContainer]}>
-              <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
-              <Blend size='25' color='#252B5C' />
-            </View>
-          )}
-        />
-        <Controller
-          control={control}
-          name='address'
-          render={({ field: { value, onChange } }) => (
-            <View style={[styles.inputContainer]}>
-              <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
-              <Home3 size='25' color='#252B5C' />
-            </View>
-          )}
-        />
-        <TouchableOpacity onPress={handleSubmit(onSubmit)} style={[styles.buttonSubmit]}>
-          <TextComponent content='Submit' textColor={typoColor.black1} />
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+            <Controller
+              control={control}
+              name='username'
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer]}>
+                  <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
+                  <Profile size='25' color='#252B5C' />
+                </View>
+              )}
+            />
+            <Controller
+              control={control}
+              name='phoneNumber'
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer]}>
+                  <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
+                  <Call size='25' color='#252B5C' />
+                </View>
+              )}
+            />
+            <Controller
+              control={control}
+              name='email'
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer]}>
+                  <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
+                  <Message size='25' color='#252B5C' />
+                </View>
+              )}
+            />
+            <Controller
+              control={control}
+              name='gender'
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer]}>
+                  <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
+                  <Blend size='25' color='#252B5C' />
+                </View>
+              )}
+            />
+            <Controller
+              control={control}
+              name='address'
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer]}>
+                  <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
+                  <Home3 size='25' color='#252B5C' />
+                </View>
+              )}
+            />
+            <TouchableOpacity onPress={handleSubmit(onSubmit)} style={[styles.buttonSubmit]}>
+              <TextComponent
+                styles={{ fontFamily: fontFam.bold, fontSize: 16, margin: 4 }}
+                content='Update'
+                textColor={typoColor.black1}
+              />
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
+    </AlertNotificationRoot>
   );
 };
 

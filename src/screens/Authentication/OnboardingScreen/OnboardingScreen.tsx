@@ -1,13 +1,14 @@
 import ActiveDot from '@components/ui/ActiveDot';
 import GetStartedButton from '@components/ui/GetStartedButton/GetStartedButton';
 import UnactiveDot from '@components/ui/UnactiveDot';
+import { appInfo } from '@constants/appInfo';
 import { useAuthentication } from '@hooks/useAuthentication';
 import globalStyle from '@styles/globalStyle';
 import { OnBoardingProps } from '@type/navigation.types';
+import isEmpty from 'lodash/isEmpty';
 import React from 'react';
-import { ImageBackground, View } from 'react-native';
+import { ImageBackground, StyleSheet, View } from 'react-native';
 import Swiper from 'react-native-swiper';
-import OnboardingScreenStyle from './style';
 
 const onBoardingPath_1 = '../../../assets/images/onboarding_2.png';
 const onBoardingPath_2 = '../../../assets/images/onboarding_3.png';
@@ -17,7 +18,7 @@ const OnboardingScreen = ({ navigation }: OnBoardingProps) => {
   const { accessToken, currentUser } = useAuthentication();
 
   const skipToLoginScreen = () => {
-    if (accessToken || !currentUser) {
+    if (accessToken && !isEmpty(currentUser)) {
       navigation.navigate('HomeScreen');
     } else {
       navigation.navigate('LoginScreen');
@@ -49,5 +50,16 @@ const OnboardingScreen = ({ navigation }: OnBoardingProps) => {
     </View>
   );
 };
+
+const OnboardingScreenStyle = StyleSheet.create({
+  imageBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: appInfo.sizes.WIDTH,
+    height: appInfo.sizes.HEIGHT,
+    resizeMode: 'contain'
+  }
+});
 
 export default OnboardingScreen;

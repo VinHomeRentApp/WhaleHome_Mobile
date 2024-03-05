@@ -1,3 +1,4 @@
+import LoadingOverlay from '@components/ui/LoadingOverlay';
 import Seperate from '@components/ui/SeperateOr/SeperateOr';
 import TextComponent from '@components/ui/TextComponent';
 import { accentColor, typoColor } from '@constants/appColors';
@@ -13,16 +14,7 @@ import { handleSignIn } from '@usecases/Authentication';
 import { Eye, EyeSlash } from 'iconsax-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, { BounceInLeft } from 'react-native-reanimated';
 
 const BodyLogin = () => {
@@ -67,10 +59,11 @@ const BodyLogin = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 150 : -100}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 350 : -100}
       style={styles.bodyLogin}
     >
-      <TextComponent content='Login or sign up' fontSize={24} fontFamily={fontFam.bold} />
+      <LoadingOverlay isLoading={isLoading} message='Loading...' />
+      <TextComponent content='SignIn or SignUp' fontSize={24} fontFamily={fontFam.bold} />
       <View style={[{ marginVertical: 10 }]} />
       <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
         <Controller
@@ -140,8 +133,8 @@ const BodyLogin = () => {
             <TextComponent content='Continue' textColor={typoColor.black1} fontFamily={fontFam.semiBold} />
           </Pressable>
         )}
-        {isLoading && <ActivityIndicator style={{ marginTop: 10 }} />}
       </View>
+
       <Seperate content='Or' marginVertical={30} />
       <View style={[styles.buttonContainer]}>
         <Pressable
@@ -157,6 +150,19 @@ const BodyLogin = () => {
           <TextComponent content='Sign Up' textColor={typoColor.white1} fontFamily={fontFam.semiBold} />
         </Pressable>
       </View>
+      <Seperate content={`Don't Remember Your Password?`} marginVertical={30} />
+
+      <Pressable
+        onPress={() => navigation.navigate('ForgotPassword')}
+        style={({ pressed }) => [
+          styles.buttonContainer,
+          styles.buttonLogin,
+          { backgroundColor: typoColor.black2 },
+          pressed ? { opacity: 0.8 } : undefined
+        ]}
+      >
+        <TextComponent content='Forgot Your Password' textColor={typoColor.white2} fontFamily={fontFam.semiBold} />
+      </Pressable>
     </KeyboardAvoidingView>
   );
 };

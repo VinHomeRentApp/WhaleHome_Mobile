@@ -1,8 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-useless-catch */
 import { AUTH_API_ERROR } from '@constants/authConstants';
-import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, User } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  User
+} from 'firebase/auth';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { Alert } from 'react-native';
+import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 import { v4 as uuidv4 } from 'uuid';
 import { auth } from '../../config/firebaseConfig';
 
@@ -19,7 +26,11 @@ export default class FirebaseService {
   private handleError(error: any, errorMap: AuthErrorMap) {
     const errorCode = error.code || 'default';
     const errorMessage = errorMap[errorCode] || error.message;
-    Alert.alert('Error', errorMessage);
+    Toast.show({
+      type: ALERT_TYPE.WARNING,
+      title: 'Error',
+      textBody: errorMessage
+    });
   }
 
   private async emailVerification(): Promise<void> {
@@ -30,9 +41,18 @@ export default class FirebaseService {
       }
       console.log('user', user);
       await this.sendEmailVerification(user);
-      Alert.alert('Email Verification', `Verification email sent to: ${user?.email}`);
+      Toast.show({
+        type: ALERT_TYPE.INFO,
+        title: 'Email Verification',
+        textBody: `Verification email sent to: ${user?.email}`
+      });
     } catch (error: any) {
       console.log('Email Verification error:', error.code, error.message);
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: 'Email Verification error',
+        textBody: `${error.code} - ${error.message}`
+      });
       throw error;
     }
   }
@@ -52,14 +72,38 @@ export default class FirebaseService {
     }
   }
 
-  public async signIn(email: string, password: string): Promise<User | undefined> {
+  public async signIn(email: string, password: string, retryCount = 0): Promise<User | undefined> {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
       return user;
     } catch (error: any) {
+      if (error.code === 'auth/too-many-requests' && retryCount < 3) {
+        // Retry after exponentially increasing delay
+        const delay = Math.pow(2, retryCount) * 1000; // Exponential backoff
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        return this.signIn(email, password, retryCount + 1); // Retry signIn
+      } else {
+        const errorMap: AuthErrorMap = {
+          [AUTH_API_ERROR.INVALID_PASSWORD]: 'Wrong Password Input !',
+          [AUTH_API_ERROR.INVALID_CREDENTIAL]: 'Wrong Email and Password Provide !'
+          // Add more error mappings as needed
+        };
+        this.handleError(error, errorMap);
+      }
+    }
+  }
+
+  public async forgotPassword(email: string): Promise<void> {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      Toast.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: 'Password Reset Email Sent',
+        textBody: `A password reset email has been sent to ${email}`
+      });
+    } catch (error: any) {
       const errorMap: AuthErrorMap = {
-        [AUTH_API_ERROR.INVALID_PASSWORD]: 'Wrong Password Input !',
-        [AUTH_API_ERROR.INVALID_CREDENTIAL]: 'Wrong Email and Password Provide !'
+        [AUTH_API_ERROR.USER_NOT_FOUND]: 'User not found'
         // Add more error mappings as needed
       };
       this.handleError(error, errorMap);
@@ -69,9 +113,19 @@ export default class FirebaseService {
   public async signOut(): Promise<void> {
     try {
       await auth.signOut();
-      Alert.alert('Logged Out', 'You have been successfully logged out.');
+      // Alert.alert('Logged Out', 'You have been successfully logged out.');
+      Toast.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: 'Logged Out',
+        textBody: `You have been successfully logged out.`
+      });
     } catch (error: any) {
       console.error('Sign Out Error:', error);
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: 'Sign Out Error',
+        textBody: error.message
+      });
       throw error;
     }
   }

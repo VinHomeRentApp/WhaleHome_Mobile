@@ -1,0 +1,132 @@
+import LoadingOverlay from '@components/ui/LoadingOverlay';
+import TextComponent from '@components/ui/TextComponent';
+import { accentColor, typoColor } from '@constants/appColors';
+import fontFam from '@constants/fontFamilies';
+import useRootContext from '@hooks/useRootContext';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import globalStyle from '@styles/globalStyle';
+import { MainStackParamList } from '@type/navigation.types';
+import { handleSendEmail } from '@usecases/HandleSentEmailReset';
+import { LockCircle } from 'iconsax-react-native';
+import React, { useState } from 'react';
+import {
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  StyleSheet,
+  TextInput,
+  TouchableWithoutFeedback,
+  View
+} from 'react-native';
+
+const ForgotPasswordScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+  const [email, setEmail] = useState('');
+  const {
+    state: {
+      auth: { isLoadingSendEmail }
+    },
+    dispatch
+  } = useRootContext();
+
+  const handlePressSendEmail = async () => {
+    if (!email) {
+      Alert.alert('Error', 'Please enter your email.');
+      return;
+    }
+
+    Alert.alert(
+      'Confirmation',
+      'Are you sure you want to send a password reset email?',
+      [
+        { text: 'No', style: 'cancel' },
+        { text: 'Yes', onPress: () => handleSendEmail(dispatch, navigation, setEmail, email) }
+      ],
+      { cancelable: false }
+    );
+  };
+
+  return (
+    <>
+      <LoadingOverlay isLoading={isLoadingSendEmail} message='Sending...' />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 300 : -100}
+          style={[globalStyle.container]}
+        >
+          <View style={styles.iconContainer}>
+            <LockCircle size='300' color={typoColor.yellow1} variant='Bold' />
+            <TextComponent
+              styles={styles.textWelcome}
+              content='Give us your email, we will send you email verification to help you change your password'
+            />
+          </View>
+          <View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={[styles.input, { width: '90%' }]}
+                placeholderTextColor='#ebebf599'
+                placeholder='Email'
+                onChangeText={(value) => setEmail(value)}
+                value={email}
+              />
+            </View>
+
+            <Pressable
+              onPress={handlePressSendEmail}
+              style={({ pressed }) => [styles.buttonSend, pressed && globalStyle.pressed]}
+            >
+              <TextComponent
+                content='Send Email'
+                textColor={typoColor.black1}
+                fontFamily={fontFam.bold}
+                fontSize={16}
+              />
+            </Pressable>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </>
+  );
+};
+
+export default ForgotPasswordScreen;
+
+const styles = StyleSheet.create({
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  textWelcome: {
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    fontFamily: fontFam.bold
+  },
+  inputContainer: {
+    justifyContent: 'center',
+    backgroundColor: typoColor.white2,
+    alignItems: 'center',
+    borderRadius: 10,
+    marginBottom: 20
+  },
+  input: {
+    height: 50,
+    color: typoColor.black1
+  },
+  buttonSend: {
+    height: 50,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 12,
+    backgroundColor: accentColor.isFocused,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row'
+  }
+});

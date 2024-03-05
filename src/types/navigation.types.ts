@@ -26,6 +26,7 @@ export type MainStackParamList = {
   ChatScreen: undefined;
   CheckOutScreen: undefined;
   LoginScreen: undefined;
+  ForgotPassword: undefined;
 };
 
 export type MainNavigatorProps = {

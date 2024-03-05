@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: 40,
     backgroundColor: typoColor.gray5,
     borderRadius: 10, // Rounded corners for the loading container
     shadowColor: typoColor.black3,

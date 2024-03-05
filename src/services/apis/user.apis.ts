@@ -13,7 +13,8 @@ const EndPoint = {
   getCurrentUser: '/api/v1/auth/getUser',
   getUserWithPagination: '/api/v1/user/get-page',
   updateUserImage: '/api/v1/user/update-image',
-  updateUserInfo: '/api/v1/user/update'
+  updateUserInfo: '/api/v1/user/update',
+  logout: '/api/v1/auth/logout'
 };
 
 const userApi = {
@@ -51,6 +52,9 @@ const userApi = {
       `${EndPoint.updateUserInfo}/${userId}`,
       formDataUpdate
     );
+  },
+  logout: (token: string) => {
+    return httpClient.post<SuccessfulResponse<null>>(`${EndPoint.logout}?token=${token}`);
   }
 };
 

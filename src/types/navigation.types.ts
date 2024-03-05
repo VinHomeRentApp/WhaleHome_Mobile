@@ -25,6 +25,8 @@ export type MainStackParamList = {
   ReviewDetailScreen: { post: Post };
   ChatScreen: undefined;
   CheckOutScreen: undefined;
+  PaymentMethod: undefined;
+  CreatePaymentMethod: { bankCode: string };
   LoginScreen: undefined;
   ForgotPassword: undefined;
 };
@@ -34,6 +36,7 @@ export type MainNavigatorProps = {
 };
 
 export type EditProfileScreenProps = NativeStackScreenProps<MainStackParamList, 'EditProfileScreen'>;
+export type CreatePaymentMethodProps = NativeStackScreenProps<MainStackParamList, 'CreatePaymentMethod'>;
 
 //Bottom Navigation
 export type RootBottomTabsList = {

@@ -23,6 +23,16 @@ import SplashScreen from '@screens/Splash/SplashScreen';
 import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
+import TransactionReviewScreen from '@screens/Home/TransactionReviewScreen';
+import TransactionReviewHeader from '@screens/Home/Components/TransactionReviewHeader/TransactionReviewHeader';
+import CheckoutScreen from '@screens/Home/CheckoutScreen';
+import CheckOutScreenHeader from '@screens/Home/Components/CheckOutScreenHeader/CheckOutScreenHeader';
+import PaymentMethod from '@screens/Home/Payment/PaymentMethod';
+import PaymentMethodHeader from '@screens/Home/Components/PaymentMethodHeader/PaymentMethodHeader';
+import CreatePaymentMethod from '@screens/Home/Payment/CreatePaymentMethod';
+import CreatePaymentMethodHeader from '@screens/Home/Components/CreatePaymentMethodHeader/CreatePaymentMethodHeader';
+import { typoColor } from '@constants/appColors';
+
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
@@ -82,6 +92,20 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
           />
 
           {/* Payment Method, History, Changepassword */}
+          <MainStack.Screen
+            options={{ header: () => <PaymentMethodHeader /> }}
+            name='PaymentMethod'
+            component={PaymentMethod}
+          />
+          <MainStack.Screen
+            options={{
+              headerStyle: {
+                backgroundColor: typoColor.black1
+              }
+            }}
+            name='CreatePaymentMethod'
+            component={CreatePaymentMethod}
+          />
         </>
       )}
     </MainStack.Navigator>

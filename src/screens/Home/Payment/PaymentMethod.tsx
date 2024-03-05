@@ -1,26 +1,17 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import useRootContext from '@hooks/useRootContext';
-import { useBankList, useCardUser } from '@services/queries/card.queries';
-import globalStyle from '@styles/globalStyle';
-import { CardAdd } from 'iconsax-react-native';
-import React, { useCallback, useRef, useState } from 'react';
-import {
-  ActivityIndicator,
-  Button,
-  FlatList,
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-  View
-} from 'react-native';
-import BankCard from '../Components/BankCard/BankCard';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useBankList, useCardUser } from '@services/queries/card.queries';
+import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { CardAdd } from 'iconsax-react-native';
+import React, { useCallback, useRef, useState } from 'react';
+import { ActivityIndicator, FlatList, Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import BankCard from '../Components/BankCard/BankCard';
 
 const PaymentMethod = () => {
   const {

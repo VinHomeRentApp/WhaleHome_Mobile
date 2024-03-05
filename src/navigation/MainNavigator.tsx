@@ -58,12 +58,12 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             component={ViewImageRoomScreen}
           />
           <MainStack.Screen
-            options={{ header: () => <EditProfileHeader />, presentation: 'modal' }}
+            options={{ header: () => <EditProfileHeader />, presentation: 'card' }}
             name='EditProfileScreen'
             component={EditProfileScreen}
           />
           <MainStack.Screen
-            options={{ header: () => <ForgotPasswordHeader />, presentation: 'modal' }}
+            options={{ header: () => <ForgotPasswordHeader />, presentation: 'card' }}
             name='ForgotPassword'
             component={ForgotPasswordScreen}
           />

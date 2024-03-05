@@ -10,7 +10,8 @@ export enum AUTH_ACTION {
   SET_AUTH_IS_LOADING = 'SET_AUTH_IS_LOADING',
   SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN',
   SET_CURRENT_USER = 'SET_CURRENT_USER',
-  SET_IS_LOADING_SENT_EMAIL = 'SET_IS_LOADING_SENT_EMAIL'
+  SET_IS_LOADING_SENT_EMAIL = 'SET_IS_LOADING_SENT_EMAIL',
+  SET_IS_UPLOAD_IMAGE_SUCCESS = 'SET_IS_UPLOAD_IMAGE_SUCCESS'
 }
 
 export type AuthContextType = {
@@ -21,6 +22,7 @@ export type AuthContextType = {
   accessToken: string;
   currentUser: Partial<UserCurrentResponse>;
   isLoadingSendEmail: boolean;
+  isUploadImageSuccess: boolean;
 };
 
 export const initialAuthState: AuthContextType = {
@@ -30,7 +32,8 @@ export const initialAuthState: AuthContextType = {
   isLoading: false,
   isLoadingSendEmail: false,
   accessToken: '',
-  currentUser: {}
+  currentUser: {},
+  isUploadImageSuccess: false
 };
 
 export type SetUserAction = {
@@ -68,6 +71,11 @@ export type SetIsLoadingSentEmailAction = {
   payload: boolean;
 };
 
+export type SetIsUploadImageSuccessAction = {
+  type: AUTH_ACTION.SET_IS_UPLOAD_IMAGE_SUCCESS;
+  payload: boolean;
+};
+
 export type AuthAction =
   | SetUserAction
   | SetErrorAction
@@ -75,4 +83,5 @@ export type AuthAction =
   | SetIsAuthAction
   | SetAccessToken
   | SetCurrentUser
-  | SetIsLoadingSentEmailAction;
+  | SetIsLoadingSentEmailAction
+  | SetIsUploadImageSuccessAction;

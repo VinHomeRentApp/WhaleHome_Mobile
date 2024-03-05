@@ -8,6 +8,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { handleSendEmail } from '@usecases/HandleSentEmailReset';
+import { isValidEmail } from '@utils/checkEmail';
 import { LockCircle } from 'iconsax-react-native';
 import React, { useState } from 'react';
 import {
@@ -21,10 +22,12 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native';
+import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 
 const ForgotPasswordScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   const [email, setEmail] = useState('');
+
   const {
     state: {
       auth: { isLoadingSendEmail }
@@ -33,8 +36,17 @@ const ForgotPasswordScreen = () => {
   } = useRootContext();
 
   const handlePressSendEmail = async () => {
-    if (!email) {
-      Alert.alert('Error', 'Please enter your email.');
+    if (email.trim() === '') {
+      Toast.show({ type: ALERT_TYPE.DANGER, title: 'Error', textBody: 'Please enter your email.' });
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: 'Error',
+        textBody: 'Invalid email format. Please enter a valid email address.'
+      });
       return;
     }
 
@@ -42,8 +54,17 @@ const ForgotPasswordScreen = () => {
       'Confirmation',
       'Are you sure you want to send a password reset email?',
       [
-        { text: 'No', style: 'cancel' },
-        { text: 'Yes', onPress: () => handleSendEmail(dispatch, navigation, setEmail, email) }
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel'
+        },
+        {
+          text: 'Yes',
+          onPress: () => {
+            handleSendEmail(dispatch, navigation, setEmail, email);
+          }
+        }
       ],
       { cancelable: false }
     );
@@ -55,16 +76,16 @@ const ForgotPasswordScreen = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 300 : -100}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 350 : -100}
           style={[globalStyle.container]}
         >
           <View style={styles.iconContainer}>
-            <LockCircle size='300' color={typoColor.yellow1} variant='Bold' />
-            <TextComponent
-              styles={styles.textWelcome}
-              content='Give us your email, we will send you email verification to help you change your password'
-            />
+            <LockCircle size='250' color={typoColor.yellow1} variant='Bold' />
           </View>
+          <TextComponent
+            styles={styles.textWelcome}
+            content='Give us your email, we will send you email verification to help you change your password'
+          />
           <View>
             <View style={styles.inputContainer}>
               <TextInput

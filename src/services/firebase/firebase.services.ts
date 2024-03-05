@@ -3,6 +3,7 @@
 import { AUTH_API_ERROR } from '@constants/authConstants';
 import {
   createUserWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
@@ -11,7 +12,7 @@ import {
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 import { v4 as uuidv4 } from 'uuid';
-import { auth } from '../../config/firebaseConfig';
+import { auth, app } from '../../config/firebaseConfig';
 
 type AuthErrorMap = Record<string, string>;
 
@@ -107,6 +108,21 @@ export default class FirebaseService {
         // Add more error mappings as needed
       };
       this.handleError(error, errorMap);
+    }
+  }
+
+  public async isEmailRegistered(email: string): Promise<boolean> {
+    try {
+      const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+
+      return signInMethods.length > 0;
+    } catch (error: any) {
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: 'Check Email Registration Error',
+        textBody: error.message
+      });
+      throw error;
     }
   }
 

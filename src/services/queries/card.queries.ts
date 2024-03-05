@@ -1,4 +1,4 @@
-import cardApis from '@apis/card.apis';
+import cardApis from '@services/apis/card.apis';
 import { useQuery } from '@tanstack/react-query';
 
 export const useCardUser = (userId: number) => {

@@ -15,6 +15,8 @@ const AuthReducer: Reducer<AuthContextType, AuthAction> = (state, action) => {
       return { ...state, accessToken: action.payload };
     case AUTH_ACTION.SET_CURRENT_USER:
       return { ...state, currentUser: action.payload };
+    case AUTH_ACTION.SET_IS_LOADING_SENT_EMAIL:
+      return { ...state, isLoadingSendEmail: action.payload };
     default:
       return state;
   }

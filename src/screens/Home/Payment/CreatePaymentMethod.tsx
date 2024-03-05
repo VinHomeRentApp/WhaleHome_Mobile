@@ -1,17 +1,19 @@
-import { bodyNewCard } from '@apis/card.apis';
+import LoadingOverlay from '@components/ui/LoadingOverlay';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import useRootContext from '@hooks/useRootContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { bodyNewCard } from '@services/apis/card.apis';
 import { useCreateNewCard } from '@services/mutations/card.mutations';
 import globalStyle from '@styles/globalStyle';
 import { CreatePaymentMethodProps, MainStackParamList } from '@type/navigation.types';
-import { InfoCircle, Subtitle } from 'iconsax-react-native';
+import { InfoCircle } from 'iconsax-react-native';
 import React, { useEffect } from 'react';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Keyboard, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 import { TextInput } from 'react-native-gesture-handler';
 
 type FORM_DATA = {
@@ -22,6 +24,7 @@ type FORM_DATA = {
 
 const CreatePaymentMethod = ({ route }: CreatePaymentMethodProps) => {
   const { control, handleSubmit, formState } = useForm<FORM_DATA>();
+
   const createNewCardMutation = useCreateNewCard();
   const {
     state: {
@@ -49,91 +52,99 @@ const CreatePaymentMethod = ({ route }: CreatePaymentMethodProps) => {
     };
     createNewCardMutation.mutate(newObj, {
       onSuccess: () => {
-        alert('Add new successfully');
+        navigation.goBack();
+        Toast.show({ type: ALERT_TYPE.SUCCESS, title: 'Success', textBody: 'Add New Card Successfully!' });
+        // alert('Add new successfully');
+      },
+      onError: ({ message, name }) => {
+        Toast.show({ type: ALERT_TYPE.DANGER, title: 'Fail', textBody: `${name} - ${message}` });
       }
     });
     console.log(data);
   };
 
   return (
-    <View style={[globalStyle.container, styles.wrapContainer]}>
-      <View style={[{ padding: 15 }]}>
-        <TextComponent content='Information bank' fontFamily={fontFam.extraBold} fontSize={25} />
-        <View style={[styles.wrapInputCard]}>
-          <View style={[styles.wrapText]}>
-            <View style={[{ flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 5 }]}>
-              <TextComponent content='Account Number' />
-              <InfoCircle size='16' color={typoColor.white1} />
-            </View>
-            <Controller
-              control={control}
-              name='cartNumber'
-              render={({ field: { value, onChange } }) => (
-                <TextInput
-                  placeholderTextColor={typoColor.gray3}
-                  placeholder='Nhập số thẻ/tài khoản'
-                  style={[styles.wrapInputText, { color: '#fff' }]}
-                  value={value}
-                  onChangeText={onChange}
-                />
-              )}
-            />
-          </View>
-          <View style={[{ marginVertical: 10 }]}></View>
-          <View style={[styles.wrapText]}>
-            <View style={[{ flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 5 }]}>
-              <TextComponent content='Bank Card Holder Name' />
-              <InfoCircle size='16' color={typoColor.white1} />
-            </View>
-            <Controller
-              name='name'
-              control={control}
-              render={({ field: { value, onChange } }) => (
-                <TextInput
-                  style={[styles.wrapInputText, { color: '#fff' }]}
-                  placeholderTextColor={typoColor.gray3}
-                  placeholder='NGUYEN VAN A'
-                  value={value}
-                  onChangeText={onChange}
-                />
-              )}
-            />
-          </View>
-          <View style={[{ marginVertical: 10 }]}></View>
-          <View style={[{ flexDirection: 'row', justifyContent: 'space-between' }]}>
-            <View style={[styles.wrapText, { width: '30%', justifyContent: 'center', marginBottom: 20 }]}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={[globalStyle.container, styles.wrapContainer]}>
+        <LoadingOverlay isLoading={createNewCardMutation.isPending} message='Loading...' />
+        <View style={[{ padding: 15 }]}>
+          <TextComponent content='Information bank' fontFamily={fontFam.extraBold} fontSize={25} />
+          <View style={[styles.wrapInputCard]}>
+            <View style={[styles.wrapText]}>
               <View style={[{ flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 5 }]}>
-                <TextComponent content='Expire Date' />
+                <TextComponent content='Account Number' />
                 <InfoCircle size='16' color={typoColor.white1} />
               </View>
               <Controller
                 control={control}
-                name='releaseDate'
+                name='cartNumber'
                 render={({ field: { value, onChange } }) => (
                   <TextInput
-                    style={[styles.wrapInputText, { color: '#fff' }]}
                     placeholderTextColor={typoColor.gray3}
-                    placeholder='12/24'
+                    placeholder='Nhập số thẻ/tài khoản'
+                    style={[styles.wrapInputText, { color: '#fff' }]}
                     value={value}
                     onChangeText={onChange}
                   />
                 )}
               />
             </View>
+            <View style={[{ marginVertical: 10 }]}></View>
+            <View style={[styles.wrapText]}>
+              <View style={[{ flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 5 }]}>
+                <TextComponent content='Bank Card Holder Name' />
+                <InfoCircle size='16' color={typoColor.white1} />
+              </View>
+              <Controller
+                name='name'
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <TextInput
+                    style={[styles.wrapInputText, { color: '#fff' }]}
+                    placeholderTextColor={typoColor.gray3}
+                    placeholder='NGUYEN VAN A'
+                    value={value}
+                    onChangeText={onChange}
+                  />
+                )}
+              />
+            </View>
+            <View style={[{ marginVertical: 10 }]}></View>
+            <View style={[{ flexDirection: 'row', justifyContent: 'space-between' }]}>
+              <View style={[styles.wrapText, { width: '30%', justifyContent: 'center', marginBottom: 20 }]}>
+                <View style={[{ flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 5 }]}>
+                  <TextComponent content='Expire Date' />
+                  <InfoCircle size='16' color={typoColor.white1} />
+                </View>
+                <Controller
+                  control={control}
+                  name='releaseDate'
+                  render={({ field: { value, onChange } }) => (
+                    <TextInput
+                      style={[styles.wrapInputText, { color: '#fff' }]}
+                      placeholderTextColor={typoColor.gray3}
+                      placeholder='12/24'
+                      value={value}
+                      onChangeText={onChange}
+                    />
+                  )}
+                />
+              </View>
+            </View>
           </View>
         </View>
+        <View style={[styles.wrapButton]}>
+          <TouchableOpacity style={[styles.button]} onPress={handleSubmit(submitCreateBank)}>
+            <TextComponent
+              content='Create new'
+              textColor={typoColor.black1}
+              fontSize={16}
+              fontFamily={fontFam.extraBold}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={[styles.wrapButton]}>
-        <TouchableOpacity style={[styles.button]} onPress={handleSubmit(submitCreateBank)}>
-          <TextComponent
-            content='Create new'
-            textColor={typoColor.black1}
-            fontSize={16}
-            fontFamily={fontFam.extraBold}
-          />
-        </TouchableOpacity>
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

@@ -5,6 +5,7 @@ import userApi from '@services/apis/user.apis';
 import { HttpStatusCode } from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import { Dispatch } from 'react';
+import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 
 export const handlePickImage = async (userId: string, dispatch: Dispatch<RootAction>) => {
   const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -33,18 +34,33 @@ export const handlePickImage = async (userId: string, dispatch: Dispatch<RootAct
       const response = await userApi.updateUserImage(formData, userId);
       if (response.status === HttpStatusCode.Ok) {
         dispatch({ type: AUTH_ACTION.SET_CURRENT_USER, payload: response.data.data });
-        alert('Update Image User Successfully!!');
+        Toast.show({ type: ALERT_TYPE.SUCCESS, title: 'Success', textBody: 'Update Image Successfully!' });
       }
     } catch (error: any) {
       if (error.response && error.response.status === 413) {
-        alert('The selected image is too large. Please select a smaller image.');
+        // alert('The selected image is too large. Please select a smaller image.');
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: 'Fail',
+          textBody: 'The selected image is too large. Please select a smaller image.'
+        });
       } else {
-        alert('Cannot Update Image User');
+        // alert('Cannot Update Image User');
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: 'Fail',
+          textBody: 'Cannot Update Image User'
+        });
       }
     } finally {
       dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });
     }
   } else {
-    alert('Cannot Get Image File!');
+    // alert('Cannot Get Image File!');
+    Toast.show({
+      type: ALERT_TYPE.DANGER,
+      title: 'Fail',
+      textBody: 'Cannot Get Image File!'
+    });
   }
 };

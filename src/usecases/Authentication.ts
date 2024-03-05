@@ -10,6 +10,7 @@ import { HttpStatusCode } from 'axios';
 import { Dispatch } from 'react';
 import { UseFormReset } from 'react-hook-form';
 import { Alert } from 'react-native';
+import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 
 const firebaseService = new FirebaseService();
 
@@ -50,10 +51,11 @@ export const handleSignIn = async (
       dispatch({ type: AUTH_ACTION.SET_ACCESS_TOKEN, payload: accessToken });
       dispatch({ type: AUTH_ACTION.SET_USER, payload: response });
       reset(defaultFormSignInValue);
+      Toast.show({ type: ALERT_TYPE.SUCCESS, title: 'Success', textBody: 'You have been successfully logged in.' });
       navigation.navigate('HomeScreen');
     }
   } catch (error: any) {
-    Alert.alert('Error', error.message);
+    Toast.show({ type: ALERT_TYPE.DANGER, title: 'Sign In Error', textBody: error.message });
   } finally {
     dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });
   }

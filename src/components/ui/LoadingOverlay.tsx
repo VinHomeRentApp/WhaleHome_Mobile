@@ -1,3 +1,4 @@
+import { typoColor } from '@constants/appColors';
 import React from 'react';
 import { ActivityIndicator, Modal, StyleSheet, Text, View } from 'react-native';
 
@@ -8,10 +9,10 @@ type LoadingOverlayProps = {
 
 const LoadingOverlay = ({ isLoading, message }: LoadingOverlayProps) => {
   return (
-    <Modal transparent={true} visible={isLoading} animationType='fade'>
+    <Modal transparent={true} visible={isLoading} animationType='slide'>
       <View style={styles.overlay}>
         <View style={styles.container}>
-          <ActivityIndicator size='large' color='#0000ff' />
+          <ActivityIndicator size='large' color={typoColor.yellow1} />
           {message && <Text style={styles.message}>{message}</Text>}
         </View>
       </View>
@@ -29,10 +30,10 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
-    backgroundColor: 'white', // Background color for the loading indicator and message
+    padding: 40,
+    backgroundColor: typoColor.gray5,
     borderRadius: 10, // Rounded corners for the loading container
-    shadowColor: '#000',
+    shadowColor: typoColor.black3,
     shadowOffset: {
       width: 0,
       height: 2

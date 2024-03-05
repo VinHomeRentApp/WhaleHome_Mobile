@@ -9,7 +9,8 @@ export enum AUTH_ACTION {
   SET_IS_AUTH = 'SET_IS_AUTH',
   SET_AUTH_IS_LOADING = 'SET_AUTH_IS_LOADING',
   SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN',
-  SET_CURRENT_USER = 'SET_CURRENT_USER'
+  SET_CURRENT_USER = 'SET_CURRENT_USER',
+  SET_IS_LOADING_SENT_EMAIL = 'SET_IS_LOADING_SENT_EMAIL'
 }
 
 export type AuthContextType = {
@@ -19,6 +20,7 @@ export type AuthContextType = {
   isLoading: boolean;
   accessToken: string;
   currentUser: Partial<UserCurrentResponse>;
+  isLoadingSendEmail: boolean;
 };
 
 export const initialAuthState: AuthContextType = {
@@ -26,6 +28,7 @@ export const initialAuthState: AuthContextType = {
   errors: [],
   isAuth: false,
   isLoading: false,
+  isLoadingSendEmail: false,
   accessToken: '',
   currentUser: {}
 };
@@ -55,9 +58,14 @@ export type SetAccessToken = {
   payload: string;
 };
 
-export type setCurrentUser = {
+export type SetCurrentUser = {
   type: AUTH_ACTION.SET_CURRENT_USER;
   payload: UserCurrentResponse;
+};
+
+export type SetIsLoadingSentEmailAction = {
+  type: AUTH_ACTION.SET_IS_LOADING_SENT_EMAIL;
+  payload: boolean;
 };
 
 export type AuthAction =
@@ -66,4 +74,5 @@ export type AuthAction =
   | SetIsLoading
   | SetIsAuthAction
   | SetAccessToken
-  | setCurrentUser;
+  | SetCurrentUser
+  | SetIsLoadingSentEmailAction;

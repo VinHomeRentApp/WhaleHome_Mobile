@@ -16,6 +16,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import AppProvider from '@contexts/providers/AppProvider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 export default function App() {
   const [isShowSplash, setIsShownSplash] = useState<boolean>(true);
@@ -35,17 +36,21 @@ export default function App() {
   }, []);
 
   return (
-    <AppProvider>
-      <ClientProvider>
-        <StatusBar style='light' translucent />
-        {fontsLoaded && (
-          <GestureHandlerRootView style={[{ flex: 1 }]}>
-            <NavigationContainer>
-              <MainNavigator isShowSplash={isShowSplash} />
-            </NavigationContainer>
-          </GestureHandlerRootView>
-        )}
-      </ClientProvider>
-    </AppProvider>
+    <AlertNotificationRoot>
+      <AppProvider>
+        <ClientProvider>
+          <StatusBar style='light' translucent />
+          <>
+            {fontsLoaded && (
+              <GestureHandlerRootView style={[{ flex: 1 }]}>
+                <NavigationContainer>
+                  <MainNavigator isShowSplash={isShowSplash} />
+                </NavigationContainer>
+              </GestureHandlerRootView>
+            )}
+          </>
+        </ClientProvider>
+      </AppProvider>
+    </AlertNotificationRoot>
   );
 }

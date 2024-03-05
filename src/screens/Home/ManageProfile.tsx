@@ -1,8 +1,13 @@
+import LoadingOverlay from '@components/ui/LoadingOverlay';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import { AUTH_ACTION } from '@contexts/types/auth.types';
+import useRootContext from '@hooks/useRootContext';
+import UserCurrentResponse from '@models/class/User.class';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import userApi from '@services/apis/user.apis';
 import FirebaseService from '@services/firebase/firebase.services';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
@@ -14,6 +19,12 @@ const fireBaseService = new FirebaseService();
 
 const ManageProfile = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+  const {
+    state: {
+      auth: { accessToken, isLoading }
+    },
+    dispatch
+  } = useRootContext();
 
   const handleLogout = () => {
     Alert.alert(
@@ -29,14 +40,21 @@ const ManageProfile = () => {
 
   const logout = async () => {
     try {
+      dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: true });
       await fireBaseService.signOut();
+      await userApi.logout(accessToken);
+      dispatch({ type: AUTH_ACTION.SET_ACCESS_TOKEN, payload: '' });
+      dispatch({ type: AUTH_ACTION.SET_CURRENT_USER, payload: {} as UserCurrentResponse });
       navigation.navigate('LoginScreen');
     } catch (error: any) {
       Alert.alert('Error', error.message);
+    } finally {
+      dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });
     }
   };
   return (
     <SafeAreaView style={[globalStyle.container]}>
+      <LoadingOverlay isLoading={isLoading} message='Loading...' />
       <View style={[styles.container]}>
         <TextComponent content='Account' styles={[styles.headerTitle]} />
         <TextComponent content='Manage or update your account' styles={[styles.headerSubTitle]} />

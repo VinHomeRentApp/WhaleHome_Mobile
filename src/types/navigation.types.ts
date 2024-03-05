@@ -28,6 +28,7 @@ export type MainStackParamList = {
   PaymentMethod: undefined;
   CreatePaymentMethod: { bankCode: string };
   LoginScreen: undefined;
+  ForgotPassword: undefined;
 };
 
 export type MainNavigatorProps = {

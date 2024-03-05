@@ -46,7 +46,7 @@ const ManageProfile = () => {
           <View style={{ marginHorizontal: 5 }}></View>
           <TextComponent fontSize={15} content='Personal and account information' fontFamily={fontFam.semiBold} />
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.partEdit]}>
+        <TouchableOpacity style={[styles.partEdit]} onPress={() => navigation.navigate('PaymentMethod')}>
           <Card size='25' color={typoColor.yellow1} />
           <View style={{ marginHorizontal: 5 }}></View>
           <TextComponent fontSize={15} content='Payment' fontFamily={fontFam.semiBold} />

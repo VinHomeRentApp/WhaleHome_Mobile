@@ -5,6 +5,7 @@ import fontFam from '@constants/fontFamilies';
 import useRootContext from '@hooks/useRootContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import DismissKeyboard from '@screens/Authentication/LoginScreen/components/DismissKeyboard';
 import { bodyNewCard } from '@services/apis/card.apis';
 import { useCreateNewCard } from '@services/mutations/card.mutations';
 import globalStyle from '@styles/globalStyle';
@@ -12,7 +13,7 @@ import { CreatePaymentMethodProps, MainStackParamList } from '@type/navigation.t
 import { InfoCircle } from 'iconsax-react-native';
 import React, { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Keyboard, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 import { TextInput } from 'react-native-gesture-handler';
 
@@ -64,7 +65,7 @@ const CreatePaymentMethod = ({ route }: CreatePaymentMethodProps) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <DismissKeyboard>
       <View style={[globalStyle.container, styles.wrapContainer]}>
         <LoadingOverlay isLoading={createNewCardMutation.isPending} message='Loading...' />
         <View style={[{ padding: 15 }]}>
@@ -144,7 +145,7 @@ const CreatePaymentMethod = ({ route }: CreatePaymentMethodProps) => {
           </TouchableOpacity>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </DismissKeyboard>
   );
 };
 

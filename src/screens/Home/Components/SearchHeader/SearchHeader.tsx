@@ -5,17 +5,28 @@ import fontFam from '@constants/fontFamilies';
 import React from 'react';
 import { Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import NotiHeader from '../HomeHeader/NotiHeader/NotiIconHeader';
+import useRootContext from '@hooks/useRootContext';
 
 type RightSearchHeaderProps = {
   content: string;
 };
 
 const RightSearchHeader = ({ content }: RightSearchHeaderProps) => {
+  const {
+    state: {
+      auth: { currentUser }
+    }
+  } = useRootContext();
+
   return (
     <SafeAreaView style={styles.outerContainer}>
       <View style={styles.backIconContainer}>
-        <TouchableOpacity>
-          <Image style={{ height: 50, width: 50, borderRadius: 40 }} resizeMode='cover' source={defaultImage} />
+        <TouchableOpacity style={{ marginTop: 10 }}>
+          <Image
+            style={{ height: 50, width: 50, borderRadius: 40 }}
+            resizeMode='cover'
+            source={currentUser.image ? { uri: currentUser.image } : defaultImage}
+          />
         </TouchableOpacity>
       </View>
       <View style={[styles.innerContainer]}>

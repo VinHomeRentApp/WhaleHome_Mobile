@@ -9,17 +9,18 @@ import postApi from '@services/apis/post.apis';
 import { useZones } from '@services/queries/zone.queries';
 import { HttpStatusCode } from 'axios';
 import { useEffect } from 'react';
-import { Keyboard, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import HomeCategoryField from './Components/HomeBody/HomeCategoryField';
 import HomeFeatureEstate from './Components/HomeBody/HomeFeatureEstate';
 import HomePostsField from './Components/HomeBody/HomePostsField';
 import HomeSaleField from './Components/HomeBody/HomeSaleField';
 
+import LoadingOverlay from '@components/ui/LoadingOverlay';
+import { useAuthentication } from '@hooks/useAuthentication';
+import DismissKeyboard from '@screens/Authentication/LoginScreen/components/DismissKeyboard';
 import HomeTopBuilding from './Components/HomeBody/HomeTopBuilding';
 import HomeTopUser from './Components/HomeBody/HomeTopUser';
 import HomeWelcomeField from './Components/HomeBody/HomeWelcomeField';
-import { useAuthentication } from '@hooks/useAuthentication';
-import LoadingOverlay from '@components/ui/LoadingOverlay';
 
 const HomeScreen = () => {
   const { dispatch } = useRootContext();
@@ -54,7 +55,7 @@ const HomeScreen = () => {
     <>
       <LoadingOverlay isLoading={isPending} message='Loading...' />
 
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <DismissKeyboard>
         <ScrollView showsVerticalScrollIndicator={false} style={[styles.homeContainer]}>
           {/* Hello Field */}
           <HomeWelcomeField />
@@ -78,7 +79,7 @@ const HomeScreen = () => {
           {/* Top Estate */}
           <HomeTopUser />
         </ScrollView>
-      </TouchableWithoutFeedback>
+      </DismissKeyboard>
     </>
   );
 };

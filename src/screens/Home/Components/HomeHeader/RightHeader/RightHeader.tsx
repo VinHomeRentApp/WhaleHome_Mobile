@@ -1,14 +1,29 @@
+import TextComponent from '@components/ui/TextComponent';
+import { typoColor } from '@constants/appColors';
+import fontFam from '@constants/fontFamilies';
+import useRootContext from '@hooks/useRootContext';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { typoColor } from '@constants/appColors';
 import NotiHeader from '../NotiHeader/NotiIconHeader';
 
 const HeaderBottomTabs = () => {
+  const {
+    state: {
+      auth: { currentUser }
+    }
+  } = useRootContext();
+
   return (
     <SafeAreaView style={headerStyles.outerContainer}>
       <View style={[headerStyles.innerContainer]}>
-        <Image resizeMode='contain' style={headerStyles.textTitle} source={require('@assets/images/Title.png')} />
+        {/* <Image resizeMode='contain' style={headerStyles.textTitle} source={require('@assets/images/Title.png')} /> */}
+        <Image
+          style={{ height: 65, width: 65, borderRadius: 40 }}
+          resizeMode='cover'
+          source={require('@assets/images/main-logo.png')}
+        />
+        <TextComponent content='Whale Home' styles={{ fontFamily: fontFam.extraBold, fontSize: 28, marginTop: 15 }} />
       </View>
       <NotiHeader />
       <View style={headerStyles.headerCircle}></View>
@@ -25,11 +40,9 @@ const headerStyles = StyleSheet.create({
   },
   innerContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-end',
-    paddingHorizontal: 20,
-    height: 37,
-    width: 200
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20
   },
   headerCircle: {
     position: 'absolute',

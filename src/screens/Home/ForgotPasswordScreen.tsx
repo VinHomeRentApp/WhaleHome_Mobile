@@ -5,23 +5,14 @@ import fontFam from '@constants/fontFamilies';
 import useRootContext from '@hooks/useRootContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import DismissKeyboard from '@screens/Authentication/LoginScreen/components/DismissKeyboard';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { handleSendEmail } from '@usecases/HandleSentEmailReset';
 import { isValidEmail } from '@utils/checkEmail';
 import { LockCircle } from 'iconsax-react-native';
 import React, { useState } from 'react';
-import {
-  Alert,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  StyleSheet,
-  TextInput,
-  TouchableWithoutFeedback,
-  View
-} from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 
 const ForgotPasswordScreen = () => {
@@ -73,7 +64,7 @@ const ForgotPasswordScreen = () => {
   return (
     <>
       <LoadingOverlay isLoading={isLoadingSendEmail} message='Sending...' />
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <DismissKeyboard>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 350 : -100}
@@ -110,7 +101,7 @@ const ForgotPasswordScreen = () => {
             </Pressable>
           </View>
         </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
+      </DismissKeyboard>
     </>
   );
 };

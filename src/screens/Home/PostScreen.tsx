@@ -1,23 +1,33 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import useRootContext from '@hooks/useRootContext';
 import globalStyle from '@styles/globalStyle';
 import { ArrowDown2, Global } from 'iconsax-react-native';
-import React, { useRef } from 'react';
-import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import React from 'react';
+import { Image, StyleSheet, TextInput, View } from 'react-native';
 
 const IMAGE_DEFAULT = '../../assets/images/user/kien.jpg';
 
 const PostScreen = () => {
+  const {
+    state: {
+      auth: { currentUser }
+    }
+  } = useRootContext();
+
   return (
     <View style={[globalStyle.container]}>
       <View style={[styles.mainContent]}>
         <View style={[styles.infoUser]}>
-          <Image style={[styles.profileImage]} source={require(IMAGE_DEFAULT)} />
+          <Image
+            style={[styles.profileImage]}
+            source={currentUser.image ? { uri: currentUser.image } : require(IMAGE_DEFAULT)}
+          />
           <View style={[styles.inforUserText]}>
-            <TextComponent content='Nguyen Trung Kien' fontSize={15} fontFamily={fontFam.bold} />
+            <TextComponent content={currentUser.fullName || 'Guest'} fontSize={15} fontFamily={fontFam.bold} />
             <View style={[styles.publicArea]}>
-              <Global size='17' color='#fff' variant='Outline' />
+              <Global size='17' color={typoColor.white1} variant='Outline' />
               <TextComponent content='Public' fontSize={12} fontFamily={fontFam.light} />
               <ArrowDown2 style={{ marginLeft: 10 }} size='12' color='#FFF' variant='Bold' />
             </View>

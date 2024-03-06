@@ -41,7 +41,7 @@ export const handleSignIn = async (
   try {
     const response = await firebaseService.signIn(email, password);
     if (response) {
-      const signInResponse = await userApi.signIn(email, password);
+      const signInResponse = await userApi.signInMobile(email);
       if (signInResponse.status === HttpStatusCode.InternalServerError) {
         // Alert.alert('InternalServerError', 'Sign In Not Working!, Please Try again later!');
         Toast.show({

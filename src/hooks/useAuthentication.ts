@@ -17,7 +17,7 @@ export function useAuthentication() {
     const unsubscribeFromAuthStatusChanged = onAuthStateChanged(auth, async (user) => {
       if (user) {
         if (user.email) {
-          const signInResponse = await userApi.signIn(user.email, '123456');
+          const signInResponse = await userApi.signInMobile(user.email);
           dispatch({ type: AUTH_ACTION.SET_ACCESS_TOKEN, payload: signInResponse.data.data.access_token });
           getCurrentUserMutation.mutate({ accessToken, dispatch });
         }

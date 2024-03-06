@@ -1,15 +1,16 @@
 import { FormSignUpData } from '@type/form.types';
 import { PaginationResponse, RegisterSuccessResponse, SuccessfulResponse } from '../../types/response.types';
 
+import { FormDataUpdate } from '@screens/Home/EditProfileScreen';
 import { getWithPagination } from '@type/post.types';
 import httpClient from '@utils/httpClient';
 import UserCurrentResponse from 'src/models/class/User.class';
-import { FormDataUpdate } from '@screens/Home/EditProfileScreen';
 
 const EndPoint = {
   register: 'api/v1/auth/register',
   getUser: 'api/v1/user',
   login: 'api/v1/auth/authenticate',
+  loginMobile: 'api/v1/auth/authenticate-mobile',
   getCurrentUser: '/api/v1/auth/getUser',
   getUserWithPagination: '/api/v1/user/get-page',
   updateUserImage: '/api/v1/user/update-image',
@@ -26,6 +27,9 @@ const userApi = {
   },
   signIn: (email: string, password: string) => {
     return httpClient.post<SuccessfulResponse<RegisterSuccessResponse>>(EndPoint.login, { email, password });
+  },
+  signInMobile: (email: string) => {
+    return httpClient.post<SuccessfulResponse<RegisterSuccessResponse>>(EndPoint.loginMobile, { email });
   },
   getCurrentUser: (accessToken: string) => {
     return httpClient.post<SuccessfulResponse<UserCurrentResponse>>(EndPoint.getCurrentUser, {

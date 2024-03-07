@@ -23,7 +23,7 @@ const ChatScreen: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hi There I Want to talk to you! There I Want to talk to you There I Want to talk to you There I Want to talk to you There I Want to talk to you There I Want to talk to you',
+      text: 'Hi There I Want to talk to you! ',
       time: '14:00',
       user: { id: 11, email: 'trungkiennguyen@gmail.com', avatar: { uri: 'https://example.com/avatar1.png' } }
     }

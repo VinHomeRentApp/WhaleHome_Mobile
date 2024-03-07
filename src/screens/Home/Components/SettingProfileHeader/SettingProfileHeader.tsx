@@ -12,7 +12,7 @@ const SettingProfileHeader = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   return (
-    <SafeAreaView style={[{ backgroundColor: backgroundColor.black1 }]}>
+    <SafeAreaView style={[{ backgroundColor: backgroundColor.black1, paddingTop: 50 }]}>
       <View style={[styles.headerContainer]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <ArrowCircleLeft2 size='32' color={typoColor.yellow1} variant='Bold' />

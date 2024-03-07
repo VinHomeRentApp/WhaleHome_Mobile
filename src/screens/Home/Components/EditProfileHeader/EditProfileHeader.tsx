@@ -12,7 +12,7 @@ const EditProfileHeader = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   return (
-    <SafeAreaView style={[{ backgroundColor: backgroundColor.black1 }]}>
+    <SafeAreaView style={[{ backgroundColor: backgroundColor.black1, paddingTop: 50 }]}>
       <View style={[styles.headerContainer]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <CloseCircle size='35' color={typoColor.yellow1} variant='Bold' />

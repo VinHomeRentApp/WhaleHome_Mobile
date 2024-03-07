@@ -56,11 +56,9 @@ export const handleSignIn = async (
       dispatch({ type: AUTH_ACTION.SET_USER, payload: response });
       reset(defaultFormSignInValue);
       Toast.show({ type: ALERT_TYPE.SUCCESS, title: 'Success', textBody: 'You have been successfully logged in.' });
-
       navigation.navigate('HomeScreen');
     }
   } catch (error: any) {
-    Toast.show({ type: ALERT_TYPE.DANGER, title: 'Sign In Error', textBody: error.message });
     Toast.show({ type: ALERT_TYPE.DANGER, title: 'Sign In Error', textBody: error.message });
   } finally {
     dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });

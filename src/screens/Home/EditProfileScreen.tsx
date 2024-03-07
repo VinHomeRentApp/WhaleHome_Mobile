@@ -15,6 +15,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   TextInput,
@@ -70,78 +71,80 @@ const EditProfileScreen = () => {
 
   return (
     <ScrollView style={[globalStyle.container]}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 150 : -100}
-        style={globalStyle.container}
-      >
-        <LoadingOverlay isLoading={isLoading} message='Updating...' />
-        <View style={[styles.fullScreen]}>
-          <View style={[styles.profileInfo]}>
-            <Image style={[styles.profileImage]} source={{ uri: currentUser.image || IMAGE_DEFAULT }} />
-            <TouchableOpacity style={[styles.editButton]} onPress={onPressHandlePickImage}>
-              <GalleryAdd size='20' color={backgroundColor.black1} />
+      <SafeAreaView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 150 : -100}
+          style={globalStyle.container}
+        >
+          <LoadingOverlay isLoading={isLoading} message='Updating...' />
+          <View style={[styles.fullScreen]}>
+            <View style={[styles.profileInfo]}>
+              <Image style={[styles.profileImage]} source={{ uri: currentUser.image || IMAGE_DEFAULT }} />
+              <TouchableOpacity style={[styles.editButton]} onPress={onPressHandlePickImage}>
+                <GalleryAdd size='20' color={backgroundColor.black1} />
+              </TouchableOpacity>
+            </View>
+            <Controller
+              control={control}
+              name='username'
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer]}>
+                  <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
+                  <Profile size='25' color='#252B5C' />
+                </View>
+              )}
+            />
+            <Controller
+              control={control}
+              name='phoneNumber'
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer]}>
+                  <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
+                  <Call size='25' color='#252B5C' />
+                </View>
+              )}
+            />
+            <Controller
+              control={control}
+              name='email'
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer]}>
+                  <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
+                  <Message size='25' color='#252B5C' />
+                </View>
+              )}
+            />
+            <Controller
+              control={control}
+              name='gender'
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer]}>
+                  <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
+                  <Blend size='25' color='#252B5C' />
+                </View>
+              )}
+            />
+            <Controller
+              control={control}
+              name='address'
+              render={({ field: { value, onChange } }) => (
+                <View style={[styles.inputContainer]}>
+                  <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
+                  <Home3 size='25' color='#252B5C' />
+                </View>
+              )}
+            />
+            <TouchableOpacity onPress={handleSubmit(onSubmit)} style={[styles.buttonSubmit]}>
+              <TextComponent
+                styles={{ fontFamily: fontFam.bold, fontSize: 16, margin: 4 }}
+                content='Update'
+                textColor={typoColor.black1}
+              />
             </TouchableOpacity>
           </View>
-          <Controller
-            control={control}
-            name='username'
-            render={({ field: { value, onChange } }) => (
-              <View style={[styles.inputContainer]}>
-                <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
-                <Profile size='25' color='#252B5C' />
-              </View>
-            )}
-          />
-          <Controller
-            control={control}
-            name='phoneNumber'
-            render={({ field: { value, onChange } }) => (
-              <View style={[styles.inputContainer]}>
-                <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
-                <Call size='25' color='#252B5C' />
-              </View>
-            )}
-          />
-          <Controller
-            control={control}
-            name='email'
-            render={({ field: { value, onChange } }) => (
-              <View style={[styles.inputContainer]}>
-                <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
-                <Message size='25' color='#252B5C' />
-              </View>
-            )}
-          />
-          <Controller
-            control={control}
-            name='gender'
-            render={({ field: { value, onChange } }) => (
-              <View style={[styles.inputContainer]}>
-                <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
-                <Blend size='25' color='#252B5C' />
-              </View>
-            )}
-          />
-          <Controller
-            control={control}
-            name='address'
-            render={({ field: { value, onChange } }) => (
-              <View style={[styles.inputContainer]}>
-                <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} />
-                <Home3 size='25' color='#252B5C' />
-              </View>
-            )}
-          />
-          <TouchableOpacity onPress={handleSubmit(onSubmit)} style={[styles.buttonSubmit]}>
-            <TextComponent
-              styles={{ fontFamily: fontFam.bold, fontSize: 16, margin: 4 }}
-              content='Update'
-              textColor={typoColor.black1}
-            />
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </ScrollView>
   );
 };

@@ -5,7 +5,6 @@ import { appInfo } from '@constants/appInfo';
 import { useAuthentication } from '@hooks/useAuthentication';
 import globalStyle from '@styles/globalStyle';
 import { OnBoardingProps } from '@type/navigation.types';
-import isEmpty from 'lodash/isEmpty';
 import React from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import Swiper from 'react-native-swiper';
@@ -15,10 +14,10 @@ const onBoardingPath_2 = '../../../assets/images/onboarding_3.png';
 const onBoardingPath_3 = '../../../assets/images/onboarding_4.png';
 
 const OnboardingScreen = ({ navigation }: OnBoardingProps) => {
-  const { accessToken } = useAuthentication();
+  const { accessToken, currentUser } = useAuthentication();
 
   const skipToLoginScreen = () => {
-    if (accessToken) {
+    if (accessToken && currentUser) {
       navigation.navigate('HomeScreen');
     } else {
       navigation.navigate('LoginScreen');

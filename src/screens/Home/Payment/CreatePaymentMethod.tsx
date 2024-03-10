@@ -2,6 +2,8 @@ import LoadingOverlay from '@components/ui/LoadingOverlay';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import { PaymentSchemaType, paymentSchema } from '@constants/yupSchema';
+import { yupResolver } from '@hookform/resolvers/yup';
 import useRootContext from '@hooks/useRootContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -17,15 +19,10 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 import { TextInput } from 'react-native-gesture-handler';
 
-type FORM_DATA = {
-  name: string;
-  cartNumber: string;
-  releaseDate: string;
-};
-
 const CreatePaymentMethod = ({ route }: CreatePaymentMethodProps) => {
-  const { control, handleSubmit, formState } = useForm<FORM_DATA>();
-
+  const { control, handleSubmit, formState } = useForm<PaymentSchemaType>({
+    resolver: yupResolver(paymentSchema)
+  });
   const createNewCardMutation = useCreateNewCard();
   const {
     state: {
@@ -41,7 +38,7 @@ const CreatePaymentMethod = ({ route }: CreatePaymentMethodProps) => {
     });
   }, [navigation, route.params.bankCode]);
 
-  const submitCreateBank: SubmitHandler<FORM_DATA> = (data) => {
+  const submitCreateBank: SubmitHandler<PaymentSchemaType> = (data) => {
     const newObj: bodyNewCard = {
       bankCode: route.params.bankCode,
       cartNumber: data.cartNumber,
@@ -83,12 +80,18 @@ const CreatePaymentMethod = ({ route }: CreatePaymentMethodProps) => {
                   <TextInput
                     placeholderTextColor={typoColor.gray3}
                     placeholder='Nhập số thẻ/tài khoản'
-                    style={[styles.wrapInputText, { color: '#fff' }]}
+                    style={[
+                      styles.wrapInputText,
+                      { color: '#fff' },
+                      formState.errors.cartNumber && styles.errorInputText
+                    ]}
                     value={value}
+                    keyboardType='number-pad'
                     onChangeText={onChange}
                   />
                 )}
               />
+              <TextComponent textColor='#f44336' content={formState.errors.cartNumber?.message || ''} />
             </View>
             <View style={[{ marginVertical: 10 }]}></View>
             <View style={[styles.wrapText]}>
@@ -101,7 +104,7 @@ const CreatePaymentMethod = ({ route }: CreatePaymentMethodProps) => {
                 control={control}
                 render={({ field: { value, onChange } }) => (
                   <TextInput
-                    style={[styles.wrapInputText, { color: '#fff' }]}
+                    style={[styles.wrapInputText, { color: '#fff' }, formState.errors.name && styles.errorInputText]}
                     placeholderTextColor={typoColor.gray3}
                     placeholder='NGUYEN VAN A'
                     value={value}
@@ -109,6 +112,7 @@ const CreatePaymentMethod = ({ route }: CreatePaymentMethodProps) => {
                   />
                 )}
               />
+              <TextComponent textColor='#f44336' content={formState.errors.name?.message || ''} />
             </View>
             <View style={[{ marginVertical: 10 }]}></View>
             <View style={[{ flexDirection: 'row', justifyContent: 'space-between' }]}>
@@ -122,7 +126,11 @@ const CreatePaymentMethod = ({ route }: CreatePaymentMethodProps) => {
                   name='releaseDate'
                   render={({ field: { value, onChange } }) => (
                     <TextInput
-                      style={[styles.wrapInputText, { color: '#fff' }]}
+                      style={[
+                        styles.wrapInputText,
+                        { color: '#fff' },
+                        formState.errors.releaseDate && styles.errorInputText
+                      ]}
                       placeholderTextColor={typoColor.gray3}
                       placeholder='12/24'
                       value={value}
@@ -130,6 +138,7 @@ const CreatePaymentMethod = ({ route }: CreatePaymentMethodProps) => {
                     />
                   )}
                 />
+                <TextComponent textColor='#f44336' content={formState.errors.releaseDate?.message || ''} />
               </View>
             </View>
           </View>
@@ -200,6 +209,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: typoColor.yellow1,
     flexDirection: 'row'
+  },
+  errorInputText: {
+    borderWidth: 1,
+    borderColor: 'red'
   }
 });
 

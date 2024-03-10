@@ -12,7 +12,6 @@ import { CardAdd } from 'iconsax-react-native';
 import React, { useCallback, useRef, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import BankCard from '../Components/BankCard/BankCard';
-import { useCreateNewCard } from '@services/mutations/card.mutations';
 
 const PaymentMethod = () => {
   const {
@@ -53,11 +52,7 @@ const PaymentMethod = () => {
           </TouchableOpacity>
         </View>
         {/* Bank Card */}
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={cardUserQuery.data?.data.data}
-          renderItem={({ item }) => <BankCard bankInformation={item} />}
-        />
+        <FlatList data={cardUserQuery.data?.data.data} renderItem={({ item }) => <BankCard bankInformation={item} />} />
 
         {/* Add */}
 

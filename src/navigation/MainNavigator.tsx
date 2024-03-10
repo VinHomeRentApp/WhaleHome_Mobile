@@ -10,6 +10,7 @@ import HomeBuilding3dScreen from '@screens/Home/Components/HomeBody/HomeBuilding
 import PaymentMethodHeader from '@screens/Home/Components/PaymentMethodHeader/PaymentMethodHeader';
 import ReviewDetailHeader from '@screens/Home/Components/ReviewDetailScreen/ReviewDetailHeader';
 import SettingProfileHeader from '@screens/Home/Components/SettingProfileHeader/SettingProfileHeader';
+import TransactionReviewHeader from '@screens/Home/Components/TransactionReviewHeader/TransactionReviewHeader';
 import DetailPostScreen from '@screens/Home/DetailPostScreen';
 import DetailScreen from '@screens/Home/DetailScreen';
 import EditProfileScreen from '@screens/Home/EditProfileScreen';
@@ -26,13 +27,6 @@ import SplashScreen from '@screens/Splash/SplashScreen';
 import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
-import TransactionReviewHeader from '@screens/Home/Components/TransactionReviewHeader/TransactionReviewHeader';
-
-import PaymentMethod from '@screens/Home/Payment/PaymentMethod';
-import PaymentMethodHeader from '@screens/Home/Components/PaymentMethodHeader/PaymentMethodHeader';
-import CreatePaymentMethod from '@screens/Home/Payment/CreatePaymentMethod';
-import CreatePaymentMethodHeader from '@screens/Home/Components/CreatePaymentMethodHeader/CreatePaymentMethodHeader';
-import { typoColor } from '@constants/appColors';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {

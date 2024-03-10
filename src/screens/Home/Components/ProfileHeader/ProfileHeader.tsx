@@ -2,7 +2,7 @@ import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import { useNavigation } from '@react-navigation/native';
-import { Notepad2 } from 'iconsax-react-native';
+import { Notepad2, Setting2 } from 'iconsax-react-native';
 import React from 'react';
 import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import SettingHeader from './SettingHeader/SettingHeader';
@@ -19,8 +19,11 @@ const ProfileHeader = () => {
       <View style={[styles.innerContainer]}>
         <TextComponent styles={styles.title} content='Profile' />
       </View>
-      <TouchableOpacity style={{ marginRight: 15 }} onPress={() => navigation.navigate('ManageProfileScreen')}>
-        <SettingHeader />
+      <TouchableOpacity
+        style={[styles.containerButton, { marginRight: 10 }]}
+        onPress={() => navigation.navigate('ManageProfileScreen')}
+      >
+        <Setting2 size='24' color={typoColor.yellow1} variant='Bold' />
       </TouchableOpacity>
     </SafeAreaView>
   );

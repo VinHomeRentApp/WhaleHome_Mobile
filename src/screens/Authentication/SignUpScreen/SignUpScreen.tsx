@@ -1,6 +1,8 @@
 import TextComponent from '@components/ui/TextComponent';
 import { backgroundColor, typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import { SignUpSchema, signUpSchema } from '@constants/yupSchema';
+import { yupResolver } from '@hookform/resolvers/yup';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import FirebaseService from '@services/firebase/firebase.services';
 import { useRegisterAccount } from '@services/mutations/user.mutations';
@@ -16,7 +18,9 @@ import RNPickerSelect from 'react-native-picker-select';
 const fireBaseService = new FirebaseService();
 
 const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
-  const { control, handleSubmit, setValue } = useForm<FormSignUpData>({});
+  const { control, handleSubmit, setValue, formState } = useForm<SignUpSchema>({
+    resolver: yupResolver(signUpSchema)
+  });
 
   const [isNextComponent, setIsNextComponent] = useState<boolean>(false);
   const [isEnabledAgreeTerm, setIsEnabledAgreeTerm] = useState(false);
@@ -73,7 +77,10 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
     }
   };
 
+  console.log(formState.errors);
+
   const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
     try {
       await fireBaseService.signUp(data.email, data.password);
       registerAccountMutation.mutate(data);
@@ -98,7 +105,7 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
                   <TextInput
                     value={value}
                     onChangeText={onChange}
-                    style={[styles.inputField]}
+                    style={[styles.inputField, formState.errors.email && { color: '#f44336' }]}
                     placeholder='name@example.com'
                   />
                 </View>
@@ -123,7 +130,7 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
                   <TextInput
                     value={value}
                     onChangeText={onChange}
-                    style={[styles.inputField]}
+                    style={[styles.inputField, formState.errors.verify_password && { color: '#f44336' }]}
                     placeholder='Confirm password'
                   />
                 </View>
@@ -168,7 +175,7 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
                   <TextInput
                     value={value}
                     onChangeText={onChange}
-                    style={[styles.inputField]}
+                    style={[styles.inputField, formState.errors.fullName && { color: '#f44336' }]}
                     placeholder='Your full name here'
                   />
                 </View>
@@ -206,7 +213,7 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
                   <TextInput
                     value={value}
                     onChangeText={onChange}
-                    style={[styles.inputField]}
+                    style={[styles.inputField, formState.errors.phone && { color: '#f44336' }]}
                     placeholder='+84 123345789'
                     inputMode='numeric'
                   />
@@ -222,7 +229,7 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
                   <TextInput
                     value={value}
                     onChangeText={onChange}
-                    style={[styles.inputField]}
+                    style={[styles.inputField, formState.errors.address && { color: '#f44336' }]}
                     placeholder='+84 123345789'
                   />
                 </View>
@@ -242,8 +249,8 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
               )}
             />
           </View>
-          <TouchableOpacity onPress={onSubmit}>
-            <TextComponent content='Submit' />
+          <TouchableOpacity onPress={onSubmit} style={[styles.submitButton]}>
+            <TextComponent textColor={typoColor.black1} fontFamily={fontFam.bold} fontSize={18} content='Submit' />
           </TouchableOpacity>
         </View>
       )}
@@ -284,6 +291,19 @@ const styles = StyleSheet.create({
   borderBottomRadiusCustom: {
     borderBottomStartRadius: 8,
     borderBottomEndRadius: 8
+  },
+
+  submitButton: {
+    padding: 20,
+    borderWidth: 1,
+    width: '60%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+    borderRadius: 12,
+    backgroundColor: typoColor.yellow2
   }
 });
 

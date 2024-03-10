@@ -3,8 +3,6 @@ import { useMutation } from '@tanstack/react-query';
 
 export const useCreateNewCard = () => {
   return useMutation({
-    mutationFn: async (body: bodyNewCard) => {
-      await cardApis.createNewCardBank(body);
-    }
+    mutationFn: (body: bodyNewCard) => cardApis.createNewCardBank(body)
   });
 };

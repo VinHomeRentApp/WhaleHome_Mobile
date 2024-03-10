@@ -3,18 +3,29 @@ import React from 'react';
 import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
 import { Card } from 'iconsax-react-native';
-import { BANK_INFOR } from '@screens/Home/TransactionReviewScreen';
+
+export type CardType = {
+  bankCode: string;
+  cartNumber: string;
+  name: string;
+  releaseDate: string;
+};
 
 type Props = {
-  data: BANK_INFOR;
-  onPress: (item: BANK_INFOR) => void;
+  data: CardType;
+  onPress: (item: CardType) => void;
 };
 
 const BankLineComponent = ({ data, onPress }: Props) => {
   return (
     <TouchableOpacity style={[styles.wrappListCardBottomSheet]} onPress={() => onPress(data)}>
       <Card size='24' color='#FFA02A' variant='Bulk' />
-      <TextComponent content={data.title} fontSize={16} textColor='#000' fontFamily={fontFam.bold} />
+      <TextComponent
+        content={`${data.bankCode} ${data.cartNumber}`}
+        fontSize={16}
+        textColor='#000'
+        fontFamily={fontFam.bold}
+      />
     </TouchableOpacity>
   );
 };

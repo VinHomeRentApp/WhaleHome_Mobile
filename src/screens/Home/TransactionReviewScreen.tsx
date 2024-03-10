@@ -2,7 +2,7 @@ import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
 import globalStyle from '@styles/globalStyle';
 import { ArrowDown2, Card, ClipboardText, Location } from 'iconsax-react-native';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { typoColor } from '@constants/appColors';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
@@ -17,47 +17,37 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import BankLineComponent from './Components/BankLineComponent/BankLineComponent';
+import BankLineComponent, { CardType } from './Components/BankLineComponent/BankLineComponent';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MainStackParamList } from '@type/navigation.types';
+import { useCardUser } from '@services/queries/card.queries';
+import useRootContext from '@hooks/useRootContext';
 type PeriodMonth = 2 | 4 | 6;
 // const countries = ['Egypt', 'Canada', 'Australia', 'Ireland'];
 
-export type BANK_INFOR = {
-  id: number;
-  title: string;
-  color: string;
-};
-
-const demo_bank_data = [
-  {
-    id: 1,
-    title: 'VCB 123467...31233',
-    color: '#5CB6AF'
-  },
-  {
-    id: 2,
-    title: 'SCB 1238979...312312',
-    color: '#2D2A61'
-  },
-  {
-    id: 3,
-    title: 'MB 239898932...3123',
-    color: '#F58F22'
-  }
-];
-
 const TransactionReviewScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
-
+  const {
+    state: {
+      auth: { currentUser }
+    }
+  } = useRootContext();
   const sheetRef = useRef<BottomSheet>(null);
   const [isOpenCard, setIsOpenCard] = useState<boolean>(false);
-  const [cardInfomation, setCardInformation] = useState<BANK_INFOR>(demo_bank_data[0]);
+  const [cardInfomation, setCardInformation] = useState<CardType>();
   const [periodMonth, setPeriodMonth] = useState<PeriodMonth>(2);
 
   const [isBuy, _] = useState<boolean>(false);
   const snapPoints = ['30%'];
+
+  const cardUserQuery = useCardUser(currentUser.id as number);
+
+  useEffect(() => {
+    if (cardUserQuery.isSuccess) {
+      setCardInformation(cardUserQuery.data.data.data[0]);
+    }
+  }, [cardUserQuery.isSuccess]);
 
   const handleChangePeriodMonth = (months: PeriodMonth) => {
     setPeriodMonth(months);
@@ -69,7 +59,7 @@ const TransactionReviewScreen = () => {
     setIsOpenCard(true);
   }, []);
 
-  const handleChangePaymentMethod = (data: BANK_INFOR) => {
+  const handleChangePaymentMethod = (data: CardType) => {
     setCardInformation(data);
     sheetRef.current?.close();
   };
@@ -163,20 +153,23 @@ const TransactionReviewScreen = () => {
             <TouchableOpacity style={[styles.selectCard]} onPress={() => handleSnapPress(0)}>
               <View style={[{ flexDirection: 'row', alignItems: 'center' }]}>
                 <Card size='24' color='#FFA02A' variant='Bulk' />
-                <TextComponent content={cardInfomation.title} styles={[styles.textColorSelectCard]} />
+                <TextComponent
+                  content={`${cardInfomation?.bankCode} ${cardInfomation?.cartNumber}`}
+                  styles={[styles.textColorSelectCard]}
+                />
               </View>
               <ArrowDown2 size='23' color='#FF8A65' variant='Bold' />
             </TouchableOpacity>
           </View>
         </View>
-        <View style={[styles.bankCard, { backgroundColor: cardInfomation.color }]}>
+        <View style={[styles.bankCard, { borderWidth: 1, borderColor: '#fff' }]}>
           <View style={[{ width: '100%', flexDirection: 'row', justifyContent: 'space-between' }]}>
             <Image style={[{ width: '10%', height: 26.32 }]} source={require('../../assets/bankCard/ChipBank.png')} />
-            <TextComponent content={cardInfomation.title.split(' ')[0]} fontSize={20} fontFamily={fontFam.extraBold} />
+            <TextComponent content={cardInfomation?.bankCode as string} fontSize={20} fontFamily={fontFam.extraBold} />
           </View>
-          <TextComponent content={cardInfomation.title.split(' ')[1]} fontSize={20} />
+          <TextComponent content={cardInfomation?.cartNumber as string} fontSize={20} />
           <View style={[{ flexDirection: 'row', justifyContent: 'space-between' }]}>
-            <TextComponent content='TRAN QUANG MINH' fontFamily={fontFam.semiBold} fontSize={20} />
+            <TextComponent content={cardInfomation?.name as string} fontFamily={fontFam.semiBold} fontSize={20} />
             <View style={[{ alignItems: 'flex-end' }]}>
               <TextComponent content='EXP DATE' fontFamily={fontFam.semiBold} fontSize={15} />
               <TextComponent content='02/03' />
@@ -200,8 +193,8 @@ const TransactionReviewScreen = () => {
         <BottomSheetView style={[styles.wrapBottomSheet]}>
           <TextComponent content='List payment methods' textColor='#000' fontFamily={fontFam.bold} fontSize={16} />
           <FlatList
-            style={[{ width: '100%', paddingHorizontal: 10 }]}
-            data={demo_bank_data}
+            style={[{ width: '100%', paddingHorizontal: 10, marginVertical: 30 }]}
+            data={cardUserQuery.data?.data.data}
             renderItem={({ item }) => <BankLineComponent onPress={handleChangePaymentMethod} data={item} />}
           />
         </BottomSheetView>

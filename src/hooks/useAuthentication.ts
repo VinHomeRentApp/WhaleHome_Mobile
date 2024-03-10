@@ -8,7 +8,6 @@ import useRootContext from './useRootContext';
 export function useAuthentication() {
   const { state, dispatch } = useRootContext();
   const getCurrentUserMutation = useGetCurrentUser();
-  // const { isPending } = getCurrentUserMutation;
   const {
     auth: { user, isAuth, accessToken, currentUser }
   } = state;
@@ -31,7 +30,6 @@ export function useAuthentication() {
   }, [dispatch]);
 
   return {
-    // isPending,
     user,
     isAuth,
     accessToken,

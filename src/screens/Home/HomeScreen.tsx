@@ -25,7 +25,7 @@ import HomeWelcomeField from './Components/HomeBody/HomeWelcomeField';
 const HomeScreen = () => {
   const { dispatch } = useRootContext();
   const useZone = useZones();
-  const { isPending } = useAuthentication();
+  // const { isPending } = useAuthentication();
 
   useEffect(() => {
     const getPostsLimit = async () => {
@@ -53,7 +53,7 @@ const HomeScreen = () => {
 
   return (
     <>
-      <LoadingOverlay isLoading={isPending} message='Loading...' />
+      {/* <LoadingOverlay isLoading={isPending} message='Loading...' /> */}
 
       <DismissKeyboard>
         <ScrollView showsVerticalScrollIndicator={false} style={[styles.homeContainer]}>

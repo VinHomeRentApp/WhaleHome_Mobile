@@ -43,18 +43,23 @@ export const handleSignIn = async (
     if (response) {
       const signInResponse = await userApi.signInMobile(email);
       if (signInResponse.status === HttpStatusCode.InternalServerError) {
-        // Alert.alert('InternalServerError', 'Sign In Not Working!, Please Try again later!');
         Toast.show({
           type: ALERT_TYPE.DANGER,
           title: 'InternalServerError',
           textBody: 'Sign In Not Working!, Please Try again later!'
         });
       }
+      dispatch({ type: AUTH_ACTION.SET_ACCESS_TOKEN, payload: signInResponse.data.data.access_token });
+      const {
+        data: { data: currentUser }
+      } = await userApi.getCurrentUser(signInResponse.data.data.access_token);
+      dispatch({ type: AUTH_ACTION.SET_CURRENT_USER, payload: currentUser });
       const accessToken = signInResponse.data.data.access_token;
       await AsyncStorage.setItem('access_token', accessToken);
       dispatch({ type: AUTH_ACTION.SET_ACCESS_TOKEN, payload: accessToken });
       dispatch({ type: AUTH_ACTION.SET_USER, payload: response });
       reset(defaultFormSignInValue);
+      dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });
       Toast.show({ type: ALERT_TYPE.SUCCESS, title: 'Success', textBody: 'You have been successfully logged in.' });
       navigation.navigate('HomeScreen');
     }

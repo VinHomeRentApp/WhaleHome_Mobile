@@ -14,7 +14,7 @@ import { MainStackParamList } from '@type/navigation.types';
 import { Card, CardCoin, Logout, ProfileCircle, Shield } from 'iconsax-react-native';
 import React from 'react';
 import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { ALERT_TYPE, Dialog, Toast } from 'react-native-alert-notification';
+import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 
 const fireBaseService = new FirebaseService();
 
@@ -44,11 +44,16 @@ const ManageProfile = () => {
       dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: true });
       await fireBaseService.signOut();
       await userApi.logout(accessToken);
+      dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });
+      Toast.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: 'Logged Out',
+        textBody: `You have been successfully logged out.`
+      });
       dispatch({ type: AUTH_ACTION.SET_ACCESS_TOKEN, payload: '' });
       dispatch({ type: AUTH_ACTION.SET_CURRENT_USER, payload: {} as UserCurrentResponse });
       navigation.navigate('LoginScreen');
     } catch (error: any) {
-      // Alert.alert('Error', error.message);
       Toast.show({ type: ALERT_TYPE.DANGER, title: 'Error', textBody: error.message });
     } finally {
       dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });

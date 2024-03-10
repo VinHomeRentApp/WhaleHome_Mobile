@@ -9,7 +9,7 @@ type LoadingOverlayProps = {
 
 const LoadingOverlay = ({ isLoading, message }: LoadingOverlayProps) => {
   return (
-    <Modal transparent={true} visible={isLoading} animationType='slide'>
+    <Modal transparent={true} visible={isLoading} animationType='fade'>
       <View style={styles.overlay}>
         <View style={styles.container}>
           <ActivityIndicator size='large' color={typoColor.yellow1} />

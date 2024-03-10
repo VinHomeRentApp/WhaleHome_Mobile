@@ -129,12 +129,6 @@ export default class FirebaseService {
   public async signOut(): Promise<void> {
     try {
       await auth.signOut();
-      // Alert.alert('Logged Out', 'You have been successfully logged out.');
-      Toast.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Logged Out',
-        textBody: `You have been successfully logged out.`
-      });
     } catch (error: any) {
       console.error('Sign Out Error:', error);
       Toast.show({

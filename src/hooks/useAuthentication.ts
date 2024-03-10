@@ -1,5 +1,4 @@
 import { AUTH_ACTION } from '@contexts/types/auth.types';
-import userApi from '@services/apis/user.apis';
 import { useGetCurrentUser } from '@services/mutations/user.mutations';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
@@ -9,7 +8,7 @@ import useRootContext from './useRootContext';
 export function useAuthentication() {
   const { state, dispatch } = useRootContext();
   const getCurrentUserMutation = useGetCurrentUser();
-  const { isPending } = getCurrentUserMutation;
+  // const { isPending } = getCurrentUserMutation;
   const {
     auth: { user, isAuth, accessToken, currentUser }
   } = state;
@@ -17,8 +16,6 @@ export function useAuthentication() {
     const unsubscribeFromAuthStatusChanged = onAuthStateChanged(auth, async (user) => {
       if (user) {
         if (user.email) {
-          const signInResponse = await userApi.signInMobile(user.email);
-          dispatch({ type: AUTH_ACTION.SET_ACCESS_TOKEN, payload: signInResponse.data.data.access_token });
           getCurrentUserMutation.mutate({ accessToken, dispatch });
         }
         dispatch({ type: AUTH_ACTION.SET_USER, payload: user });
@@ -34,7 +31,7 @@ export function useAuthentication() {
   }, [dispatch]);
 
   return {
-    isPending,
+    // isPending,
     user,
     isAuth,
     accessToken,

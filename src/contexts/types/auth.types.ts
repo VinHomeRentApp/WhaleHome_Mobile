@@ -20,7 +20,7 @@ export type AuthContextType = {
   isAuth: boolean;
   isLoading: boolean;
   accessToken: string;
-  currentUser: Partial<UserCurrentResponse> | null;
+  currentUser: Partial<UserCurrentResponse>;
   isLoadingSendEmail: boolean;
   isUploadImageSuccess: boolean;
 };

@@ -11,16 +11,21 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kane.dev.WhaleHome"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["android.permission.RECORD_AUDIO"],
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
       "package": "com.kane.dev.WhaleHome"
     },
     "web": {
@@ -42,7 +47,10 @@
       "MESSAGING_SENDER_ID": "883569776924",
       "APP_ID": "1:883569776924:web:08185c4a1fede2aa1f82d9",
       "MEASUREMENT_ID": "G-Z87B4YLPWE",
-      "SECRET_KEY": "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970"
+      "SECRET_KEY": "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970",
+      "eas": {
+        "projectId": "1f657673-a8c0-4102-960c-da5f980dd654"
+      }
     }
   }
 }

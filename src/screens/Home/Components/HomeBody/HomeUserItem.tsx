@@ -15,7 +15,11 @@ const HomeUserItem = ({ user }: HomeUserItemProps) => {
   return (
     <View style={styles.topUserContainer}>
       <View style={styles.topUserImageContainer}>
-        <Image style={styles.topUserImage} resizeMode='contain' source={{ uri: user.image ?? defaultImage }} />
+        <Image
+          style={styles.topUserImage}
+          resizeMode='contain'
+          source={user?.image ? { uri: user.image } : defaultImage}
+        />
       </View>
       <TextComponent styles={styles.topUserName} content={user.fullName} />
     </View>

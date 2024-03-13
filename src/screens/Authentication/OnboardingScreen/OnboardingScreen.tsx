@@ -14,10 +14,10 @@ const onBoardingPath_2 = '../../../assets/images/onboarding_3.png';
 const onBoardingPath_3 = '../../../assets/images/onboarding_4.png';
 
 const OnboardingScreen = ({ navigation }: OnBoardingProps) => {
-  const { accessToken, currentUser } = useAuthentication();
+  const { accessToken } = useAuthentication();
 
   const skipToLoginScreen = () => {
-    if (accessToken && currentUser) {
+    if (accessToken) {
       navigation.navigate('HomeScreen');
     } else {
       navigation.navigate('LoginScreen');

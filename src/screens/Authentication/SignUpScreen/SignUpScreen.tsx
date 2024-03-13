@@ -7,7 +7,6 @@ import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/dat
 import FirebaseService from '@services/firebase/firebase.services';
 import { useRegisterAccount } from '@services/mutations/user.mutations';
 import globalStyle from '@styles/globalStyle';
-import { FormSignUpData } from '@type/form.types';
 import { SignUpScreenProps } from '@type/navigation.types';
 import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -76,8 +75,6 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
       setValue('dateOfBirth', myDate.toISOString());
     }
   };
-
-  console.log(formState.errors);
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);

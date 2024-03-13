@@ -8,7 +8,7 @@ import { ArrowCircleLeft2 } from 'iconsax-react-native';
 import React from 'react';
 import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-const PaymentMethodHeader = () => {
+const AppointmentScreenHeader = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   return (
@@ -17,7 +17,7 @@ const PaymentMethodHeader = () => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <ArrowCircleLeft2 size='35' color={typoColor.yellow1} variant='Bold' />
         </TouchableOpacity>
-        <TextComponent content='My Payment' fontFamily={fontFam.extraBold} />
+        <TextComponent content='Appointment' fontFamily={fontFam.extraBold} />
         <ArrowCircleLeft2 size='35' color={backgroundColor.black1} variant='Bold' />
       </View>
     </SafeAreaView>
@@ -33,4 +33,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PaymentMethodHeader;
+export default AppointmentScreenHeader;

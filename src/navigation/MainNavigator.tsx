@@ -27,6 +27,8 @@ import SplashScreen from '@screens/Splash/SplashScreen';
 import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
+import AppointmentScreen from '@screens/Home/AppointmentScreen';
+import AppointmentScreenHeader from '@screens/Home/Components/AppointmentScreenHeader/AppointmentScreenHeader';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
@@ -99,6 +101,13 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             }}
             name='CreatePaymentMethod'
             component={CreatePaymentMethod}
+          />
+          <MainStack.Screen
+            options={{
+              header: () => <AppointmentScreenHeader />
+            }}
+            name='AppointmentScreen'
+            component={AppointmentScreen}
           />
         </>
       )}

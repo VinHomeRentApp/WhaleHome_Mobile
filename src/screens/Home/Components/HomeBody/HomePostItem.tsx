@@ -37,9 +37,13 @@ const HomePostItem = ({ post }: HomePostItemProps) => {
           <Image
             style={styles.image}
             resizeMode='cover'
-            source={{
-              uri: post?.postImages[0]?.image_url ? post.postImages[0].image_url : require('@assets/images/tower.png')
-            }}
+            source={
+              post?.postImages[0]?.image_url
+                ? {
+                    uri: post.postImages[0].image_url
+                  }
+                : require('@assets/images/tower.png')
+            }
           />
         </View>
         <View style={styles.heartField}>

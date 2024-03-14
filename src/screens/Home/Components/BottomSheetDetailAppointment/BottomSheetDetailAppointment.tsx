@@ -9,7 +9,6 @@ import { Calendar, Call, Clock, CloseCircle, Location, Map, Note1, Star1 } from 
 import React from 'react';
 import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-
 type Props = {
   snapPoints: string[] | number[];
   sheetDetailRef: React.RefObject<BottomSheetMethods>;
@@ -18,11 +17,6 @@ type Props = {
 };
 
 const BottomSheetDetailAppointment = ({ sheetDetailRef, snapPoints, onClose, data }: Props) => {
-  console.log(data);
-  onClose: () => void;
-};
-
-const BottomSheetDetailAppointment = ({ sheetDetailRef, snapPoints, onClose }: Props) => {
   return (
     <BottomSheet
       detached={true}

@@ -10,7 +10,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type Props = {
   data: Appointment;
-  onOpenOptional: (index: number, myStr: string) => void;
+  onOpenOptional: (index: number, appointmentDetail: Appointment) => void;
 };
 
 const AppointmentCard = ({ data, onOpenOptional }: Props) => {
@@ -23,13 +23,13 @@ const AppointmentCard = ({ data, onOpenOptional }: Props) => {
           <View style={[styles.wrapOclock]}>
             <Clock size='20' color='#fff' />
             <TextComponent
-              content={`${convertDate(data.dateTime)} 10:10`}
+              content={`${convertDate(data.dateTime)}`}
               textColor={typoColor.white1}
               fontFamily={fontFam.bold}
             />
           </View>
         </View>
-        <TouchableOpacity onPress={() => onOpenOptional(0, 'open')}>
+        <TouchableOpacity onPress={() => onOpenOptional(0, data)}>
           <MoreCircle size='32' color={typoColor.gray1} />
         </TouchableOpacity>
       </View>

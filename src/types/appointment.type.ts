@@ -57,7 +57,7 @@ type Apartment = {
 export type Appointment = {
   statusAppointment: string;
   dateTime: string;
-  time: null;
+  time: string;
   apartment: Apartment;
   note: string;
   address: string;
@@ -65,5 +65,4 @@ export type Appointment = {
   userPhone: string;
   userName: string;
   userImage: string;
-
 };

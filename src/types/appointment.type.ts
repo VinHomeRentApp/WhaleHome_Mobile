@@ -58,8 +58,11 @@ export type Appointment = {
   statusAppointment: string;
   dateTime: string;
   time: null;
-  createBy: null;
   apartment: Apartment;
   note: string;
   address: string;
+  userAddress: string;
+  userPhone: string;
+  userName: string;
+  userImage: string;
 };

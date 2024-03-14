@@ -6,9 +6,6 @@ import { convertDate } from '@utils/helper';
 import { Clock, MoreCircle } from 'iconsax-react-native';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import { Clock, MoreCircle } from 'iconsax-react-native';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type Props = {
@@ -17,7 +14,6 @@ type Props = {
 };
 
 const AppointmentCard = ({ data, onOpenOptional }: Props) => {
-
   return (
     <View style={[styles.wrapAppointment]}>
       {/* Header Appointment */}
@@ -46,7 +42,6 @@ const AppointmentCard = ({ data, onOpenOptional }: Props) => {
         <View>
           <TextComponent content={data.userName} fontSize={16} fontFamily={fontFam.extraBold} />
           <TextComponent content='Owner' fontSize={14} textColor={typoColor.yellow1} />
-
         </View>
       </View>
     </View>

@@ -11,6 +11,7 @@ import globalStyle from '@styles/globalStyle';
 import AppointmentCard from './Components/AppointmentCard/AppointmentCard';
 import BottomSheetDetailAppointment from './Components/BottomSheetDetailAppointment/BottomSheetDetailAppointment';
 
+
 type FilterAppointment = 'Upcoming' | 'Past';
 
 const AppointmentScreen = () => {
@@ -69,6 +70,17 @@ const AppointmentScreen = () => {
   const handleCloseDetailAppointment = () => {
     sheetDetailRef.current?.close();
     setIsOpenDetailAppointment(false);
+  };
+
+
+  const handeCallPhone = () => {
+    Alert.alert(' 0886751110', '', [
+      {
+        text: 'Cancel',
+        style: 'cancel'
+      },
+      { text: 'Call Now', style: 'destructive' }
+    ]);
   };
 
   if (!getAppointmentQuery.data?.data.data) {

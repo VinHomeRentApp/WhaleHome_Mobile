@@ -9,6 +9,7 @@ import useRootContext from '@hooks/useRootContext';
 import { useGetAppointment } from '@services/queries/appointment.queries';
 import globalStyle from '@styles/globalStyle';
 import AppointmentCard from './Components/AppointmentCard/AppointmentCard';
+import BottomSheetDetailAppointment from './Components/BottomSheetDetailAppointment/BottomSheetDetailAppointment';
 
 type FilterAppointment = 'Upcoming' | 'Past';
 
@@ -66,17 +67,8 @@ const AppointmentScreen = () => {
   };
 
   const handleCloseDetailAppointment = () => {
+    sheetDetailRef.current?.close();
     setIsOpenDetailAppointment(false);
-  };
-
-  const handeCallPhone = () => {
-    Alert.alert(' 0886751110', '', [
-      {
-        text: 'Cancel',
-        style: 'cancel'
-      },
-      { text: 'Call Now', style: 'destructive' }
-    ]);
   };
 
   if (!getAppointmentQuery.data?.data.data) {
@@ -84,7 +76,7 @@ const AppointmentScreen = () => {
   } else {
     return (
       <SafeAreaView style={[globalStyle.container]}>
-        <View style={[styles.wrapContainer]}>
+        <View style={[styles.wrapContainer, { opacity: isOpenDetailAppointment || isOpenOptional ? 0.2 : 1 }]}>
           <TextComponent content='My Appointment' fontSize={30} fontFamily={fontFam.extraBold} />
           {/* Filter past / upcoming */}
           <View style={[styles.wraperFilter]}>
@@ -125,6 +117,7 @@ const AppointmentScreen = () => {
             renderItem={({ item }) => <AppointmentCard data={item} onOpenOptional={handleSnapPress} />}
           />
         </View>
+
         <BottomSheet
           detached={true}
           snapPoints={snapPoints}
@@ -158,19 +151,12 @@ const AppointmentScreen = () => {
             </Pressable>
           </BottomSheetView>
         </BottomSheet>
-        <BottomSheet
-          detached={true}
+
+        <BottomSheetDetailAppointment
+          sheetDetailRef={sheetDetailRef}
           snapPoints={snapDetailPoints}
-          enablePanDownToClose={true}
-          ref={sheetDetailRef}
-          index={-1}
-          handleIndicatorStyle={{ display: 'none' }}
-          handleStyle={{ display: 'none' }}
-        >
-          <BottomSheetView style={[styles.contentDetailAppointment]}>
-            <TextComponent content='123' />
-          </BottomSheetView>
-        </BottomSheet>
+          onClose={handleCloseDetailAppointment}
+        />
       </SafeAreaView>
     );
   }
@@ -263,56 +249,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomLeftRadius: 14,
     borderBottomRightRadius: 14
-  },
-  // Detail Appointment
-  contentDetailAppointment: {
-    flex: 1,
-    backgroundColor: '#151515',
-    borderRadius: 14,
-    padding: 20
-  },
-  wrapContentDetailAppointment: {
-    flex: 1
-  },
-  wrapImageContent: {
-    flexDirection: 'row',
-    gap: 20
-  },
-  wrapImageDetail: {
-    width: 80,
-    height: 80,
-    borderRadius: 50,
-    backgroundColor: '#fff'
-  },
-  wrapContentInformation: {},
-  buttonCallNow: {
-    flexDirection: 'row',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 8,
-    marginTop: 10,
-    borderWidth: 0.5,
-    borderColor: typoColor.yellow1,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: 120
-  },
-  textButtonCallNow: {
-    fontSize: 16,
-    fontFamily: fontFam.bold,
-    color: typoColor.yellow1
-  },
-  wrapDateTime: {
-    marginTop: 15,
-    backgroundColor: '#242424',
-    borderRadius: 12,
-    paddingVertical: 15,
-    paddingHorizontal: 15
-  },
-  contentDetailAppointment: {
-    flex: 1,
-    backgroundColor: '#121212',
-    borderRadius: 14
   }
 });
 

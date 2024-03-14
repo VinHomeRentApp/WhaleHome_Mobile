@@ -37,7 +37,13 @@ const AppointmentCard = ({ data, onOpenOptional }: Props) => {
       {/* Wrap Information Owner */}
       <View style={[styles.wrapInformation]}>
         {/* Image */}
-        <Image source={{ uri: data.userImage }} style={[styles.wrapImage]} />
+        <View
+          style={[
+            { padding: 5, borderWidth: 0.2, borderRadius: 50, borderColor: '#f8f8f899', backgroundColor: '#393939d9' }
+          ]}
+        >
+          <Image source={{ uri: data.userImage }} style={[styles.wrapImage]} />
+        </View>
         {/* Information */}
         <View>
           <TextComponent content={data.userName} fontSize={16} fontFamily={fontFam.extraBold} />
@@ -106,7 +112,8 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     backgroundColor: '#fff',
-    borderRadius: 50
+    borderRadius: 50,
+    padding: 10
   },
   wrapInformation: {
     paddingTop: 15,

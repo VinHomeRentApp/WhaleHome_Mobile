@@ -132,12 +132,12 @@ const BottomSheetDetailAppointment = ({ sheetDetailRef, snapPoints, onClose, dat
           </View>
           <View style={[{ marginVertical: 10 }]}></View>
           <View style={[styles.wrapComponent, { gap: 10 }]}>
-            <TextComponent content='Address' textColor='#818181' />
+            <TextComponent content='Note' textColor='#818181' />
             <View style={[styles.wrapContentDateTime]}>
               <View style={[styles.wrapIconDateTime]}>
                 <Note1 size='20' color='#f8d649' variant='Bold' />
               </View>
-              <TextComponent content='Please call me after 3PM' fontFamily={fontFam.bold} fontSize={18} />
+              <TextComponent content={data?.note} fontFamily={fontFam.bold} fontSize={18} />
             </View>
           </View>
         </ScrollView>

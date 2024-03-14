@@ -3,13 +3,22 @@ import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
+import { Appointment } from '@type/appointment.type';
+import { convertDate } from '@utils/helper';
 import { Calendar, Call, Clock, CloseCircle, Location, Map, Note1, Star1 } from 'iconsax-react-native';
 import React from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+
 
 type Props = {
   snapPoints: string[] | number[];
   sheetDetailRef: React.RefObject<BottomSheetMethods>;
+  data: Appointment;
+  onClose: () => void;
+};
+
+const BottomSheetDetailAppointment = ({ sheetDetailRef, snapPoints, onClose, data }: Props) => {
+  console.log(data);
   onClose: () => void;
 };
 
@@ -39,12 +48,12 @@ const BottomSheetDetailAppointment = ({ sheetDetailRef, snapPoints, onClose }: P
             <View style={[styles.wrapImageAndInfo]}>
               {/* Image */}
               <View style={[styles.besideImage]}>
-                <View style={[styles.wrapImage]}></View>
+                <Image source={{ uri: data?.userImage }} style={[styles.wrapImage]} />
               </View>
               {/* Information and call */}
               <View style={[styles.wrapInforandCall]}>
-                <TextComponent content='Nguyễn Trung Kiên' fontSize={22} fontFamily={fontFam.semiBold} />
-                <TextComponent content='Đồng Nai, Việt Nam' fontSize={14} fontFamily={fontFam.light} />
+                <TextComponent content={data?.userName} fontSize={22} fontFamily={fontFam.semiBold} />
+                <TextComponent content={data?.userAddress} fontSize={14} fontFamily={fontFam.light} />
                 <View style={[styles.wrapButton]}>
                   <View style={[styles.wrapVerify]}>
                     <Star1 size='20' color={typoColor.yellow1} variant='Bold' />
@@ -72,19 +81,33 @@ const BottomSheetDetailAppointment = ({ sheetDetailRef, snapPoints, onClose }: P
             <View style={[styles.wrapComponent, styles.cardInformation]}>
               <TextComponent content='Area' fontSize={16} textColor='#818181' />
               <View style={[{ marginVertical: 10 }]}></View>
-
-              <TextComponent content='S' fontSize={27} textColor='#f8d649' fontFamily={fontFam.extraBold} />
+              <TextComponent
+                content={data?.apartment.building.zone.area.name}
+                fontSize={27}
+                textColor='#f8d649'
+                fontFamily={fontFam.extraBold}
+              />
             </View>
             <View style={[styles.wrapComponent, styles.cardInformation]}>
               <TextComponent content='Building' fontSize={16} textColor='#818181' />
               <View style={[{ marginVertical: 10 }]}></View>
-              <TextComponent content='S2.01' fontSize={27} textColor='#f8d649' fontFamily={fontFam.extraBold} />
+              <TextComponent
+                content={data?.apartment.building.name}
+                fontSize={27}
+                textColor='#f8d649'
+                fontFamily={fontFam.extraBold}
+              />
             </View>
             <View style={[styles.wrapComponent, styles.cardInformation]}>
               <TextComponent content='Appartment' textColor='#818181' />
               <View style={[{ marginVertical: 10 }]}></View>
 
-              <TextComponent content='CH.01' fontSize={27} textColor='#f8d649' fontFamily={fontFam.extraBold} />
+              <TextComponent
+                content={data?.apartment.name}
+                fontSize={27}
+                textColor='#f8d649'
+                fontFamily={fontFam.extraBold}
+              />
             </View>
           </View>
           <View style={[{ marginVertical: 10 }]}></View>
@@ -94,13 +117,13 @@ const BottomSheetDetailAppointment = ({ sheetDetailRef, snapPoints, onClose }: P
               <View style={[styles.wrapIconDateTime]}>
                 <Calendar size='20' color='#f8d649' variant='Bold' />
               </View>
-              <TextComponent content='Wed 24 Mar 2024' fontFamily={fontFam.bold} fontSize={18} />
+              <TextComponent content={convertDate(data?.dateTime)} fontFamily={fontFam.bold} fontSize={18} />
             </View>
             <View style={[styles.wrapContentDateTime]}>
               <View style={[styles.wrapIconDateTime]}>
                 <Clock size='20' color='#f8d649' variant='Bold' />
               </View>
-              <TextComponent content='10 AM' fontFamily={fontFam.bold} fontSize={18} />
+              <TextComponent content={data?.time} fontFamily={fontFam.bold} fontSize={18} />
             </View>
           </View>
           <View style={[{ marginVertical: 10 }]}></View>
@@ -110,7 +133,7 @@ const BottomSheetDetailAppointment = ({ sheetDetailRef, snapPoints, onClose }: P
               <View style={[styles.wrapIconDateTime]}>
                 <Location size='20' color='#f8d649' variant='Bold' />
               </View>
-              <TextComponent content='Q9, HCM, Viet Nam' fontFamily={fontFam.bold} fontSize={18} />
+              <TextComponent content={data?.address} fontFamily={fontFam.bold} fontSize={18} />
             </View>
           </View>
           <View style={[{ marginVertical: 10 }]}></View>

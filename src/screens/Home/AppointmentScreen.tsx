@@ -10,6 +10,7 @@ import { useGetAppointment } from '@services/queries/appointment.queries';
 import globalStyle from '@styles/globalStyle';
 import AppointmentCard from './Components/AppointmentCard/AppointmentCard';
 import BottomSheetDetailAppointment from './Components/BottomSheetDetailAppointment/BottomSheetDetailAppointment';
+import { Appointment } from '@type/appointment.type';
 
 
 type FilterAppointment = 'Upcoming' | 'Past';
@@ -25,7 +26,7 @@ const AppointmentScreen = () => {
 
   const [isOpenOptional, setIsOpenOptional] = useState<boolean>(false);
   const [isOpenDetailAppointment, setIsOpenDetailAppointment] = useState<boolean>(false);
-  const [appointment, setAppointment] = useState<string>('');
+  const [appointment, setAppointment] = useState<Appointment>();
   const [isUpcoming, setIsUpcoming] = useState<FilterAppointment>('Upcoming');
 
   const sheetRef = useRef<BottomSheet>(null);
@@ -35,6 +36,7 @@ const AppointmentScreen = () => {
   const snapDetailPoints = useMemo(() => ['85%'], []);
 
   const getAppointmentQuery = useGetAppointment(id as number);
+
   const appointmentArr = useMemo(() => {
     const isCurrentDate = new Date().getTime();
     if (getAppointmentQuery.isSuccess) {
@@ -46,9 +48,10 @@ const AppointmentScreen = () => {
     }
   }, [getAppointmentQuery.isSuccess, isUpcoming, getAppointmentQuery.data?.data.data]);
 
-  const handleSnapPress = useCallback((index: number) => {
+  const handleSnapPress = useCallback((index: number, myStr: Appointment) => {
     sheetRef.current?.snapToIndex(index);
     setIsOpenOptional(true);
+    setAppointment(myStr);
   }, []);
 
   const handleCloseOptional = () => {
@@ -71,7 +74,6 @@ const AppointmentScreen = () => {
     sheetDetailRef.current?.close();
     setIsOpenDetailAppointment(false);
   };
-
 
   const handeCallPhone = () => {
     Alert.alert(' 0886751110', '', [
@@ -115,7 +117,7 @@ const AppointmentScreen = () => {
               onPress={handleChangeFilter('Past')}
             >
               <TextComponent
-                content='Past'
+                content='Completed'
                 fontSize={15}
                 textColor={isUpcoming === 'Past' ? typoColor.black1 : typoColor.white1}
                 fontFamily={fontFam.semiBold}
@@ -167,6 +169,7 @@ const AppointmentScreen = () => {
         <BottomSheetDetailAppointment
           sheetDetailRef={sheetDetailRef}
           snapPoints={snapDetailPoints}
+          data={appointment as Appointment}
           onClose={handleCloseDetailAppointment}
         />
       </SafeAreaView>

@@ -34,7 +34,7 @@ const AppointmentScreen = () => {
   const snapDetailPoints = useMemo(() => ['85%'], []);
 
   const getAppointmentQuery = useGetAppointment(id as number);
-
+  console.log('');
   const appointmentArr = useMemo(() => {
     const isCurrentDate = new Date().getTime();
     if (getAppointmentQuery.isSuccess) {

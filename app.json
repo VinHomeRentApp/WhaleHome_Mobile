@@ -11,21 +11,24 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.kane.dev.WhaleHome"
+      "bundleIdentifier": "com.kane.dev.WhaleHome",
+      "splash": {
+        "image": "./assets/splash-screen.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#ffffff"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/splash-screen.png",
+        "monochromeImage": "./assets/icon.png",
+        "backgroundImage": "./assets/splash-screen.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["android.permission.RECORD_AUDIO"],
       "package": "com.kane.dev.WhaleHome"
     },
     "web": {

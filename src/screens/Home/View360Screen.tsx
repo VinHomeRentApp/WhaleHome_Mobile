@@ -4,41 +4,38 @@ import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import { apartmentClassValue } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
-import P1 from '@models/3D/P1';
-import P2 from '@models/3D/P2';
-import P3 from '@models/3D/P3';
-import Studio from '@models/3D/Studio';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Canvas } from '@react-three/fiber';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { ArrowCircleLeft2 } from 'iconsax-react-native';
-import useControls from 'r3f-native-orbitcontrols';
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
+import P1View360 from './Components/View360Component/P1View360';
+import P2View360 from './Components/View360Component/P2View360';
+import P3View360 from './Components/View360Component/P3View360';
+import StudioView360 from './Components/View360Component/StudioView360';
 
 const View360Screen = () => {
   const route = useRoute<RouteProp<MainStackParamList, 'View360'>>();
   const { apartmentClass } = route.params;
   const apartmentClassName = apartmentClass.name;
-  const [OrbitControls, events] = useControls();
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   let model3d;
 
   switch (apartmentClassName) {
     case apartmentClassValue.STUDIO:
-      model3d = <Studio />;
+      model3d = <StudioView360 />;
       break;
     case apartmentClassValue.PN1:
-      model3d = <P1 />;
+      model3d = <P1View360 />;
       break;
     case apartmentClassValue.PN2:
-      model3d = <P2 />;
+      model3d = <P2View360 />;
       break;
     case apartmentClassValue.PN3:
-      model3d = <P3 />;
+      model3d = <P3View360 />;
       break;
     default:
       break;
@@ -46,19 +43,7 @@ const View360Screen = () => {
 
   return (
     <SafeAreaView style={[globalStyle.container]}>
-      <View style={styles.modelContainer} {...events}>
-        <Canvas>
-          <OrbitControls />
-          <OrbitControls />
-          <directionalLight position={[1, 0, 0]} args={['white', 5]} />
-          <directionalLight position={[-1, 0, 0]} args={['white', 5]} />
-          <directionalLight position={[0, 0, 1]} args={['white', 5]} />
-          <directionalLight position={[0, 0, -1]} args={['white', 5]} />
-          <directionalLight position={[0, 1, 0]} args={['white', 5]} />
-          <directionalLight position={[0, -1, 0]} args={['white', 5]} />
-          <Suspense fallback={null}>{model3d}</Suspense>
-        </Canvas>
-      </View>
+      {model3d}
       <View style={styles.textField}>
         <TextComponent styles={styles.textTitle} content={`Apartment Class: ${apartmentClassName}`} />
         <View>
@@ -86,10 +71,6 @@ export default View360Screen;
 
 const styles = StyleSheet.create({
   container: {},
-  modelContainer: {
-    width: '100%',
-    height: '80%'
-  },
   textField: {
     marginTop: 20,
     alignItems: 'center'

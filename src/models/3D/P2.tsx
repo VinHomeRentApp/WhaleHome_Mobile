@@ -160,7 +160,7 @@ type GLTFResult = GLTF & {
 export default function P2(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = useGLTF(require('@assets/roomModel/P2.glb')) as GLTFResult;
   return (
-    <group {...props} dispose={null}>
+    <group {...props} dispose={null} scale={[0.4, 0.4, 0.4]} position={[1, -1, -2]}>
       <group position={[-3.041, 0.25, 0.685]} rotation={[-Math.PI / 2, 0, 0]}>
         <mesh
           castShadow

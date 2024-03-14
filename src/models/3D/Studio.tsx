@@ -213,7 +213,7 @@ type GLTFResult = GLTF & {
 export default function Studio(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = useGLTF(require('../../assets/roomModel/Studio.glb')) as GLTFResult;
   return (
-    <group {...props} dispose={null}>
+    <group {...props} dispose={null} scale={[0.4, 0.4, 0.4]} position={[1, -1.5, 0]}>
       <group position={[-6.16, -0.07, 5.11]} rotation={[-Math.PI / 2, 0, Math.PI / 2]}>
         <mesh
           castShadow

@@ -14,6 +14,7 @@ type Props = {
 
 const AppointmentCard = ({ data, onOpenOptional }: Props) => {
 
+
   return (
     <View style={[styles.wrapAppointment]}>
       {/* Header Appointment */}

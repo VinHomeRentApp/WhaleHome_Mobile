@@ -1,5 +1,6 @@
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Pressable, FlatList } from 'react-native';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
+
 import globalStyle from '@styles/globalStyle';
 import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
@@ -9,6 +10,7 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useGetAppointment } from '@services/queries/appointment.queries';
 import AppointmentCard from './Components/AppointmentCard/AppointmentCard';
 import { get } from 'lodash';
+
 
 type FilterAppointment = 'Upcoming' | 'Past';
 
@@ -166,6 +168,7 @@ const styles = StyleSheet.create({
   wrapListAppointment: {
     marginTop: 20,
     marginBottom: 60
+
   },
   wrapAppointment: {
     backgroundColor: '#262626',

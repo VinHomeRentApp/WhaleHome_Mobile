@@ -13,7 +13,7 @@ type Props = {
 };
 
 const AppointmentCard = ({ data, onOpenOptional }: Props) => {
-  console.log(data);
+
 
   return (
     <View style={[styles.wrapAppointment]}>

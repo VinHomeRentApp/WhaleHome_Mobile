@@ -2,18 +2,18 @@ import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import { Appointment } from '@type/appointment.type';
+import { convertDate } from '@utils/helper';
 import { Clock, MoreCircle } from 'iconsax-react-native';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type Props = {
   data: Appointment;
-  onOpenOptional: (index: number, myStr: string) => void;
+  onOpenOptional: (index: number, appointmentDetail: Appointment) => void;
 };
 
 const AppointmentCard = ({ data, onOpenOptional }: Props) => {
-
   return (
     <View style={[styles.wrapAppointment]}>
       {/* Header Appointment */}
@@ -23,25 +23,31 @@ const AppointmentCard = ({ data, onOpenOptional }: Props) => {
           <View style={[styles.wrapOclock]}>
             <Clock size='20' color='#fff' />
             <TextComponent
-              content={`${data.dateTime} - ${data.time}`}
+              content={`${convertDate(data.dateTime)}`}
               textColor={typoColor.white1}
               fontFamily={fontFam.bold}
             />
           </View>
         </View>
-        <TouchableOpacity onPress={() => onOpenOptional(0, 'open')}>
-          <MoreCircle size='32' color={typoColor.yellow1} />
+        <TouchableOpacity onPress={() => onOpenOptional(0, data)}>
+          <MoreCircle size='32' color={typoColor.gray1} />
         </TouchableOpacity>
       </View>
 
       {/* Wrap Information Owner */}
       <View style={[styles.wrapInformation]}>
         {/* Image */}
-        <View style={[styles.wrapImage]}></View>
+        <View
+          style={[
+            { padding: 5, borderWidth: 0.2, borderRadius: 50, borderColor: '#f8f8f899', backgroundColor: '#393939d9' }
+          ]}
+        >
+          <Image source={{ uri: data.userImage }} style={[styles.wrapImage]} />
+        </View>
         {/* Information */}
         <View>
-          <TextComponent content='' fontSize={16} fontFamily={fontFam.bold} />
-          <TextComponent content='Owner' fontSize={14} />
+          <TextComponent content={data.userName} fontSize={16} fontFamily={fontFam.extraBold} />
+          <TextComponent content='Owner' fontSize={14} textColor={typoColor.yellow1} />
         </View>
       </View>
     </View>
@@ -106,7 +112,8 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     backgroundColor: '#fff',
-    borderRadius: 50
+    borderRadius: 50,
+    padding: 10
   },
   wrapInformation: {
     paddingTop: 15,

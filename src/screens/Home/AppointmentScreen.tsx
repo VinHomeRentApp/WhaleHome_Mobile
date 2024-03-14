@@ -1,35 +1,56 @@
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Pressable, FlatList } from 'react-native';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { Alert, FlatList, Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import globalStyle from '@styles/globalStyle';
 import TextComponent from '@components/ui/TextComponent';
-import fontFam from '@constants/fontFamilies';
 import { typoColor } from '@constants/appColors';
-import { Building, Building4, Clock, More, MoreCircle } from 'iconsax-react-native';
+import fontFam from '@constants/fontFamilies';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import useRootContext from '@hooks/useRootContext';
 import { useGetAppointment } from '@services/queries/appointment.queries';
+import globalStyle from '@styles/globalStyle';
 import AppointmentCard from './Components/AppointmentCard/AppointmentCard';
-import { get } from 'lodash';
-
+import BottomSheetDetailAppointment from './Components/BottomSheetDetailAppointment/BottomSheetDetailAppointment';
+import { Appointment } from '@type/appointment.type';
 
 type FilterAppointment = 'Upcoming' | 'Past';
 
 const AppointmentScreen = () => {
+  const {
+    state: {
+      auth: {
+        currentUser: { id }
+      }
+    }
+  } = useRootContext();
+
   const [isOpenOptional, setIsOpenOptional] = useState<boolean>(false);
   const [isOpenDetailAppointment, setIsOpenDetailAppointment] = useState<boolean>(false);
-  const [appointment, setAppointment] = useState<string>('');
+  const [appointment, setAppointment] = useState<Appointment>();
   const [isUpcoming, setIsUpcoming] = useState<FilterAppointment>('Upcoming');
+
   const sheetRef = useRef<BottomSheet>(null);
   const sheetDetailRef = useRef<BottomSheet>(null);
 
   const snapPoints = useMemo(() => ['15%'], []);
-  const snapDetailPoints = useMemo(() => ['75%'], []);
+  const snapDetailPoints = useMemo(() => ['85%'], []);
 
-  const getAppointmentQuery = useGetAppointment(13);
+  const getAppointmentQuery = useGetAppointment(id as number);
 
-  const handleSnapPress = useCallback((index: number) => {
+  const appointmentArr = useMemo(() => {
+    const isCurrentDate = new Date().getTime();
+    if (getAppointmentQuery.isSuccess) {
+      return getAppointmentQuery.data.data.data.filter((item) =>
+        isUpcoming === 'Upcoming'
+          ? new Date(item.dateTime).getTime() > isCurrentDate
+          : new Date(item.dateTime).getTime() < isCurrentDate
+      );
+    }
+  }, [getAppointmentQuery.isSuccess, isUpcoming, getAppointmentQuery.data?.data.data]);
+
+  const handleSnapPress = useCallback((index: number, myStr: Appointment) => {
     sheetRef.current?.snapToIndex(index);
     setIsOpenOptional(true);
+    setAppointment(myStr);
   }, []);
 
   const handleCloseOptional = () => {
@@ -41,10 +62,17 @@ const AppointmentScreen = () => {
     sheetDetailRef.current?.snapToIndex(index);
     sheetRef.current?.close();
     setIsOpenDetailAppointment(true);
+    setIsOpenOptional(false);
   }, []);
 
   const handleChangeFilter = (filter: FilterAppointment) => () => {
     setIsUpcoming(filter);
+  };
+
+  const handleCloseDetailAppointment = () => {
+    sheetDetailRef.current?.close();
+    sheetDetailRef.current?.close();
+    setIsOpenDetailAppointment(false);
   };
 
   if (!getAppointmentQuery.data?.data.data) {
@@ -52,7 +80,7 @@ const AppointmentScreen = () => {
   } else {
     return (
       <SafeAreaView style={[globalStyle.container]}>
-        <View style={[styles.wrapContainer]}>
+        <View style={[styles.wrapContainer, { opacity: isOpenDetailAppointment || isOpenOptional ? 0.2 : 1 }]}>
           <TextComponent content='My Appointment' fontSize={30} fontFamily={fontFam.extraBold} />
           {/* Filter past / upcoming */}
           <View style={[styles.wraperFilter]}>
@@ -79,7 +107,7 @@ const AppointmentScreen = () => {
               onPress={handleChangeFilter('Past')}
             >
               <TextComponent
-                content='Past'
+                content='Completed'
                 fontSize={15}
                 textColor={isUpcoming === 'Past' ? typoColor.black1 : typoColor.white1}
                 fontFamily={fontFam.semiBold}
@@ -89,10 +117,11 @@ const AppointmentScreen = () => {
           {/* Appointment List Upcoming*/}
           <FlatList
             style={[styles.wrapListAppointment]}
-            data={getAppointmentQuery.data?.data.data}
+            data={appointmentArr}
             renderItem={({ item }) => <AppointmentCard data={item} onOpenOptional={handleSnapPress} />}
           />
         </View>
+
         <BottomSheet
           detached={true}
           snapPoints={snapPoints}
@@ -126,19 +155,13 @@ const AppointmentScreen = () => {
             </Pressable>
           </BottomSheetView>
         </BottomSheet>
-        <BottomSheet
-          detached={true}
+
+        <BottomSheetDetailAppointment
+          sheetDetailRef={sheetDetailRef}
           snapPoints={snapDetailPoints}
-          enablePanDownToClose={true}
-          ref={sheetDetailRef}
-          index={-1}
-          handleIndicatorStyle={{ display: 'none' }}
-          handleStyle={{ display: 'none' }}
-        >
-          <BottomSheetView style={[styles.contentDetailAppointment]}>
-            <TextComponent content='123' />
-          </BottomSheetView>
-        </BottomSheet>
+          data={appointment as Appointment}
+          onClose={handleCloseDetailAppointment}
+        />
       </SafeAreaView>
     );
   }
@@ -168,7 +191,6 @@ const styles = StyleSheet.create({
   wrapListAppointment: {
     marginTop: 20,
     marginBottom: 60
-
   },
   wrapAppointment: {
     backgroundColor: '#262626',
@@ -198,7 +220,6 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   wrapImage: {
-    position: 'relative',
     width: 70,
     height: 70,
     backgroundColor: '#fff',
@@ -233,11 +254,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomLeftRadius: 14,
     borderBottomRightRadius: 14
-  },
-  contentDetailAppointment: {
-    flex: 1,
-    backgroundColor: '#121212',
-    borderRadius: 14
   }
 });
 

@@ -87,7 +87,7 @@ const PaymentMethod = () => {
                     key={item.id}
                     onPress={() => handleNavigateToCreate(item.bankCode)}
                   >
-                    <Image source={{ uri: item.url_img }} style={{ width: 40, height: 40 }} />
+                    <Image source={{ uri: item.url_img ?? '' }} style={{ width: 40, height: 40 }} />
                     <TextComponent content={item.bankCode} textColor='#000' fontFamily={fontFam.bold} />
                   </TouchableOpacity>
                 ))

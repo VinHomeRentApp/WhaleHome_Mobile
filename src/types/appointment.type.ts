@@ -65,4 +65,5 @@ export type Appointment = {
   userPhone: string;
   userName: string;
   userImage: string;
+
 };

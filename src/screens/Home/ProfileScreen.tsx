@@ -21,7 +21,7 @@ const ProfileScreen = () => {
     <View style={[globalStyle.container]}>
       <View style={[styles.containerProfile]}>
         <View style={[styles.profileInfo]}>
-          <Image style={[styles.profileImage]} source={{ uri: currentUser.image || defaultImage }} />
+          <Image style={[styles.profileImage]} source={currentUser.image ? { uri: currentUser.image } : defaultImage} />
         </View>
         <View style={[{ marginVertical: 10 }]}></View>
         <View style={[styles.fullNameContainer]}>

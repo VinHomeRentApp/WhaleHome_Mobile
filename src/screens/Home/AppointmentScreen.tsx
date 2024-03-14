@@ -1,4 +1,8 @@
 import LoadingOverlay from '@components/ui/LoadingOverlay';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Pressable, FlatList } from 'react-native';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+
+import globalStyle from '@styles/globalStyle';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
@@ -11,6 +15,12 @@ import { Buildings2, Calendar2, CalendarRemove, Call, Location, Note } from 'ico
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Alert, FlatList, Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import AppointmentCard from './Components/AppointmentCard/AppointmentCard';
+import { Building, Building4, Clock, More, MoreCircle } from 'iconsax-react-native';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { useGetAppointment } from '@services/queries/appointment.queries';
+import AppointmentCard from './Components/AppointmentCard/AppointmentCard';
+import { get } from 'lodash';
+
 
 type FilterAppointment = 'Upcoming' | 'Past';
 
@@ -23,8 +33,10 @@ const AppointmentScreen = () => {
     }
   } = useRootContext();
   const [detailAppointment, setDetailAppintment] = useState<Appointment | null>(null);
+
   const [isOpenOptional, setIsOpenOptional] = useState<boolean>(false);
   const [isOpenDetailAppointment, setIsOpenDetailAppointment] = useState<boolean>(false);
+  const [appointment, setAppointment] = useState<string>('');
   const [isUpcoming, setIsUpcoming] = useState<FilterAppointment>('Upcoming');
 
   const sheetRef = useRef<BottomSheet>(null);
@@ -46,6 +58,11 @@ const AppointmentScreen = () => {
     }
   }, [getAppointmentQuery.isSuccess, isUpcoming, getAppointmentQuery.data?.data.data]);
 
+  const snapDetailPoints = useMemo(() => ['75%'], []);
+
+  const getAppointmentQuery = useGetAppointment(13);
+
+
   const handleSnapPress = useCallback((index: number) => {
     sheetRef.current?.snapToIndex(index);
     setIsOpenOptional(true);
@@ -55,6 +72,7 @@ const AppointmentScreen = () => {
     sheetRef.current?.close();
     setIsOpenOptional(false);
   };
+
   const handleSnapPressDetail = useCallback((index: number) => {
     sheetDetailRef.current?.snapToIndex(index);
     sheetRef.current?.close();
@@ -252,8 +270,102 @@ const AppointmentScreen = () => {
       </BottomSheet>
     </SafeAreaView>
   );
+  if (!getAppointmentQuery.data?.data.data) {
+    return null;
+  } else {
+    return (
+      <SafeAreaView style={[globalStyle.container]}>
+        <View style={[styles.wrapContainer]}>
+          <TextComponent content='My Appointment' fontSize={30} fontFamily={fontFam.extraBold} />
+          {/* Filter past / upcoming */}
+          <View style={[styles.wraperFilter]}>
+            {/* Filter past */}
+            <TouchableOpacity
+              onPress={handleChangeFilter('Upcoming')}
+              style={[
+                styles.wrapButtonFilter,
+                { backgroundColor: isUpcoming === 'Upcoming' ? typoColor.yellow1 : '#121212' }
+              ]}
+            >
+              <TextComponent
+                content='Upcoming'
+                fontSize={15}
+                textColor={isUpcoming === 'Upcoming' ? typoColor.black1 : typoColor.white1}
+                fontFamily={fontFam.semiBold}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.wrapButtonFilter,
+                { backgroundColor: isUpcoming === 'Past' ? typoColor.yellow1 : '#121212' }
+              ]}
+              onPress={handleChangeFilter('Past')}
+            >
+              <TextComponent
+                content='Past'
+                fontSize={15}
+                textColor={isUpcoming === 'Past' ? typoColor.black1 : typoColor.white1}
+                fontFamily={fontFam.semiBold}
+              />
+            </TouchableOpacity>
+          </View>
+          {/* Appointment List Upcoming*/}
+          <FlatList
+            style={[styles.wrapListAppointment]}
+            data={getAppointmentQuery.data?.data.data}
+            renderItem={({ item }) => <AppointmentCard data={item} onOpenOptional={handleSnapPress} />}
+          />
+        </View>
+        <BottomSheet
+          detached={true}
+          snapPoints={snapPoints}
+          enablePanDownToClose={true}
+          ref={sheetRef}
+          style={[styles.headerDetailAppointment]}
+          index={-1}
+          bottomInset={25}
+          handleIndicatorStyle={{ display: 'none' }}
+          handleStyle={{ display: 'none' }}
+        >
+          <BottomSheetView style={[styles.contentAppointment]}>
+            <Pressable
+              onPress={() => handleSnapPressDetail(0)}
+              style={({ pressed }) => [
+                styles.wrapButtonDetails,
+                { borderBottomWidth: 0.2, borderColor: '#404040', backgroundColor: pressed ? '#303030' : '#262626' }
+              ]}
+            >
+              <TextComponent content='View details' fontSize={17} fontFamily={fontFam.medium} />
+            </Pressable>
+            <Pressable
+              onPress={() => handleCloseOptional()}
+              style={({ pressed }) => [
+                styles.wrapButtonCancel,
+                { borderBottomWidth: 0.2, borderColor: '#404040', backgroundColor: pressed ? '#303030' : '#262626' },
+                styles.wrapButtonCancel
+              ]}
+            >
+              <TextComponent content='Cancel' fontSize={17} fontFamily={fontFam.medium} />
+            </Pressable>
+          </BottomSheetView>
+        </BottomSheet>
+        <BottomSheet
+          detached={true}
+          snapPoints={snapDetailPoints}
+          enablePanDownToClose={true}
+          ref={sheetDetailRef}
+          index={-1}
+          handleIndicatorStyle={{ display: 'none' }}
+          handleStyle={{ display: 'none' }}
+        >
+          <BottomSheetView style={[styles.contentDetailAppointment]}>
+            <TextComponent content='123' />
+          </BottomSheetView>
+        </BottomSheet>
+      </SafeAreaView>
+    );
+  }
 };
-
 const styles = StyleSheet.create({
   // #262626
   wrapContainer: {
@@ -279,6 +391,7 @@ const styles = StyleSheet.create({
   wrapListAppointment: {
     marginTop: 20,
     marginBottom: 60
+
   },
   wrapAppointment: {
     backgroundColor: '#262626',
@@ -387,6 +500,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingVertical: 15,
     paddingHorizontal: 15
+  },
+  contentDetailAppointment: {
+    flex: 1,
+    backgroundColor: '#121212',
+    borderRadius: 14
   }
 });
 

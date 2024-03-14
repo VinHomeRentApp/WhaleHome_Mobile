@@ -22,7 +22,7 @@ const TopOverviewPost = ({ post }: TopOverviewPostProps) => {
     <ImageBackground
       style={{ height: 200 }}
       resizeMode='cover'
-      source={{ uri: post.postImages[0].image_url ? post.postImages[0].image_url : imageBackground }}
+      source={post.postImages[0].image_url ? { uri: post.postImages[0].image_url } : imageBackground}
     >
       <View style={styles.iconContainer}>
         <Pressable onPress={() => navigation.goBack()} style={({ pressed }) => [pressed && globalStyle.pressed]}>

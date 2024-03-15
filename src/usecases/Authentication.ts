@@ -42,13 +42,6 @@ export const handleSignIn = async (
     const response = await firebaseService.signIn(email, password);
     if (response) {
       const signInResponse = await userApi.signInMobile(email);
-      if (signInResponse.status === HttpStatusCode.InternalServerError) {
-        Toast.show({
-          type: ALERT_TYPE.DANGER,
-          title: 'InternalServerError',
-          textBody: 'Sign In Not Working!, Please Try again later!'
-        });
-      }
       dispatch({ type: AUTH_ACTION.SET_ACCESS_TOKEN, payload: signInResponse.data.data.access_token });
       const {
         data: { data: currentUser }
@@ -64,7 +57,13 @@ export const handleSignIn = async (
       navigation.navigate('HomeScreen');
     }
   } catch (error: any) {
-    Toast.show({ type: ALERT_TYPE.DANGER, title: 'Sign In Error', textBody: error.message });
+    if (error.response.status === HttpStatusCode.InternalServerError) {
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: 'Internal Server Error',
+        textBody: 'Sign In Not Working!, Please Try again later!'
+      });
+    }
   } finally {
     dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });
   }

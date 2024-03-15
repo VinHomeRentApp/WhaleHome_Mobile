@@ -26,7 +26,7 @@ const BodyLogin = () => {
   } = useForm<defaultFormSignIn>({
     resolver: yupResolver(formSignInSchema),
     defaultValues: defaultFormSignInValue,
-    mode: 'onChange'
+    mode: 'onBlur'
   });
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   const [isContinuePassword, setIsContinuePassword] = useState<boolean>(false);

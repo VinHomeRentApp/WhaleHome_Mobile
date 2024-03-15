@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { Alert, FlatList, Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
@@ -8,9 +8,10 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import useRootContext from '@hooks/useRootContext';
 import { useGetAppointment } from '@services/queries/appointment.queries';
 import globalStyle from '@styles/globalStyle';
+import { Appointment } from '@type/appointment.type';
 import AppointmentCard from './Components/AppointmentCard/AppointmentCard';
 import BottomSheetDetailAppointment from './Components/BottomSheetDetailAppointment/BottomSheetDetailAppointment';
-import { Appointment } from '@type/appointment.type';
+import NotFound from './Components/NotFound/NotFound';
 
 type FilterAppointment = 'Upcoming' | 'Past';
 
@@ -75,96 +76,98 @@ const AppointmentScreen = () => {
     setIsOpenDetailAppointment(false);
   };
 
-  if (!getAppointmentQuery.data?.data.data) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={[globalStyle.container]}>
-        <View style={[styles.wrapContainer, { opacity: isOpenDetailAppointment || isOpenOptional ? 0.2 : 1 }]}>
-          <TextComponent content='My Appointment' fontSize={30} fontFamily={fontFam.extraBold} />
-          {/* Filter past / upcoming */}
-          <View style={[styles.wraperFilter]}>
-            {/* Filter past */}
-            <TouchableOpacity
-              onPress={handleChangeFilter('Upcoming')}
-              style={[
-                styles.wrapButtonFilter,
-                { backgroundColor: isUpcoming === 'Upcoming' ? typoColor.yellow1 : '#121212' }
-              ]}
-            >
-              <TextComponent
-                content='Upcoming'
-                fontSize={15}
-                textColor={isUpcoming === 'Upcoming' ? typoColor.black1 : typoColor.white1}
-                fontFamily={fontFam.semiBold}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.wrapButtonFilter,
-                { backgroundColor: isUpcoming === 'Past' ? typoColor.yellow1 : '#121212' }
-              ]}
-              onPress={handleChangeFilter('Past')}
-            >
-              <TextComponent
-                content='Completed'
-                fontSize={15}
-                textColor={isUpcoming === 'Past' ? typoColor.black1 : typoColor.white1}
-                fontFamily={fontFam.semiBold}
-              />
-            </TouchableOpacity>
-          </View>
-          {/* Appointment List Upcoming*/}
+  console.log(getAppointmentQuery.data?.data.data);
+
+  return (
+    <SafeAreaView style={[globalStyle.container]}>
+      <View style={[styles.wrapContainer, { opacity: isOpenDetailAppointment || isOpenOptional ? 0.2 : 1 }]}>
+        <TextComponent content='My Appointment' fontSize={30} fontFamily={fontFam.extraBold} />
+        {/* Filter past / upcoming */}
+        <View style={[styles.wraperFilter]}>
+          {/* Filter past */}
+          <TouchableOpacity
+            onPress={handleChangeFilter('Upcoming')}
+            style={[
+              styles.wrapButtonFilter,
+              { backgroundColor: isUpcoming === 'Upcoming' ? typoColor.yellow1 : '#121212' }
+            ]}
+          >
+            <TextComponent
+              content='Upcoming'
+              fontSize={15}
+              textColor={isUpcoming === 'Upcoming' ? typoColor.black1 : typoColor.white1}
+              fontFamily={fontFam.semiBold}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.wrapButtonFilter,
+              { backgroundColor: isUpcoming === 'Past' ? typoColor.yellow1 : '#121212' }
+            ]}
+            onPress={handleChangeFilter('Past')}
+          >
+            <TextComponent
+              content='Completed'
+              fontSize={15}
+              textColor={isUpcoming === 'Past' ? typoColor.black1 : typoColor.white1}
+              fontFamily={fontFam.semiBold}
+            />
+          </TouchableOpacity>
+        </View>
+        {/* Appointment List Upcoming*/}
+        {getAppointmentQuery.data?.data.data.length === 0 ? (
+          <NotFound />
+        ) : (
           <FlatList
             style={[styles.wrapListAppointment]}
             data={appointmentArr}
             renderItem={({ item }) => <AppointmentCard data={item} onOpenOptional={handleSnapPress} />}
           />
-        </View>
+        )}
+      </View>
 
-        <BottomSheet
-          detached={true}
-          snapPoints={snapPoints}
-          enablePanDownToClose={true}
-          ref={sheetRef}
-          style={[styles.headerDetailAppointment]}
-          index={-1}
-          bottomInset={25}
-          handleIndicatorStyle={{ display: 'none' }}
-          handleStyle={{ display: 'none' }}
-        >
-          <BottomSheetView style={[styles.contentAppointment]}>
-            <Pressable
-              onPress={() => handleSnapPressDetail(0)}
-              style={({ pressed }) => [
-                styles.wrapButtonDetails,
-                { borderBottomWidth: 0.2, borderColor: '#404040', backgroundColor: pressed ? '#303030' : '#262626' }
-              ]}
-            >
-              <TextComponent content='View details' fontSize={17} fontFamily={fontFam.medium} />
-            </Pressable>
-            <Pressable
-              onPress={() => handleCloseOptional()}
-              style={({ pressed }) => [
-                styles.wrapButtonCancel,
-                { borderBottomWidth: 0.2, borderColor: '#404040', backgroundColor: pressed ? '#303030' : '#262626' },
-                styles.wrapButtonCancel
-              ]}
-            >
-              <TextComponent content='Cancel' fontSize={17} fontFamily={fontFam.medium} />
-            </Pressable>
-          </BottomSheetView>
-        </BottomSheet>
+      <BottomSheet
+        detached={true}
+        snapPoints={snapPoints}
+        enablePanDownToClose={true}
+        ref={sheetRef}
+        style={[styles.headerDetailAppointment]}
+        index={-1}
+        bottomInset={25}
+        handleIndicatorStyle={{ display: 'none' }}
+        handleStyle={{ display: 'none' }}
+      >
+        <BottomSheetView style={[styles.contentAppointment]}>
+          <Pressable
+            onPress={() => handleSnapPressDetail(0)}
+            style={({ pressed }) => [
+              styles.wrapButtonDetails,
+              { borderBottomWidth: 0.2, borderColor: '#404040', backgroundColor: pressed ? '#303030' : '#262626' }
+            ]}
+          >
+            <TextComponent content='View details' fontSize={17} fontFamily={fontFam.medium} />
+          </Pressable>
+          <Pressable
+            onPress={() => handleCloseOptional()}
+            style={({ pressed }) => [
+              styles.wrapButtonCancel,
+              { borderBottomWidth: 0.2, borderColor: '#404040', backgroundColor: pressed ? '#303030' : '#262626' },
+              styles.wrapButtonCancel
+            ]}
+          >
+            <TextComponent content='Cancel' fontSize={17} fontFamily={fontFam.medium} />
+          </Pressable>
+        </BottomSheetView>
+      </BottomSheet>
 
-        <BottomSheetDetailAppointment
-          sheetDetailRef={sheetDetailRef}
-          snapPoints={snapDetailPoints}
-          data={appointment as Appointment}
-          onClose={handleCloseDetailAppointment}
-        />
-      </SafeAreaView>
-    );
-  }
+      <BottomSheetDetailAppointment
+        sheetDetailRef={sheetDetailRef}
+        snapPoints={snapDetailPoints}
+        data={appointment as Appointment}
+        onClose={handleCloseDetailAppointment}
+      />
+    </SafeAreaView>
+  );
 };
 const styles = StyleSheet.create({
   // #262626

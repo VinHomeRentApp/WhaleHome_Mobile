@@ -1,5 +1,6 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import { bedRoomIconImage } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
 import { Appointment } from '@type/appointment.type';
 import { convertDate } from '@utils/helper';
@@ -10,6 +11,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type Props = {
   data: Appointment;
+  // eslint-disable-next-line no-unused-vars
   onOpenOptional: (index: number, appointmentDetail: Appointment) => void;
 };
 
@@ -42,7 +44,7 @@ const AppointmentCard = ({ data, onOpenOptional }: Props) => {
             { padding: 5, borderWidth: 0.2, borderRadius: 50, borderColor: '#f8f8f899', backgroundColor: '#393939d9' }
           ]}
         >
-          <Image source={{ uri: data.userImage }} style={[styles.wrapImage]} />
+          <Image source={data?.userImage ? { uri: data.userImage } : bedRoomIconImage} style={[styles.wrapImage]} />
         </View>
         {/* Information */}
         <View>

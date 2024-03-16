@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Whale Home",
-    "slug": "WhaleHome",
+    "name": "WhaleHome",
+    "slug": "Whale Home",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

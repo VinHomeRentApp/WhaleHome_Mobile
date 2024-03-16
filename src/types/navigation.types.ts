@@ -30,6 +30,7 @@ export type MainStackParamList = {
   LoginScreen: undefined;
   ForgotPassword: undefined;
   AppointmentScreen: undefined;
+  ContractScreen: undefined;
 };
 
 export type MainNavigatorProps = {

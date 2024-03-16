@@ -12,7 +12,7 @@ const PaymentMethodHeader = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   return (
-    <SafeAreaView style={[{ backgroundColor: backgroundColor.black1 }]}>
+    <SafeAreaView style={[{ backgroundColor: backgroundColor.black1, paddingTop: 30 }]}>
       <View style={[styles.headerContainer]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <ArrowCircleLeft2 size='35' color={typoColor.yellow1} variant='Bold' />

@@ -2,7 +2,7 @@ import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import { kitchenIconImage } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MainStackParamList } from '@type/navigation.types';
 import React from 'react';
@@ -16,10 +16,14 @@ type BodyButtonPostFieldProps = {
 const BodyButtonPostField = ({ post }: BodyButtonPostFieldProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
+  const handleNavigation = (post: Post) => {
+    navigation.push('DetailRoomScreen', { post });
+  };
+
   return (
     <View style={styles.buttonContainer}>
       <Pressable
-        onPress={() => navigation.navigate('DetailRoomScreen', { post })}
+        onPress={() => handleNavigation(post)}
         style={({ pressed }) => [styles.button, pressed && styles.activeButton]}
       >
         <Image style={styles.facilityIcon} resizeMode='contain' source={kitchenIconImage} />

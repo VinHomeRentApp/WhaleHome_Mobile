@@ -48,7 +48,15 @@ const HomeFeatureEstate = () => {
             >
               <View style={styles.featureOption}>
                 <View style={styles.featureImage}>
-                  <Image resizeMode='contain' source={require('@assets/images/tower.png')} />
+                  <Image
+                    style={{ width: '100%', height: '100%', borderRadius: 20 }}
+                    resizeMode='cover'
+                    source={
+                      post?.postImages[0]?.image_url
+                        ? { uri: post?.postImages[0]?.image_url }
+                        : require('@assets/images/tower.png')
+                    }
+                  />
                 </View>
                 <View style={styles.featureOptionTextField}>
                   <View style={styles.featureOptionTitleField}>
@@ -136,7 +144,7 @@ const styles = StyleSheet.create({
   categoryField: {
     position: 'absolute',
     bottom: 35,
-    left: 35,
+    left: 20,
     backgroundColor: typoColor.black2,
     height: 30,
     width: 70,
@@ -152,13 +160,14 @@ const styles = StyleSheet.create({
     width: 30,
     position: 'absolute',
     top: 40,
-    left: 35,
+    left: 20,
     backgroundColor: typoColor.black2,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20
   },
   featureImage: {
-    marginLeft: 10
+    height: '100%',
+    width: '45%'
   }
 });

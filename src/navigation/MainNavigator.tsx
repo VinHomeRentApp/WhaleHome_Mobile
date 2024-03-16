@@ -1,22 +1,30 @@
 import { typoColor } from '@constants/appColors';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AppointmentScreen from '@screens/Home/AppointmentScreen';
 import Building3D from '@screens/Home/Building3D';
 import ChatScreen from '@screens/Home/ChatScreen';
 import CheckoutScreen from '@screens/Home/CheckoutScreen';
+import AppointmentScreenHeader from '@screens/Home/Components/AppointmentScreenHeader/AppointmentScreenHeader';
 import CheckOutScreenHeader from '@screens/Home/Components/CheckOutScreenHeader/CheckOutScreenHeader';
+import ContractScreenHeader from '@screens/Home/Components/ContractSreenHeader/ContractScreenHeader';
 import EditProfileHeader from '@screens/Home/Components/EditProfileHeader/EditProfileHeader';
 import ForgotPasswordHeader from '@screens/Home/Components/ForgotPassword/ForgotPasswordHeader';
 import HomeBuilding3dScreen from '@screens/Home/Components/HomeBody/HomeBuilding3d';
 import PaymentMethodHeader from '@screens/Home/Components/PaymentMethodHeader/PaymentMethodHeader';
 import ReviewDetailHeader from '@screens/Home/Components/ReviewDetailScreen/ReviewDetailHeader';
+import ResetPassword from '@screens/Home/Components/SecurityAndPassword/ResetPassword';
+import ResetPasswordScreen from '@screens/Home/Components/SecurityAndPassword/ResetPasswordScreen';
+import VerifyOTP from '@screens/Home/Components/SecurityAndPassword/VerifyOTP';
 import SettingProfileHeader from '@screens/Home/Components/SettingProfileHeader/SettingProfileHeader';
 import TransactionReviewHeader from '@screens/Home/Components/TransactionReviewHeader/TransactionReviewHeader';
+import ContractScreen from '@screens/Home/ContractScreen';
 import DetailPostScreen from '@screens/Home/DetailPostScreen';
 import DetailScreen from '@screens/Home/DetailScreen';
 import EditProfileScreen from '@screens/Home/EditProfileScreen';
 import ForgotPasswordScreen from '@screens/Home/ForgotPasswordScreen';
 import ManageProfile from '@screens/Home/ManageProfile';
 import NotificationScreen from '@screens/Home/NotificationScreen';
+import PasswordAndSecurityScreen from '@screens/Home/PasswordAndSecurityScreen';
 import CreatePaymentMethod from '@screens/Home/Payment/CreatePaymentMethod';
 import PaymentMethod from '@screens/Home/Payment/PaymentMethod';
 import ReviewDetailScreen from '@screens/Home/ReviewDetailScreen';
@@ -27,10 +35,6 @@ import SplashScreen from '@screens/Splash/SplashScreen';
 import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
-import AppointmentScreen from '@screens/Home/AppointmentScreen';
-import AppointmentScreenHeader from '@screens/Home/Components/AppointmentScreenHeader/AppointmentScreenHeader';
-import ContractScreen from '@screens/Home/ContractScreen';
-import ContractScreenHeader from '@screens/Home/Components/ContractSreenHeader/ContractScreenHeader';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
@@ -106,10 +110,41 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
           />
           <MainStack.Screen
             options={{
-              header: () => <AppointmentScreenHeader />
+              header: () => <AppointmentScreenHeader title='Appointment' />
             }}
             name='AppointmentScreen'
             component={AppointmentScreen}
+          />
+          <MainStack.Screen
+            options={{
+              header: () => <AppointmentScreenHeader title='Reset Password' />
+            }}
+            name='ResetPasswordScreen'
+            component={ResetPasswordScreen}
+          />
+          <MainStack.Screen
+            options={{
+              header: () => <AppointmentScreenHeader title='Password And Security' />
+            }}
+            name='PasswordAndSecurityScreen'
+            component={PasswordAndSecurityScreen}
+          />
+          <MainStack.Screen
+            options={{
+              header: () => <AppointmentScreenHeader title='Enter OTP' />,
+              presentation: 'modal'
+            }}
+            name='VerifyOTP'
+            component={VerifyOTP}
+          />
+
+          <MainStack.Screen
+            options={{
+              header: () => <AppointmentScreenHeader title='Reset Password' />,
+              presentation: 'modal'
+            }}
+            name='ResetPassword'
+            component={ResetPassword}
           />
           <MainStack.Screen
             options={{

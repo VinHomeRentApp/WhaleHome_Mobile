@@ -15,7 +15,10 @@ const EndPoint = {
   getUserWithPagination: '/api/v1/user/get-page',
   updateUserImage: '/api/v1/user/update-image',
   updateUserInfo: '/api/v1/user/update',
-  logout: '/api/v1/auth/logout'
+  logout: '/api/v1/auth/logout',
+  forgotPassword: '/api/v1/auth/forgot-password',
+  verifyOTP: '/api/v1/auth/verify',
+  resetPassword: '/api/v1/auth/reset-password'
 };
 
 const userApi = {
@@ -59,6 +62,15 @@ const userApi = {
   },
   logout: (token: string) => {
     return httpClient.post<SuccessfulResponse<null>>(`${EndPoint.logout}?token=${token}`);
+  },
+  forgotPassword: (email: string) => {
+    return httpClient.post<SuccessfulResponse<string>>(`${EndPoint.forgotPassword}`, { email });
+  },
+  verifyOTP: (code: string, email: string) => {
+    return httpClient.post<SuccessfulResponse<string>>(`${EndPoint.verifyOTP}`, { code, email });
+  },
+  resetPassword: (newPassword: string, confirmPassword: string, email: string) => {
+    return httpClient.post<SuccessfulResponse<string>>(EndPoint.resetPassword, { newPassword, confirmPassword, email });
   }
 };
 

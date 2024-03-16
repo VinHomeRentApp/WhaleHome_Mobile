@@ -1,3 +1,4 @@
+import PostImage from '@models/class/PostImage.class';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import ApartmentClass from 'src/models/class/ApartmentClass.class';
@@ -14,7 +15,7 @@ export type MainStackParamList = {
   DetailRoomScreen: { post: Post };
   DetailPostScreen: { post: Post };
   SignUpScreen: undefined;
-  ViewImageRoomScreen: undefined;
+  ViewImageRoomScreen: { postImage: PostImage[] };
   View360: { apartmentClass: ApartmentClass };
   Notification: undefined;
   ManageProfileScreen: undefined;
@@ -31,6 +32,10 @@ export type MainStackParamList = {
   ForgotPassword: undefined;
   AppointmentScreen: undefined;
   ContractScreen: undefined;
+  ResetPasswordScreen: undefined;
+  PasswordAndSecurityScreen: undefined;
+  VerifyOTP: undefined;
+  ResetPassword: undefined;
 };
 
 export type MainNavigatorProps = {

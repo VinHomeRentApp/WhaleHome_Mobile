@@ -72,7 +72,6 @@ const AppointmentScreen = () => {
 
   const handleCloseDetailAppointment = () => {
     sheetDetailRef.current?.close();
-    sheetDetailRef.current?.close();
     setIsOpenDetailAppointment(false);
   };
 

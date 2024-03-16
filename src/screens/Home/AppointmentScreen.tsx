@@ -75,8 +75,6 @@ const AppointmentScreen = () => {
     setIsOpenDetailAppointment(false);
   };
 
-  console.log(getAppointmentQuery.data?.data.data);
-
   return (
     <SafeAreaView style={[globalStyle.container]}>
       <View style={[styles.wrapContainer, { opacity: isOpenDetailAppointment || isOpenOptional ? 0.2 : 1 }]}>

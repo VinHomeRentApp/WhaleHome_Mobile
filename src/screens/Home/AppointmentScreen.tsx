@@ -72,11 +72,8 @@ const AppointmentScreen = () => {
 
   const handleCloseDetailAppointment = () => {
     sheetDetailRef.current?.close();
-    sheetDetailRef.current?.close();
     setIsOpenDetailAppointment(false);
   };
-
-  console.log(getAppointmentQuery.data?.data.data);
 
   return (
     <SafeAreaView style={[globalStyle.container]}>

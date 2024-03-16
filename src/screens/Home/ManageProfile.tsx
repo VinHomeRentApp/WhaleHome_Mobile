@@ -11,7 +11,7 @@ import userApi from '@services/apis/user.apis';
 import FirebaseService from '@services/firebase/firebase.services';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
-import { Calendar, Card, CardCoin, Logout, ProfileCircle, Shield } from 'iconsax-react-native';
+import { Calendar, Card, CardCoin, DocumentText, Logout, ProfileCircle, Shield } from 'iconsax-react-native';
 import React from 'react';
 import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
@@ -74,22 +74,22 @@ const ManageProfile = () => {
         <TouchableOpacity style={[styles.partEdit]} onPress={() => navigation.navigate('AppointmentScreen')}>
           <Calendar size='25' color={typoColor.yellow1} />
           <View style={{ marginHorizontal: 5 }}></View>
-          <TextComponent fontSize={15} content='Appointment' fontFamily={fontFam.semiBold} />
+          <TextComponent fontSize={15} content='My Appointment' fontFamily={fontFam.semiBold} />
         </TouchableOpacity>
         <TouchableOpacity style={[styles.partEdit]} onPress={() => navigation.navigate('PaymentMethod')}>
           <Card size='25' color={typoColor.yellow1} />
           <View style={{ marginHorizontal: 5 }}></View>
-          <TextComponent fontSize={15} content='Payment' fontFamily={fontFam.semiBold} />
+          <TextComponent fontSize={15} content='My Payment' fontFamily={fontFam.semiBold} />
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.partEdit]} onPress={() => navigation.navigate('ContractScreen')}>
+          <DocumentText size='25' color={typoColor.yellow1} />
+          <View style={{ marginHorizontal: 5 }}></View>
+          <TextComponent fontSize={15} content='My Contract' fontFamily={fontFam.semiBold} />
         </TouchableOpacity>
         <TouchableOpacity style={[styles.partEdit]}>
           <Shield size='25' color={typoColor.yellow1} />
           <View style={{ marginHorizontal: 5 }}></View>
           <TextComponent fontSize={15} content='Password and security' fontFamily={fontFam.semiBold} />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.partEdit]}>
-          <CardCoin size='25' color={typoColor.yellow1} />
-          <View style={{ marginHorizontal: 5 }}></View>
-          <TextComponent fontSize={15} content='Payment history' fontFamily={fontFam.semiBold} />
         </TouchableOpacity>
       </View>
       <View style={[{ flex: 1, padding: 15, justifyContent: 'flex-end' }]}>

@@ -21,7 +21,7 @@ const RoomItem = ({ item }: RoomItemProps) => {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('DetailPostScreen', { post: item })}
+      onPress={() => navigation.push('DetailPostScreen', { post: item })}
       style={styles.roomsOptionField}
     >
       <View style={styles.roomsOption}>

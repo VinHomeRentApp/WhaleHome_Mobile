@@ -20,7 +20,7 @@ const TopOverviewPost = ({ post }: TopOverviewPostProps) => {
 
   return (
     <ImageBackground
-      style={{ height: 200 }}
+      style={{ height: 400 }}
       resizeMode='cover'
       source={post?.postImages[0]?.image_url ? { uri: post.postImages[0].image_url } : imageBackground}
     >

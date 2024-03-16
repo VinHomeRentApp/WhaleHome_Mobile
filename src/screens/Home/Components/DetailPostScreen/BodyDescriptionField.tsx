@@ -11,25 +11,29 @@ type BodyDescriptionFieldProps = {
 
 const BodyDescriptionField = ({ post }: BodyDescriptionFieldProps) => {
   return (
-    <View style={styles.descriptionField}>
-      <TextComponent styles={styles.descriptionTextTitle} content={`Description:`} />
-      <View style={styles.descriptionTextField}>
-        <TextComponent styles={styles.descriptionText} content={`${post.description}`} />
+    <>
+      <View style={styles.descriptionField}>
+        <TextComponent styles={styles.descriptionTextTitle} content={`Description:`} />
+        <View style={styles.descriptionTextField}>
+          <TextComponent styles={styles.descriptionText} content={`${post.description}`} />
+        </View>
       </View>
-      <TextComponent styles={styles.descriptionTextTitle} content='Apartment Information:' />
-      <View style={styles.descriptionTextField}>
-        <TextComponent styles={styles.descriptionText} content={`Apartment Name: ${post.apartment.name}`} />
+      <View style={styles.descriptionField}>
+        <TextComponent styles={styles.descriptionTextTitle} content='Apartment Information:' />
+        <View style={styles.descriptionTextField}>
+          <TextComponent styles={styles.descriptionText} content={`Apartment Name: ${post.apartment.name}`} />
 
-        <TextComponent styles={styles.descriptionText} content={`Building Name: ${post.apartment.building.name}`} />
+          <TextComponent styles={styles.descriptionText} content={`Building Name: ${post.apartment.building.name}`} />
 
-        <TextComponent styles={styles.descriptionText} content={`Zone Name: ${post.apartment.building.zone.name}`} />
+          <TextComponent styles={styles.descriptionText} content={`Zone Name: ${post.apartment.building.zone.name}`} />
 
-        <TextComponent
-          styles={styles.descriptionText}
-          content={`Area Name: ${post.apartment.building.zone.area.name}`}
-        />
+          <TextComponent
+            styles={styles.descriptionText}
+            content={`Area Name: ${post.apartment.building.zone.area.name}`}
+          />
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

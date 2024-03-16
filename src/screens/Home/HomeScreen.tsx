@@ -15,8 +15,6 @@ import HomeFeatureEstate from './Components/HomeBody/HomeFeatureEstate';
 import HomePostsField from './Components/HomeBody/HomePostsField';
 import HomeSaleField from './Components/HomeBody/HomeSaleField';
 
-import LoadingOverlay from '@components/ui/LoadingOverlay';
-import { useAuthentication } from '@hooks/useAuthentication';
 import DismissKeyboard from '@screens/Authentication/LoginScreen/components/DismissKeyboard';
 import HomeTopBuilding from './Components/HomeBody/HomeTopBuilding';
 import HomeTopUser from './Components/HomeBody/HomeTopUser';

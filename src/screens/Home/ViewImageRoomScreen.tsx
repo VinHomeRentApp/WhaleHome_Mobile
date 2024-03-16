@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import BodyAdminContact from '@components/ui/AdminContact';
 import { typoColor } from '@constants/appColors';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
@@ -13,12 +13,11 @@ import NextButton from './Components/ViewImageRoom/NextButton';
 import PrevButton from './Components/ViewImageRoom/PrevButton';
 
 const imageBackground = require('@assets/images/room-detail.jpg');
-const imageBackground1 = require('@assets/images/room-detail-1.jpg');
-const imageBackground2 = require('@assets/images/room-detail-2.jpg');
-const imageBackground3 = require('@assets/images/room-detail-3.jpg');
 
 const ViewImageRoomScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+  const route = useRoute<RouteProp<MainStackParamList, 'ViewImageRoomScreen'>>();
+  const { postImage } = route.params;
 
   return (
     <SafeAreaView style={[globalStyle.container, styles.container]}>
@@ -30,26 +29,14 @@ const ViewImageRoomScreen = () => {
         showsPagination={false}
         scrollEnabled={false}
       >
-        <ImageBackground
-          style={globalStyle.imageBackground}
-          resizeMode='cover'
-          source={imageBackground}
-        ></ImageBackground>
-        <ImageBackground
-          style={globalStyle.imageBackground}
-          resizeMode='cover'
-          source={imageBackground1}
-        ></ImageBackground>
-        <ImageBackground
-          style={globalStyle.imageBackground}
-          resizeMode='cover'
-          source={imageBackground2}
-        ></ImageBackground>
-        <ImageBackground
-          style={globalStyle.imageBackground}
-          resizeMode='cover'
-          source={imageBackground3}
-        ></ImageBackground>
+        {postImage.map((image, index) => (
+          <ImageBackground
+            key={index}
+            style={globalStyle.imageBackground}
+            resizeMode='cover'
+            source={image?.image_url ? { uri: image.image_url } : imageBackground}
+          ></ImageBackground>
+        ))}
       </Swiper>
 
       {/* Back button */}

@@ -6,6 +6,7 @@ import ChatScreen from '@screens/Home/ChatScreen';
 import CheckoutScreen from '@screens/Home/CheckoutScreen';
 import AppointmentScreenHeader from '@screens/Home/Components/AppointmentScreenHeader/AppointmentScreenHeader';
 import CheckOutScreenHeader from '@screens/Home/Components/CheckOutScreenHeader/CheckOutScreenHeader';
+import ContractScreenHeader from '@screens/Home/Components/ContractSreenHeader/ContractScreenHeader';
 import EditProfileHeader from '@screens/Home/Components/EditProfileHeader/EditProfileHeader';
 import ForgotPasswordHeader from '@screens/Home/Components/ForgotPassword/ForgotPasswordHeader';
 import HomeBuilding3dScreen from '@screens/Home/Components/HomeBody/HomeBuilding3d';
@@ -114,7 +115,6 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             name='AppointmentScreen'
             component={AppointmentScreen}
           />
-          <MainStack.Screen name='ContractScreen' component={ContractScreen} />
           <MainStack.Screen
             options={{
               header: () => <AppointmentScreenHeader title='Reset Password' />
@@ -145,6 +145,13 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             }}
             name='ResetPassword'
             component={ResetPassword}
+          />
+          <MainStack.Screen
+            options={{
+              header: () => <ContractScreenHeader />
+            }}
+            name='ContractScreen'
+            component={ContractScreen}
           />
         </>
       )}

@@ -30,6 +30,7 @@ import BottomNavigator from './BottomNavigator';
 import AppointmentScreen from '@screens/Home/AppointmentScreen';
 import AppointmentScreenHeader from '@screens/Home/Components/AppointmentScreenHeader/AppointmentScreenHeader';
 import ContractScreen from '@screens/Home/ContractScreen';
+import ContractScreenHeader from '@screens/Home/Components/ContractSreenHeader/ContractScreenHeader';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
@@ -110,7 +111,13 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             name='AppointmentScreen'
             component={AppointmentScreen}
           />
-          <MainStack.Screen name='ContractScreen' component={ContractScreen} />
+          <MainStack.Screen
+            options={{
+              header: () => <ContractScreenHeader />
+            }}
+            name='ContractScreen'
+            component={ContractScreen}
+          />
         </>
       )}
     </MainStack.Navigator>

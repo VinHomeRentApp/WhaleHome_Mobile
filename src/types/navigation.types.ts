@@ -31,7 +31,6 @@ export type MainStackParamList = {
   LoginScreen: undefined;
   ForgotPassword: undefined;
   AppointmentScreen: undefined;
-  DetailContract: undefined;
   ContractScreen: undefined;
   DetailContract: { contractId: number };
   ResetPasswordScreen: undefined;

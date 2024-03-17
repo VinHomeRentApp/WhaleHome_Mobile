@@ -35,6 +35,13 @@ import SplashScreen from '@screens/Splash/SplashScreen';
 import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
+import AppointmentScreen from '@screens/Home/AppointmentScreen';
+import AppointmentScreenHeader from '@screens/Home/Components/AppointmentScreenHeader/AppointmentScreenHeader';
+import ContractScreen from '@screens/Home/ContractScreen';
+import ContractScreenHeader from '@screens/Home/Components/ContractSreenHeader/ContractScreenHeader';
+import DetailContract from '@screens/Home/DetailContract';
+import DetailContractHeader from '@screens/Home/Components/DetailContractHeader/DetailContractHeader';
+
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
@@ -117,6 +124,17 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
           />
           <MainStack.Screen
             options={{
+              header: () => <ContractScreenHeader />
+            }}
+            name='ContractScreen'
+            component={ContractScreen}
+          />
+          <MainStack.Screen
+            options={{
+              header: () => <DetailContractHeader />
+            }}
+            name='DetailContract'
+            component={DetailContract}
               header: () => <AppointmentScreenHeader title='Reset Password' />
             }}
             name='ResetPasswordScreen'

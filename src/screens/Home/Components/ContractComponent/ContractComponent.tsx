@@ -4,7 +4,12 @@ import fontFam from '@constants/fontFamilies';
 import { CalendarTick, DocumentText1, Location, MoreCircle } from 'iconsax-react-native';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-const ContractComponent = () => {
+
+type Props = {
+  onOpenOptional: (index: number) => void;
+};
+
+const ContractComponent = ({ onOpenOptional }: Props) => {
   return (
     <View style={[styles.wrapContract]}>
       {/* Header */}
@@ -18,7 +23,7 @@ const ContractComponent = () => {
             <TextComponent content='#1' textColor='#cecece' fontFamily={fontFam.medium} fontSize={14} />
           </View>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => onOpenOptional(0)}>
           <MoreCircle size='32' color={typoColor.yellow1} variant='Bold' />
         </TouchableOpacity>
       </View>
@@ -40,6 +45,7 @@ const ContractComponent = () => {
       <View style={[styles.wrapTotalPrice]}>
         <TextComponent content='Rs:' fontSize={26} fontFamily={fontFam.light} />
         <TextComponent content='$ 47,000.00' fontSize={26} fontFamily={fontFam.bold} />
+        <TextComponent content='/ 12 months' fontSize={14} fontFamily={fontFam.light} />
       </View>
       <View style={[{ marginVertical: 10 }]}></View>
       <View style={[styles.lineSeperate]}></View>
@@ -50,7 +56,8 @@ const ContractComponent = () => {
           <View style={[styles.iconRenter, { backgroundColor: '#525252' }]}>
             <TextComponent content='A' fontSize={30} fontFamily={fontFam.extraBold} />
           </View>
-          <TextComponent content='KIEN MAP DIT' fontSize={18} fontFamily={fontFam.semiBold} />
+          <TextComponent content='NGUYEN TRUNG KIEN' fontSize={18} fontFamily={fontFam.semiBold} />
+          <TextComponent content='(you)' fontSize={12} fontFamily={fontFam.semiBold} />
         </View>
         {/* Ben B */}
         <View style={[styles.wrapOnwerAndRenterComponent]}>
@@ -58,6 +65,7 @@ const ContractComponent = () => {
             <TextComponent content='B' fontSize={30} fontFamily={fontFam.extraBold} />
           </View>
           <TextComponent content='TRAN QUANG MINH' fontSize={18} fontFamily={fontFam.semiBold} />
+          <TextComponent content='(owner)' fontSize={12} fontFamily={fontFam.semiBold} />
         </View>
       </View>
       <View style={[{ marginVertical: 10 }]}></View>
@@ -86,7 +94,7 @@ const ContractComponent = () => {
 const styles = StyleSheet.create({
   wrapContract: {
     borderWidth: 1,
-    backgroundColor: '#212121',
+    backgroundColor: '#202020',
     borderColor: '#404040',
     borderRadius: 14,
     padding: 20,
@@ -118,7 +126,8 @@ const styles = StyleSheet.create({
   },
   wrapTotalPrice: {
     flexDirection: 'row',
-    gap: 5
+    gap: 5,
+    alignItems: 'flex-end'
   },
   lineSeperate: {
     borderBottomWidth: 0.5,

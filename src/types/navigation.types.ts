@@ -32,6 +32,7 @@ export type MainStackParamList = {
   ForgotPassword: undefined;
   AppointmentScreen: undefined;
   ContractScreen: undefined;
+  DetailContract: undefined;
   ResetPasswordScreen: undefined;
   PasswordAndSecurityScreen: undefined;
   VerifyOTP: undefined;

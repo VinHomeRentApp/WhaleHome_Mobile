@@ -37,6 +37,8 @@ export type MainStackParamList = {
   PasswordAndSecurityScreen: undefined;
   VerifyOTP: undefined;
   ResetPassword: undefined;
+  BillingScreen: undefined;
+  ChoosePaymentMethod: undefined;
 };
 
 export type MainNavigatorProps = {

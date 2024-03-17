@@ -39,6 +39,7 @@ const DetailContract = () => {
           <TextComponent content='$ 5,300.00' fontFamily={fontFam.semiBold} fontSize={16} />
         </View>
         <View style={[{ marginVertical: 10 }]}></View>
+
         {/* Landlord Side */}
         <TouchableOpacity
           style={[styles.wrapExpand]}
@@ -56,6 +57,8 @@ const DetailContract = () => {
             <View style={[styles.seperateLine]} />
           </Animated.View>
         )}
+
+        {/* Renter side */}
         <TouchableOpacity style={[styles.wrapExpand]} onPress={() => setIsAccordinateRenter((prevState) => !prevState)}>
           <View style={[styles.wrapIcon, { backgroundColor: '#525252' }]}>
             <TextComponent content='B' fontSize={20} textColor='#fff' fontFamily={fontFam.extraBold} />

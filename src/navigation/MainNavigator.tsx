@@ -35,13 +35,10 @@ import SplashScreen from '@screens/Splash/SplashScreen';
 import { MainNavigatorProps, MainStackParamList } from '@type/navigation.types';
 import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
-import AppointmentScreen from '@screens/Home/AppointmentScreen';
-import AppointmentScreenHeader from '@screens/Home/Components/AppointmentScreenHeader/AppointmentScreenHeader';
-import ContractScreen from '@screens/Home/ContractScreen';
-import ContractScreenHeader from '@screens/Home/Components/ContractSreenHeader/ContractScreenHeader';
-import DetailContract from '@screens/Home/DetailContract';
 import DetailContractHeader from '@screens/Home/Components/DetailContractHeader/DetailContractHeader';
-
+import DetailContract from '@screens/Home/DetailContract';
+import BillingScreen from '@screens/Home/Components/BillingScreen';
+import ChoosePaymentMethod from '@screens/Home/ChoosePaymentMethod';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
@@ -99,7 +96,6 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             name='CheckOutScreen'
             component={CheckoutScreen}
           />
-
           {/* Payment Method, History, Changepassword */}
           <MainStack.Screen
             options={{ header: () => <PaymentMethodHeader /> }}
@@ -131,10 +127,6 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
           />
           <MainStack.Screen
             options={{
-              header: () => <DetailContractHeader />
-            }}
-            name='DetailContract'
-            component={DetailContract}
               header: () => <AppointmentScreenHeader title='Reset Password' />
             }}
             name='ResetPasswordScreen'
@@ -155,7 +147,6 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             name='VerifyOTP'
             component={VerifyOTP}
           />
-
           <MainStack.Screen
             options={{
               header: () => <AppointmentScreenHeader title='Reset Password' />,
@@ -166,10 +157,24 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
           />
           <MainStack.Screen
             options={{
-              header: () => <ContractScreenHeader />
+              header: () => <DetailContractHeader />
             }}
-            name='ContractScreen'
-            component={ContractScreen}
+            name='DetailContract'
+            component={DetailContract}
+          />
+          <MainStack.Screen
+            options={{
+              header: () => <AppointmentScreenHeader title='Purchase your bill' />
+            }}
+            name='BillingScreen'
+            component={BillingScreen}
+          />
+          <MainStack.Screen
+            options={{
+              header: () => <AppointmentScreenHeader title='Choose payment method' />
+            }}
+            name='ChoosePaymentMethod'
+            component={ChoosePaymentMethod}
           />
         </>
       )}

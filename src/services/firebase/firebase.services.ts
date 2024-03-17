@@ -7,7 +7,8 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  User
+  User,
+  updatePassword
 } from 'firebase/auth';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
@@ -150,6 +151,21 @@ export default class FirebaseService {
     } catch (error: any) {
       console.error('Upload File Error:', error);
       throw error;
+    }
+  }
+
+  public async changePassword(newPassword: string) {
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        await updatePassword(user, newPassword);
+      }
+    } catch (error: any) {
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: 'Change Password Error',
+        textBody: error.message
+      });
     }
   }
 }

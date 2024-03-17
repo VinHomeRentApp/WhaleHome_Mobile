@@ -11,7 +11,7 @@ import userApi from '@services/apis/user.apis';
 import FirebaseService from '@services/firebase/firebase.services';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
-import { Calendar, Card, CardCoin, DocumentText, Logout, ProfileCircle, Shield } from 'iconsax-react-native';
+import { Calendar, Card, DocumentText, Logout, ProfileCircle, Shield } from 'iconsax-react-native';
 import React from 'react';
 import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
@@ -86,7 +86,7 @@ const ManageProfile = () => {
           <View style={{ marginHorizontal: 5 }}></View>
           <TextComponent fontSize={15} content='My Contract' fontFamily={fontFam.semiBold} />
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.partEdit]}>
+        <TouchableOpacity style={[styles.partEdit]} onPress={() => navigation.navigate('PasswordAndSecurityScreen')}>
           <Shield size='25' color={typoColor.yellow1} />
           <View style={{ marginHorizontal: 5 }}></View>
           <TextComponent fontSize={15} content='Password and security' fontFamily={fontFam.semiBold} />

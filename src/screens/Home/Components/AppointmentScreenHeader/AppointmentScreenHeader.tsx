@@ -8,7 +8,11 @@ import { ArrowCircleLeft2 } from 'iconsax-react-native';
 import React from 'react';
 import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-const AppointmentScreenHeader = () => {
+type AppointmentScreenHeaderProps = {
+  title: string;
+};
+
+const AppointmentScreenHeader = ({ title }: AppointmentScreenHeaderProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   return (
@@ -17,7 +21,7 @@ const AppointmentScreenHeader = () => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <ArrowCircleLeft2 size='35' color={typoColor.yellow1} variant='Bold' />
         </TouchableOpacity>
-        <TextComponent content='Appointment' fontFamily={fontFam.extraBold} />
+        <TextComponent content={title} fontFamily={fontFam.extraBold} />
         <ArrowCircleLeft2 size='35' color={backgroundColor.black1} variant='Bold' />
       </View>
     </SafeAreaView>

@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 import { Notepad2, Setting2 } from 'iconsax-react-native';
 import React from 'react';
 import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import SettingHeader from './SettingHeader/SettingHeader';
 
 const ProfileHeader = () => {
   const navigation = useNavigation<any>();

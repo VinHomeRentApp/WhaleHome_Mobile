@@ -13,7 +13,7 @@ import Post from 'src/models/class/Post.class';
 const imageBackground = require('@assets/images/room-detail.jpg');
 const imageBackground1 = require('@assets/images/room-detail-1.jpg');
 const imageBackground2 = require('@assets/images/room-detail-2.jpg');
-// const imageBackground3 = require('@assets/images/room-detail-3.jpg');
+const imageBackground3 = require('@assets/images/room-detail-3.jpg');
 
 type TopOverViewProps = {
   post: Post;
@@ -21,10 +21,13 @@ type TopOverViewProps = {
 
 const TopOverview = ({ post }: TopOverViewProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
-  const [imageBackgroundState, setImageBackgroundState] = useState(imageBackground);
+  const postImageLength = post.postImages.length;
+  const [imageBackgroundState, setImageBackgroundState] = useState(post?.postImages[0]?.image_url);
+
+  console.log(post);
 
   return (
-    <ImageBackground resizeMode='cover' source={imageBackgroundState}>
+    <ImageBackground resizeMode='cover' source={imageBackgroundState ? { uri: imageBackgroundState } : imageBackground}>
       <View style={styles.imageContainer}>
         {/* Pressable Back and Favorite */}
         <View style={styles.iconContainer}>
@@ -45,29 +48,45 @@ const TopOverview = ({ post }: TopOverViewProps) => {
         {/* Add on Image Field */}
         <View style={styles.addOnImageField}>
           <Pressable
-            onPress={() => setImageBackgroundState(imageBackground)}
+            onPress={() => setImageBackgroundState(post?.postImages[0]?.image_url)}
             style={({ pressed }) => [pressed && globalStyle.pressed]}
           >
-            <Image style={styles.addOnImage} resizeMode='cover' source={imageBackground} />
+            <Image
+              style={styles.addOnImage}
+              resizeMode='cover'
+              source={post?.postImages[0]?.image_url ? { uri: post?.postImages[0]?.image_url } : imageBackground1}
+            />
           </Pressable>
 
-          <Pressable
-            onPress={() => setImageBackgroundState(imageBackground1)}
-            style={({ pressed }) => [pressed && globalStyle.pressed]}
-          >
-            <Image style={styles.addOnImage} resizeMode='cover' source={imageBackground1} />
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              navigation.navigate('ViewImageRoomScreen');
-            }}
-            style={({ pressed }) => pressed && globalStyle.pressed}
-          >
-            <Image style={styles.addOnImage} resizeMode='cover' source={imageBackground2} />
-            <View style={styles.addOnNumberImage}>
-              <TextComponent content='+3' />
-            </View>
-          </Pressable>
+          {postImageLength > 1 && (
+            <Pressable
+              onPress={() => setImageBackgroundState(post?.postImages[1]?.image_url)}
+              style={({ pressed }) => [pressed && globalStyle.pressed]}
+            >
+              <Image
+                style={styles.addOnImage}
+                resizeMode='cover'
+                source={post?.postImages[1]?.image_url ? { uri: post?.postImages[1]?.image_url } : imageBackground2}
+              />
+            </Pressable>
+          )}
+          {postImageLength > 2 && (
+            <Pressable
+              onPress={() => {
+                navigation.navigate('ViewImageRoomScreen', { postImage: post.postImages });
+              }}
+              style={({ pressed }) => pressed && globalStyle.pressed}
+            >
+              <Image
+                style={styles.addOnImage}
+                resizeMode='cover'
+                source={post?.postImages[2]?.image_url ? { uri: post?.postImages[2]?.image_url } : imageBackground3}
+              />
+              <View style={styles.addOnNumberImage}>
+                <TextComponent content={`${postImageLength}`} />
+              </View>
+            </Pressable>
+          )}
         </View>
       </View>
     </ImageBackground>
@@ -78,7 +97,7 @@ export default TopOverview;
 
 const styles = StyleSheet.create({
   imageContainer: {
-    height: 500,
+    height: 450,
     margin: 4,
     borderRadius: 5
   },

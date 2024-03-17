@@ -55,7 +55,6 @@ const ContractScreen = () => {
             <TextComponent content='0' fontFamily={fontFam.extraBold} fontSize={20} textColor='#000' />
           </View>
         </View>
-
         <View style={[{ marginVertical: 10 }]}></View>
         {/* Search */}
         <View style={[styles.wrapSearch]}>

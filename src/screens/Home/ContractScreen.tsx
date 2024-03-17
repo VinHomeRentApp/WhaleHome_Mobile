@@ -11,6 +11,7 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MainStackParamList } from '@type/navigation.types';
+import NotFound from './Components/NotFound/NotFound';
 
 const ContractScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();

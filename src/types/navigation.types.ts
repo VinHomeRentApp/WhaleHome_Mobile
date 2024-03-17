@@ -31,13 +31,14 @@ export type MainStackParamList = {
   LoginScreen: undefined;
   ForgotPassword: undefined;
   AppointmentScreen: undefined;
-  DetailContract: undefined;
   ContractScreen: undefined;
   DetailContract: undefined;
   ResetPasswordScreen: undefined;
   PasswordAndSecurityScreen: undefined;
   VerifyOTP: undefined;
   ResetPassword: undefined;
+  BillingScreen: undefined;
+  ChoosePaymentMethod: undefined;
 };
 
 export type MainNavigatorProps = {

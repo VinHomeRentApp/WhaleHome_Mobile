@@ -31,6 +31,7 @@ export type MainStackParamList = {
   ForgotPassword: undefined;
   AppointmentScreen: undefined;
   ContractScreen: undefined;
+  DetailContract: undefined;
 };
 
 export type MainNavigatorProps = {

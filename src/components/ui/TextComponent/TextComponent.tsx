@@ -4,7 +4,7 @@ import fontFam from '@constants/fontFamilies';
 import { typoColor } from '@constants/appColors';
 
 interface Props {
-  content: string;
+  content: number | string;
   textColor?: string;
   fontSize?: number;
   flex?: number;

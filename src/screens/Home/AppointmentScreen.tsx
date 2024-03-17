@@ -78,7 +78,28 @@ const AppointmentScreen = () => {
   return (
     <SafeAreaView style={[globalStyle.container]}>
       <View style={[styles.wrapContainer, { opacity: isOpenDetailAppointment || isOpenOptional ? 0.2 : 1 }]}>
-        <TextComponent content='My Appointment' fontSize={30} fontFamily={fontFam.extraBold} />
+        <View style={[{ flexDirection: 'row', alignItems: 'center', gap: 20 }]}>
+          <TextComponent content='My Appointment' fontSize={30} fontFamily={fontFam.extraBold} />
+          <View
+            style={[
+              {
+                height: 30,
+                width: 30,
+                borderRadius: 50,
+                backgroundColor: '#fff',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }
+            ]}
+          >
+            <TextComponent
+              content={getAppointmentQuery.data?.data.data.length as number}
+              fontFamily={fontFam.extraBold}
+              fontSize={20}
+              textColor='#000'
+            />
+          </View>
+        </View>
         {/* Filter past / upcoming */}
         <View style={[styles.wraperFilter]}>
           {/* Filter past */}

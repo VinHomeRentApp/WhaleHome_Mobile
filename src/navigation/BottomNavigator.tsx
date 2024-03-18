@@ -1,5 +1,4 @@
 import { accentColor } from '@constants/appColors';
-import useRootContext from '@hooks/useRootContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HeaderBottomTabs from '@screens/Home/Components/HomeHeader/RightHeader/RightHeader';
 import PostScreenHeader from '@screens/Home/Components/PostScreenHeader/PostScreenHeader';

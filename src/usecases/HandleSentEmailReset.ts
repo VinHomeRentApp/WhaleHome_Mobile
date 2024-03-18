@@ -1,7 +1,6 @@
 import { AUTH_ACTION } from '@contexts/types/auth.types';
 import { RootAction } from '@contexts/types/root.types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
-import userApi from '@services/apis/user.apis';
 import FirebaseService from '@services/firebase/firebase.services';
 import { MainStackParamList } from '@type/navigation.types';
 import { handleErrorResponse } from '@utils/handleErrorResponse';

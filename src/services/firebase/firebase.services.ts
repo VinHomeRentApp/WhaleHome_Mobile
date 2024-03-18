@@ -2,18 +2,18 @@
 /* eslint-disable no-useless-catch */
 import { AUTH_API_ERROR } from '@constants/authConstants';
 import {
+  User,
   createUserWithEmailAndPassword,
   fetchSignInMethodsForEmail,
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  User,
   updatePassword
 } from 'firebase/auth';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 import { v4 as uuidv4 } from 'uuid';
-import { auth, app } from '../../config/firebaseConfig';
+import { auth } from '../../config/firebaseConfig';
 
 type AuthErrorMap = Record<string, string>;
 

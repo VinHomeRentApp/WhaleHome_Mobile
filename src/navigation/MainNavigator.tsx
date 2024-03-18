@@ -122,13 +122,6 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
           />
           <MainStack.Screen
             options={{
-              header: () => <ContractScreenHeader />
-            }}
-            name='ContractScreen'
-            component={ContractScreen}
-          />
-          <MainStack.Screen
-            options={{
               header: () => <AppointmentScreenHeader title='Reset Password' />
             }}
             name='ResetPasswordScreen'
@@ -149,6 +142,7 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             name='VerifyOTP'
             component={VerifyOTP}
           />
+
           <MainStack.Screen
             options={{
               header: () => <AppointmentScreenHeader title='Reset Password' />,
@@ -156,6 +150,13 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             }}
             name='ResetPassword'
             component={ResetPassword}
+          />
+          <MainStack.Screen
+            options={{
+              header: () => <ContractScreenHeader />
+            }}
+            name='ContractScreen'
+            component={ContractScreen}
           />
           <MainStack.Screen
             options={{

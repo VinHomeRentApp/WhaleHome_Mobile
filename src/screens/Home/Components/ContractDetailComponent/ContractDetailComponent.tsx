@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet } from 'react-native';
-import React from 'react';
 import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
 import { Bank, Profile } from 'iconsax-react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
 type Props = {
   id_contract: string;

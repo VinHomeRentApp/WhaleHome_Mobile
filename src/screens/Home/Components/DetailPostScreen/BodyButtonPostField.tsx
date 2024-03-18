@@ -2,7 +2,7 @@ import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import { kitchenIconImage } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MainStackParamList } from '@type/navigation.types';
 import React from 'react';

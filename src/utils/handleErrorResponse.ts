@@ -16,6 +16,12 @@ export const handleErrorResponse = (status: number, error: any, context: string)
         title: 'Error',
         textBody: `Request ${context} is not working, please try again later!`
       };
+    case HttpStatusCode.NotImplemented:
+      return {
+        type: ALERT_TYPE.WARNING,
+        title: 'Error',
+        textBody: `Email you provide is Already Exist in ${context}`
+      };
     default:
       return {
         type: ALERT_TYPE.DANGER,

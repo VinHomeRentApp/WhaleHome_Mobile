@@ -1,6 +1,6 @@
 import globalStyle from '@styles/globalStyle';
 import React, { ReactElement } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList } from 'react-native';
 import Post from 'src/models/class/Post.class';
 import HomePostItem from '../HomeBody/HomePostItem';
 

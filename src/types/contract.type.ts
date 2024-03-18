@@ -10,6 +10,7 @@ export type Contract = {
   renterName: string;
   durationMonth: number;
   address: string;
+  urlFile: string;
 };
 
 export type ContractDetail = {

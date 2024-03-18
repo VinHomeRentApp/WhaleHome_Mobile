@@ -89,6 +89,7 @@ const ContractComponent = ({ onOpenOptional, data }: Props) => {
           <TextComponent content={`${data.address}`} fontSize={16} fontFamily={fontFam.semiBold} />
         </View>
       </View>
+      {/*  */}
     </View>
   );
 };

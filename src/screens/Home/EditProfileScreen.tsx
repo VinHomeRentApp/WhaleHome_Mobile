@@ -1,6 +1,7 @@
 import LoadingOverlay from '@components/ui/LoadingOverlay';
 import TextComponent from '@components/ui/TextComponent';
 import { backgroundColor, typoColor } from '@constants/appColors';
+import { defaultUser } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
 import { AUTH_ACTION } from '@contexts/types/auth.types';
 import useRootContext from '@hooks/useRootContext';
@@ -80,7 +81,10 @@ const EditProfileScreen = () => {
           <LoadingOverlay isLoading={isLoading} message='Updating...' />
           <View style={[styles.fullScreen]}>
             <View style={[styles.profileInfo]}>
-              <Image style={[styles.profileImage]} source={{ uri: currentUser.image || IMAGE_DEFAULT }} />
+              <Image
+                style={[styles.profileImage]}
+                source={currentUser?.image ? { uri: currentUser.image } : defaultUser}
+              />
               <TouchableOpacity style={[styles.editButton]} onPress={onPressHandlePickImage}>
                 <GalleryAdd size='20' color={backgroundColor.black1} />
               </TouchableOpacity>

@@ -1,6 +1,6 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
-import { UPDATING, defaultImage } from '@constants/appConstants';
+import { UPDATING, defaultUser } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
 import useRootContext from '@hooks/useRootContext';
 import globalStyle from '@styles/globalStyle';
@@ -21,7 +21,7 @@ const ProfileScreen = () => {
     <View style={[globalStyle.container]}>
       <View style={[styles.containerProfile]}>
         <View style={[styles.profileInfo]}>
-          <Image style={[styles.profileImage]} source={currentUser.image ? { uri: currentUser.image } : defaultImage} />
+          <Image style={[styles.profileImage]} source={currentUser.image ? { uri: currentUser.image } : defaultUser} />
         </View>
         <View style={[{ marginVertical: 10 }]}></View>
         <View style={[styles.fullNameContainer]}>

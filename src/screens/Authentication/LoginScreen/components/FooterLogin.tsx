@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, { BounceInDown } from 'react-native-reanimated';
 
 import React from 'react';

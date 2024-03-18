@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import TextComponent from '@components/ui/TextComponent';
+import { typoColor } from '@constants/appColors';
+import fontFam from '@constants/fontFamilies';
 import globalStyle from '@styles/globalStyle';
 import { Paypal } from 'iconsax-react-native';
-import TextComponent from '@components/ui/TextComponent';
-import fontFam from '@constants/fontFamilies';
-import { typoColor } from '@constants/appColors';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 type PaymentMethodType = 'VNPay' | 'Paypal' | 'Momo';
 

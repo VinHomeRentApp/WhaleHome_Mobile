@@ -1,6 +1,5 @@
-import { FormSignUpData } from '@type/form.types';
+import { SignUpData } from '@type/form.types';
 import { PaginationResponse, RegisterSuccessResponse, SuccessfulResponse } from '../../types/response.types';
-
 import { FormDataUpdate } from '@screens/Home/EditProfileScreen';
 import { getWithPagination } from '@type/post.types';
 import httpClient from '@utils/httpClient';
@@ -25,7 +24,7 @@ const userApi = {
   getUsers: () => {
     return httpClient.get<SuccessfulResponse<UserCurrentResponse[]>>(EndPoint.getUser);
   },
-  registerAccount: (body: FormSignUpData) => {
+  registerAccount: (body: SignUpData) => {
     return httpClient.post<SuccessfulResponse<RegisterSuccessResponse>>(EndPoint.register, body);
   },
   signIn: (email: string, password: string) => {

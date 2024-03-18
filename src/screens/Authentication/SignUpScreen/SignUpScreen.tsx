@@ -1,179 +1,183 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import TextComponent from '@components/ui/TextComponent';
-import { backgroundColor, typoColor } from '@constants/appColors';
+import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import { SignUpSchema, signUpSchema } from '@constants/yupSchema';
+import { AUTH_ACTION } from '@contexts/types/auth.types';
 import { yupResolver } from '@hookform/resolvers/yup';
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import useRootContext from '@hooks/useRootContext';
+import userApi from '@services/apis/user.apis';
 import FirebaseService from '@services/firebase/firebase.services';
-import { useRegisterAccount } from '@services/mutations/user.mutations';
 import globalStyle from '@styles/globalStyle';
 import { SignUpScreenProps } from '@type/navigation.types';
+import { handleErrorResponse } from '@utils/handleErrorResponse';
+import { HttpStatusCode } from 'axios';
+import { isEmpty } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { StyleSheet, Switch, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
+} from 'react-native';
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
-import RNPickerSelect from 'react-native-picker-select';
+import DatePicker from 'react-native-date-picker';
+import { Dropdown } from 'react-native-element-dropdown';
+
+const signUpImage = require('@assets/images/Signup-logotype-Standard-1.png');
 
 const fireBaseService = new FirebaseService();
 
 const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
-  const { control, handleSubmit, setValue, formState } = useForm<SignUpSchema>({
+  const { control, handleSubmit, formState } = useForm<SignUpSchema>({
     resolver: yupResolver(signUpSchema)
   });
+  const { dispatch } = useRootContext();
 
-  const [isNextComponent, setIsNextComponent] = useState<boolean>(false);
-  const [isEnabledAgreeTerm, setIsEnabledAgreeTerm] = useState(false);
-  const [date, setDate] = useState<Date>(new Date());
-  const registerAccountMutation = useRegisterAccount();
-  const toggleSwitch = () => setIsEnabledAgreeTerm((previousState) => !previousState);
+  const [isShowDatePicker, setIsShowDatePicker] = useState(false);
+
+  const { errors } = formState;
 
   useEffect(() => {
-    navigation.setOptions({
-      headerTitle: 'Create New Account',
-      headerLeft: () => {
-        return !isNextComponent ? (
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <TextComponent content='Cancel' textColor={typoColor.blue2} fontFamily={fontFam.semiBold} />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity onPress={handleBackComponent}>
-            <TextComponent content='Go Back' textColor={typoColor.blue2} fontFamily={fontFam.semiBold} />
-          </TouchableOpacity>
-        );
-      },
-      headerRight: () => {
-        return (
-          !isNextComponent && (
-            <TouchableOpacity disabled={!isEnabledAgreeTerm} onPress={handleNextComponent}>
-              <TextComponent
-                content='Next'
-                textColor={isEnabledAgreeTerm ? typoColor.blue2 : typoColor.gray1}
-                fontFamily={fontFam.semiBold}
-              />
-            </TouchableOpacity>
-          )
-        );
-      },
-      headerTintColor: typoColor.white1,
-      headerStyle: {
-        backgroundColor: '#1C1C1E'
-      }
-    });
-  }, [navigation, isNextComponent, isEnabledAgreeTerm]);
+    if (!isEmpty(errors)) Toast.show({ type: ALERT_TYPE.DANGER, title: 'Warning', textBody: errors.root?.message });
+  }, [errors]);
 
-  const handleNextComponent = () => {
-    setIsNextComponent(true);
-  };
-  const handleBackComponent = () => {
-    setIsNextComponent(false);
-  };
-
-  const handleChangeDate = (e: DateTimePickerEvent, myDate?: Date) => {
-    if (myDate) {
-      setDate(new Date(myDate));
-      setValue('dateOfBirth', myDate.toISOString());
-    }
-  };
-
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = async (data: SignUpSchema) => {
+    dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: true });
+    const { address, dateOfBirth, email, fullName, gender, password, phone } = data;
+    const submitData = { address, dateOfBirth, email, fullName, gender, password, phone, status: true };
     try {
-      await fireBaseService.signUp(data.email, data.password);
-      registerAccountMutation.mutate(data);
-      navigation.navigate('HomeScreen');
+      const response = await userApi.registerAccount(submitData);
+      if (response.status === HttpStatusCode.Ok) {
+        await fireBaseService.signUp(data.email, data.password);
+        dispatch({ type: AUTH_ACTION.SET_ACCESS_TOKEN, payload: response.data.data.access_token });
+        Toast.show({ type: ALERT_TYPE.SUCCESS, title: 'Successful', textBody: 'Sign Up Successful' });
+        navigation.navigate('HomeScreen');
+      }
     } catch (error: any) {
-      // Alert.alert('Sign Up Error', error.message);
-      Toast.show({ type: ALERT_TYPE.DANGER, title: 'Sign Up Error', textBody: error.message });
+      console.log(error);
+      Toast.show(handleErrorResponse(error.response.status, error, 'Sign Up'));
+    } finally {
+      dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: true });
     }
-  });
+  };
+
+  const data = [
+    { label: 'Male', value: 'Male' },
+    { label: 'Female', value: 'Female' },
+    { label: 'Other', value: 'Other' }
+  ];
 
   return (
-    <View style={[globalStyle.container, { paddingHorizontal: 10 }]}>
-      {!isNextComponent ? (
-        <View style={{ flex: 1, backgroundColor: backgroundColor.black1 }}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <ScrollView style={[globalStyle.container, { paddingHorizontal: 10 }]}>
+        <View style={{ width: '100%', height: 100 }}>
+          <Image
+            resizeMode='contain'
+            style={{ width: '100%', height: '100%', borderRadius: 10 }}
+            source={signUpImage}
+          />
+        </View>
+        <View>
           <View style={[styles.containerField]}>
             <Controller
               name='email'
               control={control}
               render={({ field: { onChange, value } }) => (
-                <View style={[styles.inputContainer, styles.borderTopRadiusCustom, styles.bottomWithCustom]}>
-                  <TextComponent styles={[styles.label]} fontSize={15} content='Email' />
-                  <TextInput
-                    value={value}
-                    onChangeText={onChange}
-                    style={[styles.inputField, formState.errors.email && { color: '#f44336' }]}
-                    placeholder='name@example.com'
-                  />
-                </View>
+                <>
+                  {errors.email?.message && (
+                    <TextComponent content={errors.email.message} fontSize={12} textColor='red' />
+                  )}
+                  <View style={[styles.inputContainer, styles.borderTopRadiusCustom, styles.bottomWithCustom]}>
+                    <TextComponent styles={[styles.label]} fontSize={15} content='Email' />
+                    <TextInput
+                      placeholderTextColor={typoColor.gray1}
+                      value={value}
+                      onChangeText={onChange}
+                      style={[styles.inputField, errors.email && styles.errorField]}
+                      placeholder='name@example.com'
+                    />
+                  </View>
+                </>
               )}
             />
+
             <Controller
               name='password'
               control={control}
               render={({ field: { onChange, value } }) => (
-                <View style={[styles.inputContainer, styles.bottomWithCustom]}>
-                  <TextComponent styles={[styles.label]} fontSize={15} content='Password' />
-                  <TextInput value={value} onChangeText={onChange} style={[styles.inputField]} placeholder='Required' />
-                </View>
+                <>
+                  {errors.password?.message && (
+                    <TextComponent content={errors.password.message} fontSize={12} textColor='red' />
+                  )}
+                  <View style={[styles.inputContainer, styles.bottomWithCustom]}>
+                    <TextComponent styles={[styles.label]} fontSize={15} content='Password' />
+                    <TextInput
+                      placeholderTextColor={typoColor.gray1}
+                      value={value}
+                      onChangeText={onChange}
+                      style={[styles.inputField, errors.password && styles.errorField]}
+                      placeholder='Required'
+                    />
+                  </View>
+                </>
               )}
             />
             <Controller
               name='verify_password'
               control={control}
               render={({ field: { onChange, value } }) => (
-                <View style={[styles.inputContainer, styles.borderBottomRadiusCustom]}>
-                  <TextComponent styles={[styles.label]} fontSize={15} content='Verify' />
-                  <TextInput
-                    value={value}
-                    onChangeText={onChange}
-                    style={[styles.inputField, formState.errors.verify_password && { color: '#f44336' }]}
-                    placeholder='Confirm password'
-                  />
-                </View>
+                <>
+                  {errors.verify_password?.message && (
+                    <TextComponent content={errors.verify_password.message} fontSize={12} textColor='red' />
+                  )}
+                  <View style={[styles.inputContainer, styles.borderBottomRadiusCustom]}>
+                    <TextComponent styles={[styles.label]} fontSize={15} content='Confirm' />
+                    <TextInput
+                      placeholderTextColor={typoColor.gray1}
+                      value={value}
+                      onChangeText={onChange}
+                      style={[styles.inputField, errors.verify_password && styles.errorField]}
+                      placeholder='Confirm password'
+                    />
+                  </View>
+                </>
               )}
             />
           </View>
-
-          <View style={[styles.containerField, { marginTop: 60 }]}>
-            <View style={[styles.inputContainer, styles.borderBottomRadiusCustom, styles.borderTopRadiusCustom]}>
-              <TextComponent
-                styles={[styles.label, { width: '80%' }]}
-                fontSize={15}
-                content='Agree to Terms and Conditions'
-              />
-              <View style={[{ width: '20%', justifyContent: 'center', alignItems: 'center' }]}>
-                <Switch
-                  trackColor={{ false: '#767577', true: '#34C759' }}
-                  thumbColor={isEnabledAgreeTerm ? '#f4f3f4' : '#f4f3f4'}
-                  ios_backgroundColor='#3e3e3e'
-                  onValueChange={toggleSwitch}
-                  value={isEnabledAgreeTerm}
-                />
-              </View>
-            </View>
-          </View>
         </View>
-      ) : (
-        <View style={{ flex: 1, backgroundColor: backgroundColor.black1 }}>
+        <View>
           <TextComponent
+            styles={{ marginTop: 40 }}
             content='Personal Information'
             textColor={typoColor.gray3}
             fontSize={15}
-            styles={[{ textTransform: 'uppercase', marginTop: 10 }]}
           />
           <View style={[styles.containerField, { marginTop: 10 }]}>
             <Controller
               control={control}
               name='fullName'
               render={({ field: { value, onChange } }) => (
-                <View style={[styles.inputContainer, styles.borderTopRadiusCustom, styles.bottomWithCustom]}>
-                  <TextComponent styles={[styles.label]} fontSize={15} content='Full Name' />
-                  <TextInput
-                    value={value}
-                    onChangeText={onChange}
-                    style={[styles.inputField, formState.errors.fullName && { color: '#f44336' }]}
-                    placeholder='Your full name here'
-                  />
-                </View>
+                <>
+                  {errors.fullName?.message && (
+                    <TextComponent content={errors.fullName.message} fontSize={12} textColor='red' />
+                  )}
+                  <View style={[styles.inputContainer, styles.borderTopRadiusCustom, styles.bottomWithCustom]}>
+                    <TextComponent styles={[styles.label]} fontSize={15} content='Full Name' />
+                    <TextInput
+                      value={value}
+                      onChangeText={onChange}
+                      placeholderTextColor={typoColor.gray1}
+                      style={[styles.inputField, errors.fullName && styles.errorField]}
+                      placeholder='Your full name here'
+                    />
+                  </View>
+                </>
               )}
             />
 
@@ -181,75 +185,121 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
               name='gender'
               control={control}
               render={({ field: { value, onChange } }) => (
-                <View style={[styles.inputContainer, styles.bottomWithCustom]}>
-                  <TextComponent styles={[styles.label]} fontSize={15} content='Gender' />
-                  <RNPickerSelect
-                    placeholder={{
-                      color: '#808080',
-                      label: 'Choose your gender'
-                    }}
-                    value={value}
-                    onValueChange={onChange}
-                    items={[
-                      { label: 'Male', value: 'male', color: '#808080' },
-                      { label: 'Female', value: 'female', color: '#808080' },
-                      { label: 'Other', value: 'other', color: '#808080' }
-                    ]}
-                  />
-                </View>
+                <>
+                  {errors.gender?.message && (
+                    <TextComponent content={errors.gender.message} fontSize={12} textColor='red' />
+                  )}
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={[styles.inputContainer, styles.bottomWithCustom, { width: '28%' }]}>
+                      <TextComponent fontSize={15} content='Gender' />
+                    </View>
+                    <View style={[styles.inputContainer, styles.bottomWithCustom, { width: '100%' }]}>
+                      <Dropdown
+                        selectedTextStyle={{ color: typoColor.white1 }}
+                        placeholderStyle={{ color: typoColor.gray1 }}
+                        style={[styles.inputField, errors.gender && styles.errorField]}
+                        labelField='label'
+                        valueField='value'
+                        onChange={(e) => {
+                          onChange(e.value);
+                        }}
+                        value={value}
+                        data={data}
+                      />
+                    </View>
+                  </View>
+                </>
               )}
             />
             <Controller
               control={control}
               name='phone'
               render={({ field: { value, onChange } }) => (
-                <View style={[styles.inputContainer, styles.bottomWithCustom]}>
-                  <TextComponent styles={[styles.label]} fontSize={15} content='Phone' />
-                  <TextInput
-                    value={value}
-                    onChangeText={onChange}
-                    style={[styles.inputField, formState.errors.phone && { color: '#f44336' }]}
-                    placeholder='+84 123345789'
-                    inputMode='numeric'
-                  />
-                </View>
+                <>
+                  {errors.phone?.message && (
+                    <TextComponent content={errors.phone.message} fontSize={12} textColor='red' />
+                  )}
+                  <View style={[styles.inputContainer, styles.bottomWithCustom]}>
+                    <TextComponent styles={[styles.label]} fontSize={15} content='Phone' />
+                    <TextInput
+                      placeholderTextColor={typoColor.gray1}
+                      value={value}
+                      onChangeText={onChange}
+                      style={[styles.inputField, errors.phone && styles.errorField]}
+                      placeholder='+84 123345789'
+                      inputMode='numeric'
+                    />
+                  </View>
+                </>
               )}
             />
             <Controller
               control={control}
               name='address'
               render={({ field: { value, onChange } }) => (
-                <View style={[styles.inputContainer, styles.bottomWithCustom]}>
-                  <TextComponent styles={[styles.label]} fontSize={15} content='Address' />
-                  <TextInput
-                    value={value}
-                    onChangeText={onChange}
-                    style={[styles.inputField, formState.errors.address && { color: '#f44336' }]}
-                    placeholder='+84 123345789'
-                  />
-                </View>
+                <>
+                  {errors.address?.message && (
+                    <TextComponent content={errors.address.message} fontSize={12} textColor='red' />
+                  )}
+                  <View style={[styles.inputContainer, styles.bottomWithCustom]}>
+                    <TextComponent styles={[styles.label]} fontSize={15} content='Address' />
+                    <TextInput
+                      placeholderTextColor={typoColor.gray1}
+                      value={value}
+                      onChangeText={onChange}
+                      style={[styles.inputField, errors.address && styles.errorField]}
+                      placeholder='+84 123345789'
+                    />
+                  </View>
+                </>
               )}
             />
-            <Controller
-              name='dateOfBirth'
-              control={control}
-              render={() => (
-                <View style={[styles.inputContainer, styles.borderBottomRadiusCustom]}>
-                  <TextComponent styles={[styles.label]} fontSize={15} content='Date of Birth' />
-                  <TouchableOpacity>
-                    {/* <TextComponent content='DD /MM /YYYY' textColor='#808080' /> */}
-                    <DateTimePicker display='default' value={date} onChange={handleChangeDate} />
-                  </TouchableOpacity>
-                </View>
-              )}
-            />
+            <TouchableOpacity onPress={() => setIsShowDatePicker(true)}>
+              <Controller
+                name='dateOfBirth'
+                control={control}
+                render={({ field }) => (
+                  <>
+                    {errors.dateOfBirth?.message && (
+                      <TextComponent content={errors.dateOfBirth.message} fontSize={12} textColor='red' />
+                    )}
+                    <View style={[styles.inputContainer, styles.borderBottomRadiusCustom]}>
+                      <TextComponent styles={styles.label} fontSize={15} content='Date of Birth' />
+                      {isShowDatePicker && (
+                        <DatePicker
+                          modal
+                          style={[errors.dateOfBirth && styles.errorField]}
+                          mode='date'
+                          open={isShowDatePicker}
+                          date={field.value ? new Date(field.value) : new Date()}
+                          onConfirm={(date) => {
+                            const day = date.getDate();
+                            const month = date.getMonth() + 1;
+                            const year = date.getFullYear();
+                            const formattedDay = day < 10 ? `0${day}` : day;
+                            const formattedMonth = month < 10 ? `0${month}` : month;
+                            const formatDateOfBirth = `${year}-${formattedMonth}-${formattedDay}`;
+                            field.onChange(formatDateOfBirth);
+                            setIsShowDatePicker(false);
+                          }}
+                          onCancel={() => {
+                            setIsShowDatePicker(false);
+                          }}
+                        />
+                      )}
+                      <TextComponent styles={{ color: 'white' }} content={field.value} />
+                    </View>
+                  </>
+                )}
+              />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={onSubmit} style={[styles.submitButton]}>
+          <TouchableOpacity onPress={handleSubmit(onSubmit)} style={[styles.submitButton]}>
             <TextComponent textColor={typoColor.black1} fontFamily={fontFam.bold} fontSize={18} content='Submit' />
           </TouchableOpacity>
         </View>
-      )}
-    </View>
+      </ScrollView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -272,6 +322,7 @@ const styles = StyleSheet.create({
   },
   inputField: {
     width: '70%',
+    height: 50,
     fontSize: 15,
     color: typoColor.white1
   },
@@ -291,15 +342,17 @@ const styles = StyleSheet.create({
   submitButton: {
     padding: 20,
     borderWidth: 1,
-    width: '60%',
+    width: '40%',
     marginLeft: 'auto',
     marginRight: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
-    borderRadius: 12,
-    backgroundColor: typoColor.yellow2
-  }
+    borderRadius: 20,
+    backgroundColor: typoColor.yellow1,
+    marginBottom: 40
+  },
+  errorField: { borderColor: '#f44336', borderWidth: 1, borderRadius: 10, padding: 10 }
 });
 
 export default SignUpScreen;

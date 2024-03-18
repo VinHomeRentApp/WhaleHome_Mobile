@@ -7,8 +7,8 @@ import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { Add, ArrowLeft2, ArrowRight2, Calendar } from 'iconsax-react-native';
 import React, { useEffect, useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
-import Animated, { FadeIn, FadeInDown, FadeInUp, FadeOutDown } from 'react-native-reanimated';
+import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 
 type FilterType = 'isAllBill' | 'isNotAllBill';
 

@@ -18,3 +18,14 @@ export type FormSignUpData = {
   dateOfBirth: string;
   address: string;
 };
+
+export type SignUpData = {
+  email: string;
+  password: string;
+  fullName: string;
+  gender: string;
+  phone: string;
+  dateOfBirth: string;
+  address: string;
+  status: boolean;
+};

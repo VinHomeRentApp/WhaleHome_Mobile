@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet } from 'react-native';
-import React from 'react';
-import TextComponent from '../TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import React from 'react';
+import { View } from 'react-native';
+import TextComponent from '../TextComponent';
 
 interface Props {
   content: string;

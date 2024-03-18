@@ -1,6 +1,8 @@
 import { typoColor } from '@constants/appColors';
 import useRootContext from '@hooks/useRootContext';
 import globalStyle from '@styles/globalStyle';
+import { DirectRight, More2 } from 'iconsax-react-native';
+import { isEmpty } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   FlatList,
@@ -8,14 +10,11 @@ import {
   Platform,
   SafeAreaView,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   View
 } from 'react-native';
 import MessageItem, { Message } from './Components/ChatScreen/MessageItem';
-import { DirectRight, More2 } from 'iconsax-react-native';
-import { isEmpty } from 'lodash';
 
 const ChatScreen: React.FC = () => {
   const { state } = useRootContext();

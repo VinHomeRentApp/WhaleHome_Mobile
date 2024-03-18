@@ -158,36 +158,6 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
           />
           <MainStack.Screen
             options={{
-              header: () => <AppointmentScreenHeader title='Reset Password' />
-            }}
-            name='ResetPasswordScreen'
-            component={ResetPasswordScreen}
-          />
-          <MainStack.Screen
-            options={{
-              header: () => <AppointmentScreenHeader title='Password And Security' />
-            }}
-            name='PasswordAndSecurityScreen'
-            component={PasswordAndSecurityScreen}
-          />
-          <MainStack.Screen
-            options={{
-              header: () => <AppointmentScreenHeader title='Enter OTP' />,
-              presentation: 'modal'
-            }}
-            name='VerifyOTP'
-            component={VerifyOTP}
-          />
-          <MainStack.Screen
-            options={{
-              header: () => <AppointmentScreenHeader title='Reset Password' />,
-              presentation: 'modal'
-            }}
-            name='ResetPassword'
-            component={ResetPassword}
-          />
-          <MainStack.Screen
-            options={{
               header: () => <DetailContractHeader />
             }}
             name='DetailContract'

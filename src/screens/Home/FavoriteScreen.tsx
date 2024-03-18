@@ -7,7 +7,7 @@ import SearchRender from './Components/SearchRender/SearchRender';
 import useRootContext from '@hooks/useRootContext';
 
 const FavoriteScreen = () => {
-  const { state, dispatch } = useRootContext();
+  const { state } = useRootContext();
   const {
     post: { posts }
   } = state;

@@ -26,7 +26,7 @@ export const handleErrorResponse = (status: number, error: any, context: string)
       return {
         type: ALERT_TYPE.DANGER,
         title: 'Error',
-        textBody: error.message
+        textBody: `${context}, ${error.message}`
       };
   }
 };

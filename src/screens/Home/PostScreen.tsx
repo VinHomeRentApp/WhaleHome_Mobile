@@ -1,13 +1,12 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import { defaultUser } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
 import useRootContext from '@hooks/useRootContext';
 import globalStyle from '@styles/globalStyle';
 import { ArrowDown2, Global } from 'iconsax-react-native';
 import React from 'react';
 import { Image, StyleSheet, TextInput, View } from 'react-native';
-
-const IMAGE_DEFAULT = '../../assets/images/user/kien.jpg';
 
 const PostScreen = () => {
   const {
@@ -20,10 +19,7 @@ const PostScreen = () => {
     <View style={[globalStyle.container]}>
       <View style={[styles.mainContent]}>
         <View style={[styles.infoUser]}>
-          <Image
-            style={[styles.profileImage]}
-            source={currentUser.image ? { uri: currentUser.image } : require(IMAGE_DEFAULT)}
-          />
+          <Image style={[styles.profileImage]} source={currentUser.image ? { uri: currentUser.image } : defaultUser} />
           <View style={[styles.inforUserText]}>
             <TextComponent content={currentUser.fullName || 'Guest'} fontSize={15} fontFamily={fontFam.bold} />
             <View style={[styles.publicArea]}>

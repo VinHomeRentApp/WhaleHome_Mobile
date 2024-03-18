@@ -2,7 +2,7 @@ export const typoColor = {
   black1: '#121212',
   black2: '#1C1C1E',
   black3: '#121212',
-  yellow1: '#FFD426',
+  yellow1: '#FFA02A',
   yellow2: '#FFB267',
   white1: '#f8f8f8',
   white2: '#FFFFFF',

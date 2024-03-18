@@ -39,6 +39,7 @@ export type MainStackParamList = {
   ResetPassword: undefined;
   BillingScreen: undefined;
   ChoosePaymentMethod: undefined;
+  HistoryBillingScreen: undefined;
 };
 
 export type MainNavigatorProps = {

@@ -81,11 +81,7 @@ const ManageProfile = () => {
           <View style={{ marginHorizontal: 5 }}></View>
           <TextComponent fontSize={15} content='Bill' fontFamily={fontFam.semiBold} />
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.partEdit]} onPress={() => navigation.navigate('PaymentMethod')}>
-          <Card size='25' color={typoColor.yellow1} />
-          <View style={{ marginHorizontal: 5 }}></View>
-          <TextComponent fontSize={15} content='Payment' fontFamily={fontFam.semiBold} />
-        </TouchableOpacity>
+
         <TouchableOpacity style={[styles.partEdit]} onPress={() => navigation.navigate('ContractScreen')}>
           <DocumentText size='25' color={typoColor.yellow1} />
           <View style={{ marginHorizontal: 5 }}></View>
@@ -110,7 +106,6 @@ const ManageProfile = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 15
   },
   headerTitle: {

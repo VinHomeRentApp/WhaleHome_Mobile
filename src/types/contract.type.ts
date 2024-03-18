@@ -24,8 +24,13 @@ export type ContractDetail = {
   apartment: Apartment;
   landlord: User;
   renter: User;
-  urlContract: null;
+  urlContract: string;
   statusOfPayment: boolean;
+  bank: {
+    name: string;
+    code: string;
+    address: string;
+  };
 };
 
 export type ListContract = Contract[];

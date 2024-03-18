@@ -63,7 +63,12 @@ const ContractScreen = () => {
               }
             ]}
           >
-            <TextComponent content='0' fontFamily={fontFam.extraBold} fontSize={20} textColor='#000' />
+            <TextComponent
+              content={getContractListQuery.data?.data.data.length ?? 0}
+              fontFamily={fontFam.extraBold}
+              fontSize={20}
+              textColor='#000'
+            />
           </View>
         </View>
         <View style={[{ marginVertical: 10 }]}></View>

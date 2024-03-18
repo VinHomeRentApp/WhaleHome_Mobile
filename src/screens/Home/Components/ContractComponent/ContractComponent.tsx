@@ -36,10 +36,10 @@ const ContractComponent = ({ onOpenOptional, data }: Props) => {
           <TextComponent content='Contract' fontFamily={fontFam.semiBold} />
         </View>
         <View style={[styles.wrapStatusComponent, { backgroundColor: '#15803d' }]}>
-          <TextComponent content='Paying Balance' fontFamily={fontFam.semiBold} />
-        </View>
-        <View style={[styles.wrapStatusComponent, { backgroundColor: '#ca8a04' }]}>
-          <TextComponent content='Own' fontFamily={fontFam.semiBold} />
+          <TextComponent
+            content={data.contractStatus ? 'Payment Processing' : 'Payment Finished'}
+            fontFamily={fontFam.semiBold}
+          />
         </View>
       </View>
       {/* Total Balance */}

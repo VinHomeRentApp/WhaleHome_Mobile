@@ -37,8 +37,10 @@ import AuthNavigator from './AuthNavigator';
 import BottomNavigator from './BottomNavigator';
 import DetailContractHeader from '@screens/Home/Components/DetailContractHeader/DetailContractHeader';
 import DetailContract from '@screens/Home/DetailContract';
-import BillingScreen from '@screens/Home/Components/BillingScreen';
 import ChoosePaymentMethod from '@screens/Home/ChoosePaymentMethod';
+import HistoryBillingScreen from '@screens/Home/HistoryBillingScreen';
+import BillingScreen from '@screens/Home/BillingScreen';
+
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
@@ -175,6 +177,14 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             }}
             name='ChoosePaymentMethod'
             component={ChoosePaymentMethod}
+          />
+          <MainStack.Screen
+            options={{
+              header: () => <AppointmentScreenHeader title='Detail your purchase' />
+            }}
+            name='HistoryBillingScreen'
+            component={HistoryBillingScreen}
+
           />
         </>
       )}

@@ -12,6 +12,7 @@ import { Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'rea
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import ContractComponent from './Components/ContractComponent/ContractComponent';
 
+
 const ContractScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 

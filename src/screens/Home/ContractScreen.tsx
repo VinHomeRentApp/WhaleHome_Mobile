@@ -1,17 +1,16 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
+import { MainStackParamList } from '@type/navigation.types';
 import { FilterSquare, SearchNormal1 } from 'iconsax-react-native';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import ContractComponent from './Components/ContractComponent/ContractComponent';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { MainStackParamList } from '@type/navigation.types';
-import NotFound from './Components/NotFound/NotFound';
 
 const ContractScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();

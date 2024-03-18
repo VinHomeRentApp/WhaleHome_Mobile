@@ -7,8 +7,8 @@ import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { Add, ArrowLeft2, ArrowRight2, Calendar } from 'iconsax-react-native';
 import React, { useEffect, useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
-import Animated, { FadeIn, FadeInDown, FadeInUp, FadeOutDown } from 'react-native-reanimated';
+import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 
 type FilterType = 'isAllBill' | 'isNotAllBill';
 
@@ -82,15 +82,18 @@ const BillingScreen = () => {
             <View style={[styles.wrapBoxPayment]}>
               {/* Image */}
               <View>
-                <Image style={[styles.wrapImage]} source={require('../../../assets/images/main-logo.png')} />
+                <Image style={[styles.wrapImage]} source={require('../../assets/images/main-logo.png')} />
               </View>
               {/* Information */}
               <View style={[styles.wrapInforBoxPayment]}>
-                <TouchableOpacity style={[styles.wrapViewDetail]}>
+                <TouchableOpacity
+                  style={[styles.wrapViewDetail]}
+                  onPress={() => navigation.navigate('HistoryBillingScreen')}
+                >
                   <TextComponent content='Detail your bills' fontFamily={fontFam.semiBold} fontSize={15} />
                   <ArrowRight2 size='20' color='#fff' />
                 </TouchableOpacity>
-                <TextComponent content='1st term' fontFamily={fontFam.semiBold} fontSize={15} />
+                <TextComponent content='1st term' fontFamily={fontFam.semiBold} textColor='#ccc' fontSize={15} />
                 <TextComponent content='$ 224,0' fontFamily={fontFam.semiBold} fontSize={15} />
               </View>
               {/* Time date */}

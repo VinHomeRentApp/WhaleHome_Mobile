@@ -6,6 +6,7 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import useRootContext from '@hooks/useRootContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import contractApis from '@services/apis/contract.apis';
 import { useGetContractById } from '@services/queries/contract.queries';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
@@ -44,6 +45,12 @@ const ContractScreen = () => {
     handleCloseOptional();
     navigation.navigate('DetailContract', { contractId: 1 });
   };
+
+  // const handleDownloadFileContract = async () => {
+  //   try {
+  //     const response = await contractApis.downloadFile();
+  //   } catch (error) {}
+  // };
 
   return (
     <SafeAreaView style={[globalStyle.container]}>

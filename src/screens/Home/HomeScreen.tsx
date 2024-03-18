@@ -28,7 +28,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const getPostsLimit = async () => {
       dispatch({ type: POST_ACTION.SET_POST_IS_LOADING, payload: true });
-      const response = await postApi.getPostWithLimit({ page: 1, size: 5, field: 'title' });
+      const response = await postApi.getPostWithLimit({ page: 1, size: 5, field: 'createDate' });
       if (response.status === HttpStatusCode.Ok) {
         dispatch({ type: POST_ACTION.SET_POSTS, payload: response.data.data.listResult });
       }

@@ -4,7 +4,8 @@ import httpClient from '@utils/httpClient';
 
 const END_POINTS = {
   get_list_contract: 'api/v1/contracts/getListContract/',
-  get_detail_contract: 'api/v1/contracts/getDetailContract/'
+  get_detail_contract: 'api/v1/contracts/getDetailContract/',
+  downloadFileContract: 'api/v1/contracts/download/'
 };
 
 const contractApis = {
@@ -13,6 +14,9 @@ const contractApis = {
   },
   getDetailContractByContractId: (contractId: number) => {
     return httpClient.get<SuccessfulResponse<ContractDetail>>(`${END_POINTS.get_detail_contract}${contractId}`);
+  },
+  downloadFile: (contractId: number) => {
+    return httpClient.get(`${END_POINTS.downloadFileContract}${contractId}`);
   }
 };
 

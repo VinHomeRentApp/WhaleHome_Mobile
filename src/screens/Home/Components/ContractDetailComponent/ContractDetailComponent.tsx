@@ -9,7 +9,7 @@ type Props = {
   userInformation?: User;
   isLandLord?: boolean;
 };
-const ContractDetailComponent = ({ userInformation }: Props) => {
+const ContractDetailComponent = ({ userInformation, isLandLord }: Props) => {
   return (
     <View>
       {/* Header */}
@@ -59,6 +59,7 @@ const ContractDetailComponent = ({ userInformation }: Props) => {
           </View>
         </View>
       </View>
+
       <View style={[styles.seperateLine]}></View>
       <View style={[styles.wrapHeader]}>
         <View style={[styles.wrapTitleHeader]}>

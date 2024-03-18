@@ -1,5 +1,6 @@
 import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
+import useRootContext from '@hooks/useRootContext';
 import globalStyle from '@styles/globalStyle';
 import React from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
@@ -9,6 +10,12 @@ type SearchRenderProps = {
 };
 
 const SearchRender = ({ postLength }: SearchRenderProps) => {
+  const {
+    state: {
+      auth: { currentUser }
+    }
+  } = useRootContext();
+
   return (
     <>
       <View style={styles.titleFoundRoomField}>

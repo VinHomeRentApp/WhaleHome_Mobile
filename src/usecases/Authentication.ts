@@ -6,6 +6,7 @@ import userApi from '@services/apis/user.apis';
 import FirebaseService from '@services/firebase/firebase.services';
 import { defaultFormSignIn, defaultFormSignInValue } from '@type/form.types';
 import { MainStackParamList } from '@type/navigation.types';
+import { handleErrorResponse } from '@utils/handleErrorResponse';
 import { HttpStatusCode } from 'axios';
 import { Dispatch } from 'react';
 import { UseFormReset } from 'react-hook-form';
@@ -57,13 +58,7 @@ export const handleSignIn = async (
       navigation.navigate('HomeScreen');
     }
   } catch (error: any) {
-    if (error.response.status === HttpStatusCode.InternalServerError) {
-      Toast.show({
-        type: ALERT_TYPE.DANGER,
-        title: 'Internal Server Error',
-        textBody: 'Sign In Not Working!, Please Try again later!'
-      });
-    }
+    Toast.show(handleErrorResponse(error.response.status, error, 'Sign In Error'));
   } finally {
     dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });
   }

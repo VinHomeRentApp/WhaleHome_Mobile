@@ -1,11 +1,11 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
-import { defaultImage } from '@constants/appConstants';
+import { defaultUser } from '@constants/appConstants';
 import fontFam from '@constants/fontFamilies';
+import useRootContext from '@hooks/useRootContext';
 import React from 'react';
 import { Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import NotiHeader from '../HomeHeader/NotiHeader/NotiIconHeader';
-import useRootContext from '@hooks/useRootContext';
 
 type RightSearchHeaderProps = {
   content: string;
@@ -25,7 +25,7 @@ const RightSearchHeader = ({ content }: RightSearchHeaderProps) => {
           <Image
             style={{ height: 50, width: 50, borderRadius: 40 }}
             resizeMode='cover'
-            source={currentUser.image ? { uri: currentUser.image } : defaultImage}
+            source={currentUser.image ? { uri: currentUser.image } : defaultUser}
           />
         </TouchableOpacity>
       </View>

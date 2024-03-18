@@ -1,25 +1,35 @@
+import LoadingOverlay from '@components/ui/LoadingOverlay';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import useRootContext from '@hooks/useRootContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useGetContractById } from '@services/queries/contract.queries';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
 import { FilterSquare, SearchNormal1 } from 'iconsax-react-native';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import { FlatList, Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
 import ContractComponent from './Components/ContractComponent/ContractComponent';
 
 const ContractScreen = () => {
+  const {
+    state: {
+      auth: {
+        currentUser: { id }
+      }
+    }
+  } = useRootContext();
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
-
   const sheetRef = useRef<BottomSheet>(null);
   const [isOpenOptional, setIsOpenOptional] = useState<boolean>(false);
 
   const snapPoints = useMemo(() => ['25%'], []);
 
+  const getContractListQuery = useGetContractById(id as number);
   const handleSnapPress = useCallback((index: number) => {
     sheetRef.current?.snapToIndex(index);
     setIsOpenOptional(true);
@@ -32,11 +42,12 @@ const ContractScreen = () => {
 
   const handleNavigateToDetailScreen = () => {
     handleCloseOptional();
-    navigation.navigate('DetailContract');
+    navigation.navigate('DetailContract', { contractId: 1 });
   };
 
   return (
     <SafeAreaView style={[globalStyle.container]}>
+      <LoadingOverlay isLoading={getContractListQuery.isLoading} message='Loading contract' />
       <View style={[styles.wrapContainer, { opacity: isOpenOptional ? 0.2 : 1 }]}>
         <View style={[styles.wrapHeaderTitle]}>
           <TextComponent content='My Contract' fontSize={30} fontFamily={fontFam.extraBold} />
@@ -72,13 +83,11 @@ const ContractScreen = () => {
         </View>
         <View style={[{ marginVertical: 10 }]}></View>
         {/* Contract List */}
-        <ScrollView>
-          {Array(1)
-            .fill(0)
-            .map((item, index) => (
-              <ContractComponent key={index} onOpenOptional={handleSnapPress} />
-            ))}
-        </ScrollView>
+
+        <FlatList
+          data={getContractListQuery.data?.data.data}
+          renderItem={({ item }) => <ContractComponent key={item.id} data={item} onOpenOptional={handleSnapPress} />}
+        />
       </View>
       <BottomSheet
         detached={true}
@@ -101,6 +110,8 @@ const ContractScreen = () => {
           >
             <TextComponent content='View detail' fontSize={17} fontFamily={fontFam.medium} />
           </Pressable>
+
+          {/* DownLoad link */}
           <Pressable
             style={({ pressed }) => [
               styles.wrapButtonDetails,
@@ -109,6 +120,8 @@ const ContractScreen = () => {
           >
             <TextComponent content='Download contract' fontSize={17} fontFamily={fontFam.medium} />
           </Pressable>
+          {/* End Download link */}
+
           <Pressable
             onPress={() => handleCloseOptional()}
             style={({ pressed }) => [

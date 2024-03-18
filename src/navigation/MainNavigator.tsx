@@ -157,13 +157,7 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             name='ResetPassword'
             component={ResetPassword}
           />
-          <MainStack.Screen
-            options={{
-              header: () => <ContractScreenHeader />
-            }}
-            name='ContractScreen'
-            component={ContractScreen}
-          />
+
           <MainStack.Screen
             options={{
               header: () => <DetailContractHeader />

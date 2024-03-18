@@ -1,15 +1,17 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import { Contract } from '@type/contract.type';
 import { CalendarTick, DocumentText1, Location, MoreCircle } from 'iconsax-react-native';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 type Props = {
   onOpenOptional: (index: number) => void;
+  data: Contract;
 };
 
-const ContractComponent = ({ onOpenOptional }: Props) => {
+const ContractComponent = ({ onOpenOptional, data }: Props) => {
   return (
     <View style={[styles.wrapContract]}>
       {/* Header */}
@@ -19,8 +21,8 @@ const ContractComponent = ({ onOpenOptional }: Props) => {
             <DocumentText1 size='32' color='#212121' variant='Outline' />
           </View>
           <View style={[styles.wrapHeadTitle]}>
-            <TextComponent content='S.20 C1 Contract' fontFamily={fontFam.bold} fontSize={20} />
-            <TextComponent content='#1' textColor='#cecece' fontFamily={fontFam.medium} fontSize={14} />
+            <TextComponent content={`${data.apartmentName} Contract`} fontFamily={fontFam.bold} fontSize={20} />
+            <TextComponent content={`#${data.id}`} textColor='#cecece' fontFamily={fontFam.medium} fontSize={14} />
           </View>
         </View>
         <TouchableOpacity onPress={() => onOpenOptional(0)}>
@@ -44,8 +46,8 @@ const ContractComponent = ({ onOpenOptional }: Props) => {
       <View style={[{ marginVertical: 10 }]}></View>
       <View style={[styles.wrapTotalPrice]}>
         <TextComponent content='Rs:' fontSize={26} fontFamily={fontFam.light} />
-        <TextComponent content='$ 47,000.00' fontSize={26} fontFamily={fontFam.bold} />
-        <TextComponent content='/ 12 months' fontSize={14} fontFamily={fontFam.light} />
+        <TextComponent content={`$ ${data.totalPrice}`} fontSize={26} fontFamily={fontFam.bold} />
+        <TextComponent content={`/ ${data.durationMonth} months`} fontSize={14} fontFamily={fontFam.light} />
       </View>
       <View style={[{ marginVertical: 10 }]}></View>
       <View style={[styles.lineSeperate]}></View>
@@ -56,16 +58,16 @@ const ContractComponent = ({ onOpenOptional }: Props) => {
           <View style={[styles.iconRenter, { backgroundColor: '#525252' }]}>
             <TextComponent content='A' fontSize={30} fontFamily={fontFam.extraBold} />
           </View>
-          <TextComponent content='NGUYEN TRUNG KIEN' fontSize={18} fontFamily={fontFam.semiBold} />
-          <TextComponent content='(you)' fontSize={12} fontFamily={fontFam.semiBold} />
+          <TextComponent content={`${data.landlordName.toUpperCase()}`} fontSize={18} fontFamily={fontFam.semiBold} />
+          <TextComponent content='(owner)' fontSize={12} fontFamily={fontFam.semiBold} />
         </View>
         {/* Ben B */}
         <View style={[styles.wrapOnwerAndRenterComponent]}>
           <View style={[styles.iconRenter, { backgroundColor: '#525252' }]}>
             <TextComponent content='B' fontSize={30} fontFamily={fontFam.extraBold} />
           </View>
-          <TextComponent content='TRAN QUANG MINH' fontSize={18} fontFamily={fontFam.semiBold} />
-          <TextComponent content='(owner)' fontSize={12} fontFamily={fontFam.semiBold} />
+          <TextComponent content={`${data.renterName.toUpperCase()}`} fontSize={18} fontFamily={fontFam.semiBold} />
+          <TextComponent content='(you)' fontSize={12} fontFamily={fontFam.semiBold} />
         </View>
       </View>
       <View style={[{ marginVertical: 10 }]}></View>
@@ -77,14 +79,14 @@ const ContractComponent = ({ onOpenOptional }: Props) => {
           <View style={[styles.iconRenter, { backgroundColor: '#525252' }]}>
             <CalendarTick size='32' color='#fff' variant='Outline' />
           </View>
-          <TextComponent content='8 months' fontSize={16} fontFamily={fontFam.semiBold} />
+          <TextComponent content={`${data.durationMonth} months`} fontSize={16} fontFamily={fontFam.semiBold} />
         </View>
         {/* Ben B */}
         <View style={[styles.wrapOnwerAndRenterComponent]}>
           <View style={[styles.iconRenter, { backgroundColor: '#525252' }]}>
             <Location size='32' color='#fff' variant='Outline' />
           </View>
-          <TextComponent content='Q9, HCM, Viet Nam' fontSize={16} fontFamily={fontFam.semiBold} />
+          <TextComponent content={`${data.address}`} fontSize={16} fontFamily={fontFam.semiBold} />
         </View>
       </View>
     </View>

@@ -33,7 +33,7 @@ type ApartmentClass = {
   height: number;
 };
 
-type Apartment = {
+export type Apartment = {
   id: number;
   createDate: null;
   status: boolean;

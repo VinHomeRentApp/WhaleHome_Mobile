@@ -41,7 +41,6 @@ import ChoosePaymentMethod from '@screens/Home/ChoosePaymentMethod';
 import HistoryBillingScreen from '@screens/Home/HistoryBillingScreen';
 import BillingScreen from '@screens/Home/BillingScreen';
 
-
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
   return (
@@ -122,6 +121,13 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
           />
           <MainStack.Screen
             options={{
+              header: () => <ContractScreenHeader />
+            }}
+            name='ContractScreen'
+            component={ContractScreen}
+          />
+          <MainStack.Screen
+            options={{
               header: () => <AppointmentScreenHeader title='Reset Password' />
             }}
             name='ResetPasswordScreen'
@@ -151,13 +157,7 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             name='ResetPassword'
             component={ResetPassword}
           />
-          <MainStack.Screen
-            options={{
-              header: () => <ContractScreenHeader />
-            }}
-            name='ContractScreen'
-            component={ContractScreen}
-          />
+
           <MainStack.Screen
             options={{
               header: () => <DetailContractHeader />
@@ -185,7 +185,6 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
             }}
             name='HistoryBillingScreen'
             component={HistoryBillingScreen}
-
           />
         </>
       )}

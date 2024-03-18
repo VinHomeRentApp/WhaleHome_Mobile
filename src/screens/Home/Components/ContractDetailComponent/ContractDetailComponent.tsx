@@ -1,43 +1,15 @@
 import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
+import { User } from '@type/user.types';
 import { Bank, Profile } from 'iconsax-react-native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 type Props = {
-  id_contract: string;
-  create_date_contract: Date;
-  expire_date_contract: Date;
-  duration_months: number;
-  total_price: number;
-  price_per_month: number;
-  // information_about_building
-  zone_name: string;
-  area_name: string;
-  appartment_name: string;
-  //Information about appartment
-  //landlord
-  landlord_fullName: string;
-  landlord_phone: string;
-  landlord_identity_card: number;
-  landlord_identity_card_date_provided: Date;
-  landlord_identity_card_address_provided: string;
-  landlord_address: string;
-  bank_name: string;
-  bank_code: string;
-  bank_address: string;
-  //renter
-  renter_fullname: string;
-  renter_phone: string;
-  renter_identity_card: Date;
-  renter_identity_card_provided: Date;
-  renter_identity_card_address_provided: string;
-  renter_address: string;
-  // link download
-  linkdownload_contract: string;
+  userInformation?: User;
+  isLandLord?: boolean;
 };
-
-const ContractDetailComponent = () => {
+const ContractDetailComponent = ({ userInformation }: Props) => {
   return (
     <View>
       {/* Header */}

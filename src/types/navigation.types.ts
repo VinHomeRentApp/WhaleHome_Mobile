@@ -32,7 +32,7 @@ export type MainStackParamList = {
   ForgotPassword: undefined;
   AppointmentScreen: undefined;
   ContractScreen: undefined;
-  DetailContract: undefined;
+  DetailContract: { contractId: number };
   ResetPasswordScreen: undefined;
   PasswordAndSecurityScreen: undefined;
   VerifyOTP: undefined;
@@ -48,7 +48,7 @@ export type MainNavigatorProps = {
 
 export type EditProfileScreenProps = NativeStackScreenProps<MainStackParamList, 'EditProfileScreen'>;
 export type CreatePaymentMethodProps = NativeStackScreenProps<MainStackParamList, 'CreatePaymentMethod'>;
-
+export type DetailContractProps = NativeStackScreenProps<MainStackParamList, 'DetailContract'>;
 //Bottom Navigation
 export type RootBottomTabsList = {
   HomePage: undefined;

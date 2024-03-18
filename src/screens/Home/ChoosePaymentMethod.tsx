@@ -1,52 +1,70 @@
-import TextComponent from '@components/ui/TextComponent';
-import { typoColor } from '@constants/appColors';
-import fontFam from '@constants/fontFamilies';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
 import globalStyle from '@styles/globalStyle';
-import { Paypal } from 'iconsax-react-native';
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { EmptyWallet, Paypal } from 'iconsax-react-native';
+import TextComponent from '@components/ui/TextComponent';
+import fontFam from '@constants/fontFamilies';
+import { typoColor } from '@constants/appColors';
 
 type PaymentMethodType = 'VNPay' | 'Paypal' | 'Momo';
 
 const ChoosePaymentMethod = () => {
-  const [isChoosePayment, setIsChoosePayment] = useState<boolean>(false);
+  const [isChoosePayment, setIsChoosePayment] = useState<PaymentMethodType | null>(null);
 
-  const handleChangeChoosePayment = () => {
-    setIsChoosePayment((prevState) => !prevState);
+  const handlePickerMethod = useMemo(
+    () => (name: PaymentMethodType) => {
+      return {
+        backgroundColor: isChoosePayment === name ? typoColor.yellow1 : '#121212',
+        textColor: isChoosePayment === name ? '#000' : '#606060'
+      };
+    },
+    [isChoosePayment]
+  );
+  const handleChangeMethod = (name: PaymentMethodType) => () => {
+    setIsChoosePayment(name);
   };
-
-  useEffect(() => {
-    return () => {
-      setIsChoosePayment(false);
-    };
-  }, []);
 
   return (
     <View style={[globalStyle.container]}>
       <View style={[styles.wrapContainer]}>
         {/* Component Selector */}
         <TouchableOpacity
-          onPress={handleChangeChoosePayment}
-          style={[styles.wrapComponent, isChoosePayment && { backgroundColor: typoColor.yellow1 }]}
+          style={[styles.wrapComponent, { backgroundColor: handlePickerMethod('Paypal').backgroundColor }]}
+          onPress={handleChangeMethod('Paypal')}
         >
-          <Paypal size='42' color={isChoosePayment ? '#000' : '#606060'} variant='Bold' />
+          <Paypal size='42' color={handlePickerMethod('Paypal').textColor} variant='Bold' />
           <TextComponent
             fontSize={20}
-            textColor={isChoosePayment ? '#000' : '#606060'}
+            textColor={handlePickerMethod('Paypal').textColor}
             fontFamily={fontFam.bold}
             content='Purchase by Paypal'
           />
         </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.wrapComponent, { backgroundColor: handlePickerMethod('VNPay').backgroundColor }]}
+          onPress={handleChangeMethod('VNPay')}
+        >
+          <EmptyWallet size='42' color={handlePickerMethod('VNPay').textColor} variant='Bold' />
+          <TextComponent
+            fontSize={20}
+            textColor={handlePickerMethod('VNPay').textColor}
+            fontFamily={fontFam.bold}
+            content='Purchase by VNPay'
+          />
+        </TouchableOpacity>
       </View>
       <View style={[styles.wrapCheckoutButton]}>
-        <View style={[styles.buttonCheckout, !isChoosePayment && { backgroundColor: '#404040' }]}>
+        <TouchableOpacity
+          style={[styles.buttonCheckout, { backgroundColor: isChoosePayment === null ? '#404040' : typoColor.yellow1 }]}
+          disabled={isChoosePayment === null}
+        >
           <TextComponent
             content='Checkout'
             fontSize={20}
-            textColor={!isChoosePayment ? '#606060' : '#000'}
+            textColor={isChoosePayment === null ? '#212121' : '#000'}
             fontFamily={fontFam.bold}
           />
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -78,8 +96,7 @@ const styles = StyleSheet.create({
     padding: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
-    backgroundColor: typoColor.yellow1
+    borderRadius: 10
   }
 });
 

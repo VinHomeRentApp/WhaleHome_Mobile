@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
-import { Add, ArrowLeft2, ArrowRight2, Calendar } from 'iconsax-react-native';
+import { Add, ArrowRight2, Calendar, Trash } from 'iconsax-react-native';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
@@ -116,7 +116,7 @@ const BillingScreen = () => {
         {isChecked && (
           <Animated.View entering={FadeInDown} exiting={FadeOutDown} style={[styles.buttonPayment]}>
             <TouchableOpacity onPress={() => setIsChecked((prevState) => !prevState)}>
-              <ArrowLeft2 size='32' color={typoColor.yellow1} />
+              <Trash size='32' color={typoColor.yellow1} />
             </TouchableOpacity>
             <TouchableOpacity style={[styles.wrapButtonCheckout]} onPress={handleNavigateToChoosePayment}>
               <TextComponent content='Continue - $ 224,00' textColor='#000' fontSize={18} fontFamily={fontFam.bold} />

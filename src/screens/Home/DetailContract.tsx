@@ -6,7 +6,9 @@ import React, { useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
 import ContractDetailComponent from './Components/ContractDetailComponent/ContractDetailComponent';
-const DetailContract = () => {
+import { DetailContractProps } from '@type/navigation.types';
+
+const DetailContract = ({ route }: DetailContractProps) => {
   const [isAccrodinateLandLord, setIsAccordinateLandLord] = useState<boolean>(false);
   const [isAccrodinateRenter, setIsAccordinateRenter] = useState<boolean>(false);
 
@@ -15,27 +17,27 @@ const DetailContract = () => {
       <View style={[styles.wrapContainer]}>
         <TextComponent content='Contract information' fontSize={25} fontFamily={fontFam.bold} />
         <View style={[styles.wrapContractInfor]}>
-          <TextComponent content='Số hợp đồng:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
+          <TextComponent content='Contract ID:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
           <TextComponent content='SC201HD2' fontFamily={fontFam.semiBold} fontSize={16} />
         </View>
         <View style={[styles.wrapContractInfor]}>
-          <TextComponent content='Ngày tạo:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
+          <TextComponent content='Create Date:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
           <TextComponent content='Thur 11 Oct 2023' fontFamily={fontFam.semiBold} fontSize={16} />
         </View>
         <View style={[styles.wrapContractInfor]}>
-          <TextComponent content='Ngày hết hạn:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
+          <TextComponent content='Expired Date:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
           <TextComponent content='Wed 24 Sep 2025' fontFamily={fontFam.semiBold} fontSize={16} />
         </View>
         <View style={[styles.wrapContractInfor]}>
-          <TextComponent content='Thời hạn:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
+          <TextComponent content='Duration month:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
           <TextComponent content='8 tháng' fontFamily={fontFam.semiBold} fontSize={16} />
         </View>
         <View style={[styles.wrapContractInfor]}>
-          <TextComponent content='Tổng tiền:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
+          <TextComponent content='Total Fee:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
           <TextComponent content='$ 45,000.00' fontFamily={fontFam.semiBold} fontSize={16} />
         </View>
         <View style={[styles.wrapContractInfor]}>
-          <TextComponent content='Mỗi tháng:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
+          <TextComponent content='Fee per month:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
           <TextComponent content='$ 5,300.00' fontFamily={fontFam.semiBold} fontSize={16} />
         </View>
         <View style={[{ marginVertical: 10 }]}></View>

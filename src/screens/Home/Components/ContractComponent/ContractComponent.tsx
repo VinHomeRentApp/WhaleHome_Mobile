@@ -7,7 +7,7 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 type Props = {
-  onOpenOptional: (index: number, contractId: number) => void;
+  onOpenOptional: (index: number, contract: Contract) => void;
   data: Contract;
 };
 
@@ -25,7 +25,7 @@ const ContractComponent = ({ onOpenOptional, data }: Props) => {
             <TextComponent content={`#${data.id}`} textColor='#cecece' fontFamily={fontFam.medium} fontSize={14} />
           </View>
         </View>
-        <TouchableOpacity onPress={() => onOpenOptional(0, data.id)}>
+        <TouchableOpacity onPress={() => onOpenOptional(0, data)}>
           <MoreCircle size='32' color={typoColor.yellow1} variant='Bold' />
         </TouchableOpacity>
       </View>
@@ -89,6 +89,7 @@ const ContractComponent = ({ onOpenOptional, data }: Props) => {
           <TextComponent content={`${data.address}`} fontSize={16} fontFamily={fontFam.semiBold} />
         </View>
       </View>
+      {/*  */}
     </View>
   );
 };

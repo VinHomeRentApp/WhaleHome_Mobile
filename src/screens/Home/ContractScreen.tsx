@@ -2,41 +2,45 @@ import LoadingOverlay from '@components/ui/LoadingOverlay';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import { AUTH_ACTION } from '@contexts/types/auth.types';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import useRootContext from '@hooks/useRootContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import contractApis from '@services/apis/contract.apis';
 import { useGetContractById } from '@services/queries/contract.queries';
 import globalStyle from '@styles/globalStyle';
+import { Contract } from '@type/contract.type';
 import { MainStackParamList } from '@type/navigation.types';
+import * as FileSystem from 'expo-file-system';
+import { shareAsync } from 'expo-sharing';
 import { FilterSquare, SearchNormal1 } from 'iconsax-react-native';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { FlatList, Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 import { TextInput } from 'react-native-gesture-handler';
 import ContractComponent from './Components/ContractComponent/ContractComponent';
-import { Toast } from 'react-native-alert-notification';
-import { handleErrorResponse } from '@utils/handleErrorResponse';
 
 const ContractScreen = () => {
   const {
     state: {
       auth: {
-        currentUser: { id }
+        currentUser: { id },
+        isLoading
       }
-    }
+    },
+    dispatch
   } = useRootContext();
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   const sheetRef = useRef<BottomSheet>(null);
   const [isOpenOptional, setIsOpenOptional] = useState<boolean>(false);
-  const [selectedContractId, setSelectedContractId] = useState<number | null>(null);
+  const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
   const snapPoints = useMemo(() => ['25%'], []);
 
   const getContractListQuery = useGetContractById(id as number);
-  const handleSnapPress = useCallback((index: number, contractId: number) => {
+  const handleSnapPress = useCallback((index: number, contract: Contract) => {
     sheetRef.current?.snapToIndex(index);
     setIsOpenOptional(true);
-    setSelectedContractId(contractId);
+    setSelectedContract(contract);
   }, []);
 
   const handleCloseOptional = () => {
@@ -49,19 +53,48 @@ const ContractScreen = () => {
     navigation.navigate('DetailContract', { contractId: 1 });
   };
 
+  const saveFile = async (uri: string, fileName: string, mimType: string) => {
+    // if (Platform.OS === 'android') {
+    //   const permission = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+    //   if (permission.granted) {
+    //     const base64 = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
+    //     await FileSystem.StorageAccessFramework.createFileAsync(permission.directoryUri, fileName, mimType)
+    //       .then(async (uri: string) => {
+    //         await FileSystem.writeAsStringAsync(uri, base64, { encoding: FileSystem.EncodingType.Base64 });
+    //       })
+    //       .catch((e) => console.log(e));
+    //   } else {
+    //     shareAsync(uri);
+    //   }
+    // } else {
+    shareAsync(uri);
+    // }
+  };
+
   const handleDownloadFileContract = async () => {
-    try {
-      if (selectedContractId) {
-        const response = await contractApis.downloadFile(selectedContractId);
+    dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: true });
+    const fileName = `${selectedContract?.id}-${selectedContract?.apartmentName}.pdf`;
+    if (selectedContract?.urlFile) {
+      const response = await FileSystem.downloadAsync(
+        selectedContract?.urlFile,
+        FileSystem.documentDirectory + fileName
+      );
+      if (response.mimeType) {
+        saveFile(response.uri, fileName, response.headers['Content-Type']);
       }
-    } catch (error: any) {
-      Toast.show(handleErrorResponse(error.response.status, error, 'Download File'));
+    } else {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: 'Warning',
+        textBody: 'Contract File is not available! Please Upload File'
+      });
     }
+    dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });
   };
 
   return (
     <SafeAreaView style={[globalStyle.container]}>
-      <LoadingOverlay isLoading={getContractListQuery.isLoading} message='Loading contract' />
+      <LoadingOverlay isLoading={getContractListQuery.isLoading || isLoading} message='Loading contract' />
       <View style={[styles.wrapContainer, { opacity: isOpenOptional ? 0.2 : 1 }]}>
         <View style={[styles.wrapHeaderTitle]}>
           <TextComponent content='My Contract' fontSize={30} fontFamily={fontFam.extraBold} />
@@ -127,6 +160,7 @@ const ContractScreen = () => {
 
           {/* DownLoad link */}
           <Pressable
+            onPress={handleDownloadFileContract}
             style={({ pressed }) => [
               styles.wrapButtonDetails,
               { borderBottomWidth: 0.2, borderColor: '#404040', backgroundColor: pressed ? '#303030' : '#262626' }

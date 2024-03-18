@@ -15,6 +15,8 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { FlatList, Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import ContractComponent from './Components/ContractComponent/ContractComponent';
+import { Toast } from 'react-native-alert-notification';
+import { handleErrorResponse } from '@utils/handleErrorResponse';
 
 const ContractScreen = () => {
   const {
@@ -27,13 +29,14 @@ const ContractScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   const sheetRef = useRef<BottomSheet>(null);
   const [isOpenOptional, setIsOpenOptional] = useState<boolean>(false);
-
+  const [selectedContractId, setSelectedContractId] = useState<number | null>(null);
   const snapPoints = useMemo(() => ['25%'], []);
 
   const getContractListQuery = useGetContractById(id as number);
-  const handleSnapPress = useCallback((index: number) => {
+  const handleSnapPress = useCallback((index: number, contractId: number) => {
     sheetRef.current?.snapToIndex(index);
     setIsOpenOptional(true);
+    setSelectedContractId(contractId);
   }, []);
 
   const handleCloseOptional = () => {
@@ -46,11 +49,15 @@ const ContractScreen = () => {
     navigation.navigate('DetailContract', { contractId: 1 });
   };
 
-  // const handleDownloadFileContract = async () => {
-  //   try {
-  //     const response = await contractApis.downloadFile();
-  //   } catch (error) {}
-  // };
+  const handleDownloadFileContract = async () => {
+    try {
+      if (selectedContractId) {
+        const response = await contractApis.downloadFile(selectedContractId);
+      }
+    } catch (error: any) {
+      Toast.show(handleErrorResponse(error.response.status, error, 'Download File'));
+    }
+  };
 
   return (
     <SafeAreaView style={[globalStyle.container]}>

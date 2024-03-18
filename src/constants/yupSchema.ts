@@ -17,10 +17,7 @@ export const signUpSchema = yup.object({
   email: yup.string().email('Email không đúng định dạng').required('Vui lòng điền email'),
   fullName: yup.string().required(),
   gender: yup.string().required(),
-  phone: yup
-    .string()
-    .matches(/^\+(?:[0-9] ?){6,14}[0-9]$/, 'Vui lòng nhập số điện thoại hợp lệ')
-    .required('Vui lòng nhập số điện thoại'),
+  phone: yup.string().required('Vui lòng nhập số điện thoại'),
   address: yup.string().required(),
   password: yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
   verify_password: yup

@@ -71,13 +71,11 @@ const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
   const handleChangeDate = (e: DateTimePickerEvent, myDate?: Date) => {
     if (myDate) {
       setDate(new Date(myDate));
-      console.log(myDate.toISOString());
       setValue('dateOfBirth', myDate.toISOString());
     }
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
     try {
       await fireBaseService.signUp(data.email, data.password);
       registerAccountMutation.mutate(data);

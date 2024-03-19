@@ -19,6 +19,7 @@ import { FlatList, Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View }
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 import { TextInput } from 'react-native-gesture-handler';
 import ContractComponent from './Components/ContractComponent/ContractComponent';
+import NotFound from './Components/NotFound/NotFound';
 
 const ContractScreen = () => {
   const {
@@ -50,7 +51,9 @@ const ContractScreen = () => {
 
   const handleNavigateToDetailScreen = () => {
     handleCloseOptional();
-    navigation.navigate('DetailContract', { contractId: 1 });
+    if (selectedContract?.id) {
+      navigation.navigate('DetailContract', { contractId: selectedContract.id });
+    }
   };
 
   const saveFile = async (uri: string, fileName: string, mimType: string) => {
@@ -130,11 +133,14 @@ const ContractScreen = () => {
         </View>
         <View style={[{ marginVertical: 10 }]}></View>
         {/* Contract List */}
-
-        <FlatList
-          data={getContractListQuery.data?.data.data}
-          renderItem={({ item }) => <ContractComponent key={item.id} data={item} onOpenOptional={handleSnapPress} />}
-        />
+        {getContractListQuery.data?.data.data.length === 0 ? (
+          <NotFound />
+        ) : (
+          <FlatList
+            data={getContractListQuery.data?.data.data}
+            renderItem={({ item }) => <ContractComponent key={item.id} data={item} onOpenOptional={handleSnapPress} />}
+          />
+        )}
       </View>
       <BottomSheet
         detached={true}

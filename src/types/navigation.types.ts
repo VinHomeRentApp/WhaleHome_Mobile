@@ -38,8 +38,8 @@ export type MainStackParamList = {
   VerifyOTP: undefined;
   ResetPassword: undefined;
   BillingScreen: undefined;
-  ChoosePaymentMethod: undefined;
-  HistoryBillingScreen: undefined;
+  ChoosePaymentMethod: { paymentId: number; price: number };
+  HistoryBillingScreen: { date: string; semester: number; price: number };
 };
 
 export type MainNavigatorProps = {
@@ -49,6 +49,9 @@ export type MainNavigatorProps = {
 export type EditProfileScreenProps = NativeStackScreenProps<MainStackParamList, 'EditProfileScreen'>;
 export type CreatePaymentMethodProps = NativeStackScreenProps<MainStackParamList, 'CreatePaymentMethod'>;
 export type DetailContractProps = NativeStackScreenProps<MainStackParamList, 'DetailContract'>;
+export type ChoosePaymentMethodProps = NativeStackScreenProps<MainStackParamList, 'ChoosePaymentMethod'>;
+export type HistoryBillingScreenProps = NativeStackScreenProps<MainStackParamList, 'HistoryBillingScreen'>;
+
 //Bottom Navigation
 export type RootBottomTabsList = {
   HomePage: undefined;

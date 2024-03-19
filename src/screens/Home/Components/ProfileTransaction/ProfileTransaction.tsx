@@ -1,5 +1,8 @@
 import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MainStackParamList } from '@type/navigation.types';
 import { Category2 } from 'iconsax-react-native';
 import React from 'react';
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -10,18 +13,19 @@ interface Props {
 }
 
 const ProfileTransaction = ({ posts }: Props) => {
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   return (
     <View style={[styles.transactionContainer]}>
       <View style={[styles.titleTransaction]}>
-        <TextComponent fontSize={18} styles={{ paddingTop: 10 }} fontFamily={fontFam.bold} content='2 transactions' />
+        <TextComponent fontSize={18} styles={{ paddingTop: 10 }} fontFamily={fontFam.bold} content='5 Favorite Posts' />
         <View style={[styles.containerButton]}>
-          <TouchableOpacity style={[styles.buttonMore]}>
+          <TouchableOpacity onPress={() => navigation.navigate('FavoriteScreen')} style={[styles.buttonMore]}>
             <Category2 size='15' color='#A1A5C1' variant='Bold' />
           </TouchableOpacity>
         </View>
       </View>
       <FlatList
-        style={{ marginBottom: 70 }}
+        style={{ marginBottom: 70, marginTop: 30 }}
         data={posts}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
@@ -39,7 +43,9 @@ const styles = StyleSheet.create({
   titleTransaction: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 20
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    marginTop: 20
   },
   containerButton: {
     height: 40,

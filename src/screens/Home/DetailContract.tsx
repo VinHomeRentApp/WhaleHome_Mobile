@@ -7,38 +7,65 @@ import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
 import ContractDetailComponent from './Components/ContractDetailComponent/ContractDetailComponent';
 import { DetailContractProps } from '@type/navigation.types';
+import { useGetDetailContract } from '@services/queries/contract.queries';
+import LoadingOverlay from '@components/ui/LoadingOverlay';
+import { convertDate } from '@utils/helper';
+import { UserContract } from '@type/user.types';
 
 const DetailContract = ({ route }: DetailContractProps) => {
   const [isAccrodinateLandLord, setIsAccordinateLandLord] = useState<boolean>(false);
   const [isAccrodinateRenter, setIsAccordinateRenter] = useState<boolean>(false);
 
+  const getDetailContractQuery = useGetDetailContract(route.params.contractId);
+
   return (
     <ScrollView style={[globalStyle.container]}>
+      <LoadingOverlay isLoading={getDetailContractQuery.isLoading} message='Loading contract detail' />
       <View style={[styles.wrapContainer]}>
         <TextComponent content='Contract information' fontSize={25} fontFamily={fontFam.bold} />
         <View style={[styles.wrapContractInfor]}>
           <TextComponent content='Contract ID:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
-          <TextComponent content='SC201HD2' fontFamily={fontFam.semiBold} fontSize={16} />
+          <TextComponent content={route.params.contractId} fontFamily={fontFam.semiBold} fontSize={16} />
         </View>
         <View style={[styles.wrapContractInfor]}>
           <TextComponent content='Create Date:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
-          <TextComponent content='Thur 11 Oct 2023' fontFamily={fontFam.semiBold} fontSize={16} />
+          <TextComponent
+            content={convertDate(getDetailContractQuery.data?.data.data?.createDateContract)}
+            fontFamily={fontFam.semiBold}
+            fontSize={16}
+          />
         </View>
         <View style={[styles.wrapContractInfor]}>
           <TextComponent content='Expired Date:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
-          <TextComponent content='Wed 24 Sep 2025' fontFamily={fontFam.semiBold} fontSize={16} />
+          <TextComponent
+            content={convertDate(getDetailContractQuery.data?.data.data?.expireDateContract)}
+            fontFamily={fontFam.semiBold}
+            fontSize={16}
+          />
         </View>
         <View style={[styles.wrapContractInfor]}>
           <TextComponent content='Duration month:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
-          <TextComponent content='8 tháng' fontFamily={fontFam.semiBold} fontSize={16} />
+          <TextComponent
+            content={`${getDetailContractQuery.data?.data.data?.durationMonth} months`}
+            fontFamily={fontFam.semiBold}
+            fontSize={16}
+          />
         </View>
         <View style={[styles.wrapContractInfor]}>
           <TextComponent content='Total Fee:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
-          <TextComponent content='$ 45,000.00' fontFamily={fontFam.semiBold} fontSize={16} />
+          <TextComponent
+            content={`$ ${getDetailContractQuery.data?.data.data.totalPrice}`}
+            fontFamily={fontFam.semiBold}
+            fontSize={16}
+          />
         </View>
         <View style={[styles.wrapContractInfor]}>
           <TextComponent content='Fee per month:' textColor='#404040' fontSize={15} fontFamily={fontFam.bold} />
-          <TextComponent content='$ 5,300.00' fontFamily={fontFam.semiBold} fontSize={16} />
+          <TextComponent
+            content={`$ ${getDetailContractQuery.data?.data.data.pricePerMonth}`}
+            fontFamily={fontFam.semiBold}
+            fontSize={16}
+          />
         </View>
         <View style={[{ marginVertical: 10 }]}></View>
 
@@ -55,7 +82,11 @@ const DetailContract = ({ route }: DetailContractProps) => {
         </TouchableOpacity>
         {isAccrodinateLandLord && (
           <Animated.View entering={FadeInUp} exiting={FadeOutUp} style={[styles.wrapContract]}>
-            <ContractDetailComponent />
+            <ContractDetailComponent
+              userInformation={getDetailContractQuery.data?.data.data.landlord as UserContract}
+              isLandLord={true}
+              bank={getDetailContractQuery.data?.data.data.bank}
+            />
             <View style={[styles.seperateLine]} />
           </Animated.View>
         )}
@@ -70,7 +101,10 @@ const DetailContract = ({ route }: DetailContractProps) => {
         </TouchableOpacity>
         {isAccrodinateRenter && (
           <Animated.View entering={FadeInUp} exiting={FadeOutUp} style={[styles.wrapContract]}>
-            <ContractDetailComponent />
+            <ContractDetailComponent
+              userInformation={getDetailContractQuery.data?.data.data.renter as UserContract}
+              isLandLord={false}
+            />
             <View style={[styles.seperateLine]} />
           </Animated.View>
         )}

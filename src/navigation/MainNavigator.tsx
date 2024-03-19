@@ -151,8 +151,7 @@ const MainNavigator = ({ isShowSplash }: MainNavigatorProps) => {
 
           <MainStack.Screen
             options={{
-              header: () => <AppointmentScreenHeader title='Reset Password' />,
-              presentation: 'modal'
+              header: () => <AppointmentScreenHeader title='Reset Password' />
             }}
             name='ResetPassword'
             component={ResetPassword}

@@ -1,7 +1,9 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
+import fontFam from '@constants/fontFamilies';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MainStackParamList } from '@type/navigation.types';
+import { Call } from 'iconsax-react-native';
 import React from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 import ApartmentClass from 'src/models/class/ApartmentClass.class';
@@ -15,15 +17,25 @@ const BodyButtonField = ({ apartmentClass }: BodyButtonFieldProps) => {
   return (
     <View style={styles.buttonContainer}>
       <View style={styles.buyAndRentContainer}>
-        <Pressable
-          style={({ pressed }) => [styles.button, pressed && styles.activeButton]}
-          onPress={() => navigation.navigate('TransactionReviewScreen')}
+        <View
+          style={[
+            {
+              padding: 10,
+              borderWidth: 1,
+              backgroundColor: typoColor.yellow1,
+              borderRadius: 8,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 10
+            }
+          ]}
         >
-          <TextComponent styles={styles.textButton} content='Rent' />
-        </Pressable>
-        <Pressable style={({ pressed }) => [styles.button, pressed && styles.activeButton]}>
+          <Call size='24' color='#000' variant='Bold' />
+          <TextComponent styles={styles.textButton} content='0886751110' fontSize={16} fontFamily={fontFam.semiBold} />
+        </View>
+        {/* <Pressable style={({ pressed }) => [styles.button, pressed && styles.activeButton]}>
           <TextComponent styles={styles.textButton} content='Buy' />
-        </Pressable>
+        </Pressable> */}
       </View>
       <Pressable
         onPress={() => navigation.navigate('View360', { apartmentClass })}

@@ -6,9 +6,9 @@ import { useGetAllBIll } from '@services/queries/bill.queries';
 import globalStyle from '@styles/globalStyle';
 import { HistoryBillingScreenProps } from '@type/navigation.types';
 import { addPostfixToNumber } from '@utils/helper';
-import { Clock, Wallet } from 'iconsax-react-native';
+import { Clock, RefreshCircle, TickCircle, Wallet } from 'iconsax-react-native';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, View } from 'react-native';
+import { FlatList, Image, ScrollView, StyleSheet, View } from 'react-native';
 
 const HistoryBillingScreen = ({ route }: HistoryBillingScreenProps) => {
   const {
@@ -23,7 +23,7 @@ const HistoryBillingScreen = ({ route }: HistoryBillingScreenProps) => {
   const getAllBillQueries = useGetAllBIll(id as number);
   const data = getAllBillQueries.data?.data.data;
   return (
-    <View style={[globalStyle.container]}>
+    <ScrollView style={[globalStyle.container]}>
       {/* Information */}
       <View style={[styles.wrapContainer]}>
         <View style={[[styles.wrapHeader]]}>
@@ -33,7 +33,7 @@ const HistoryBillingScreen = ({ route }: HistoryBillingScreenProps) => {
                 data?.reduce((acc, curr) => {
                   return acc + curr.price;
                 }, 0) as number
-              }`}
+              },00`}
               fontSize={30}
               fontFamily={fontFam.bold}
             />
@@ -57,7 +57,7 @@ const HistoryBillingScreen = ({ route }: HistoryBillingScreenProps) => {
                   <TextComponent content={`${route.params.date}`} fontSize={16} />
                 </View>
               </View>
-              <TextComponent content={`$ ${route.params.price}`} fontSize={16} fontFamily={fontFam.extraBold} />
+              <TextComponent content={`$ ${route.params.price},00`} fontSize={16} fontFamily={fontFam.extraBold} />
             </View>
             <View style={[styles.wrapIcon]}>
               <Wallet size='40' color='#000' variant='Bold' />
@@ -66,58 +66,67 @@ const HistoryBillingScreen = ({ route }: HistoryBillingScreenProps) => {
         </View>
         <View style={[styles.lineSeperate]}></View>
         <View style={[styles.wrapHistory]}>
-          <TextComponent content='History Purchased' fontSize={24} fontFamily={fontFam.extraBold} textColor='#303030' />
-          <ScrollView>
-            {/* Each Component */}
+          <TextComponent
+            content='Payment History'
+            styles={[{ marginVertical: 5 }]}
+            fontSize={24}
+            fontFamily={fontFam.extraBold}
+          />
+          {data?.map((item, index) => (
+            <View style={[styles.wrapHistoryPurchased]} key={item.paymentId}>
+              {/* Icon */}
+              <View style={[styles.wrapIconStatus]}>
+                {item.status ? (
+                  <TickCircle size='22' color='#16a34a' variant='Bold' />
+                ) : (
+                  <RefreshCircle size='22' color='#303030' variant='Bold' />
+                )}
 
-            {data?.map((item) => (
-              <View style={[styles.wrapComponentHistory]} key={item.paymentId}>
-                {/* Icon */}
-                <View style={[styles.wrapLineStatus]}>
-                  <View style={[styles.dot]}></View>
-                  <View style={[styles.line]}></View>
-                </View>
-                <View style={[styles.wrapStatusAndPrice]}>
-                  {/* Information */}
-                  <View style={[styles.wrapStatus, { padding: 5 }]}>
-                    <TextComponent
-                      content={item.status ? 'Purchased' : 'Waiting for purchase'}
-                      fontFamily={fontFam.semiBold}
-                      textColor={item.status ? '#fff' : '#606060'}
-                      fontSize={17}
-                    />
-                    <TextComponent
-                      content={`${addPostfixToNumber(item.semester)} term`}
-                      textColor={item.status ? '#fff' : '#606060'}
-                      fontFamily={fontFam.semiBold}
-                    />
-                  </View>
-                  {/* Price */}
-                  <View style={[styles.wrapPrice, { padding: 5 }]}>
-                    <TextComponent
-                      content={`$ ${item.price}`}
-                      textColor={item.status ? '#fff' : '#606060'}
-                      fontFamily={fontFam.semiBold}
-                      fontSize={17}
-                    />
-                    <TextComponent
-                      content={`$ ${item.price}`}
-                      textColor={item.status ? '#fff' : '#606060'}
-                      fontFamily={fontFam.semiBold}
-                    />
-                  </View>
-                </View>
+                {index !== data.length - 1 && <View style={[styles.wrapLine]}></View>}
               </View>
-            ))}
-          </ScrollView>
+              {/* Status */}
+              <View style={[styles.wrapContentStatus]}>
+                <TextComponent
+                  content={item.status ? 'Payment completed' : 'Waiting for payment'}
+                  textColor={item.status ? '#fff' : '#303030'}
+                  fontSize={17}
+                  fontFamily={fontFam.semiBold}
+                />
+                <TextComponent
+                  content={`${addPostfixToNumber(item.semester)} term  -  ${item.expiredDate.replaceAll('-', '.')}`}
+                  fontFamily={fontFam.medium}
+                  textColor={item.status ? '#808080' : '#303030'}
+                />
+              </View>
+              {/* Price */}
+              <View style={[styles.wrapPriceStatus]}>
+                <TextComponent
+                  content={`$ ${item.price},00`}
+                  textColor={item.status ? '#fff' : '#303030'}
+                  fontFamily={fontFam.semiBold}
+                  fontSize={17}
+                />
+                <TextComponent
+                  content={`$ ${item.price},00`}
+                  fontSize={14}
+                  fontFamily={fontFam.medium}
+                  textColor={item.status ? '#808080' : '#303030'}
+                />
+              </View>
+            </View>
+          ))}
+
+          {/* Component history */}
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  wrapContainer: {},
+  wrapContainer: {
+    flex: 1
+  },
   wrapHeader: {
     paddingHorizontal: 20,
     flexDirection: 'row',
@@ -132,7 +141,7 @@ const styles = StyleSheet.create({
     gap: 5
   },
   wrapCurrentPayment: {
-    marginTop: 20,
+    marginTop: 10,
     gap: 10,
     paddingHorizontal: 20,
     marginBottom: 20
@@ -149,7 +158,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 25
+    paddingVertical: 10
   },
   wrapDateTimeContentPurchase: {
     flexDirection: 'row',
@@ -169,8 +178,8 @@ const styles = StyleSheet.create({
     borderColor: '#232323'
   },
   wrapHistory: {
-    padding: 20,
-    gap: 20
+    paddingHorizontal: 20,
+    paddingVertical: 10
   },
   wrapComponentHistory: {
     flexDirection: 'row'
@@ -195,15 +204,38 @@ const styles = StyleSheet.create({
   line: {
     zIndex: 1,
     left: 6,
-    height: 'auto',
+    height: 70,
     width: 1,
     backgroundColor: '#404040'
   },
   wrapPrice: {
     alignItems: 'flex-end'
   },
-  wrapStatus: {
-    alignItems: 'flex-start'
+  wrapHistoryPurchased: {
+    flexDirection: 'row',
+    width: '100%',
+    height: 60
+  },
+  wrapIconStatus: {
+    width: '10%',
+    alignItems: 'center',
+    marginTop: 10
+  },
+  wrapContentStatus: {
+    width: '65%',
+    gap: 5
+  },
+  wrapPriceStatus: {
+    width: '25%',
+    gap: 5,
+    alignItems: 'flex-end'
+  },
+  wrapLine: {
+    zIndex: 1,
+    height: 50,
+    borderWidth: 0.5,
+    borderColor: '#404040',
+    top: -2
   }
 });
 

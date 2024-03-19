@@ -9,7 +9,7 @@ import globalStyle from '@styles/globalStyle';
 import { Bill } from '@type/bill.type';
 import { MainStackParamList } from '@type/navigation.types';
 import { addPostfixToNumber, getMonthNameByNum } from '@utils/helper';
-import { ArrowRight2, Calendar, TickSquare, Trash } from 'iconsax-react-native';
+import { ArrowRight2, Calendar, Calendar1, TickSquare, Trash } from 'iconsax-react-native';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Image, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, {
@@ -159,7 +159,7 @@ const BillingScreen = () => {
                 {/* Header */}
                 <Animated.View entering={FadeInLeft} exiting={FadeOutLeft} style={[styles.wrapHeaderContent]}>
                   <View style={[styles.wrapCalendarInfo]}>
-                    <Calendar size='27' color={typoColor.yellow1} variant='Bold' />
+                    <Calendar1 size='27' color={typoColor.yellow1} variant='Outline' />
                     <TextComponent
                       content={`${getMonthNameByNum(new Date(item.expiredDate).getMonth() + 1)}, ${currentYear}`}
                       fontSize={16}
@@ -286,7 +286,8 @@ const styles = StyleSheet.create({
   wrapCalendarInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10
+    gap: 10,
+    paddingVertical: 3
   },
   wrapImage: {
     height: 70,

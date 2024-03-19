@@ -1,24 +1,24 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import { checkoutMethod } from '@services/apis/checkout.api';
 import { useBankList } from '@services/queries/card.queries';
 import globalStyle from '@styles/globalStyle';
+import { ChoosePaymentMethodProps } from '@type/navigation.types';
 import { EmptyWallet, Paypal } from 'iconsax-react-native';
 import React, { useMemo, useState } from 'react';
 import { FlatList, Image, StyleSheet, TouchableOpacity, View, Linking } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
-
-const linkUrl =
-  'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=100000&vnp_BankCode=Vietinbank&vnp_Command=pay&vnp_CreateDate=20240318142805&vnp_CurrCode=VND&vnp_ExpireDate=20240318214305&vnp_IpAddr=127.0.0.1&vnp_Locale=vn&vnp_OrderInfo=Thanh+toan+don+hang%3A92395709&vnp_OrderType=other&vnp_ReturnUrl=https%3A%2F%2Fwhalehome.up.railway.app%2Fapi%2Fv1%2Fvnpay%2Fpayment-callback%3FpaymentId%3D36&vnp_TmnCode=DMN554JS&vnp_TxnRef=92395709&vnp_Version=2.1.0&vnp_SecureHash=60b87531c2a3ec89474b5d9bbad0a4dc0dc6f1229bb593509d4ba3d89ffdc633aee85a1eab194ae388f712c27c0e65197fd90dc3aee4286afcc0f00e78db1570';
 
 type PaymentMethodType = 'VNPay' | 'Paypal' | 'Momo';
 type BankCodeType = {
   imageUrl: string;
   bankCode: string;
 };
-const ChoosePaymentMethod = () => {
+const ChoosePaymentMethod = ({ route, navigation }: ChoosePaymentMethodProps) => {
   const [isChoosePayment, setIsChoosePayment] = useState<PaymentMethodType | null>(null);
   const [bankCodeType, setBankCodeType] = useState<BankCodeType | null>(null);
+
   const bankListQuery = useBankList();
 
   const isShowSelection = useMemo(() => {
@@ -34,28 +34,51 @@ const ChoosePaymentMethod = () => {
     },
     [isChoosePayment]
   );
+
   const handleChangeMethod = (name: PaymentMethodType) => () => {
     setIsChoosePayment(name);
   };
 
-  const onCheckOut = () => {
+  const onCheckOut = async () => {
     if (isChoosePayment === 'VNPay') {
       const objectCheckout = {
-        bankCode: bankCodeType?.bankCode,
-        price: '3000'
+        bankCode: bankCodeType?.bankCode as string,
+        price: route.params.price,
+        paymentId: route.params.paymentId
       };
+      try {
+        const repsonse = await checkoutMethod.checkoutByVNPay(objectCheckout);
+        const link_url = repsonse.data.data;
+        const isSupported = await Linking.canOpenURL(link_url);
+        if (isSupported) {
+          console.log(objectCheckout);
+          await Linking.openURL(link_url);
+          navigation.navigate('BillingScreen');
+        } else {
+          alert('Can not open');
+        }
+      } catch (error) {
+        alert(error);
+      }
       console.log(objectCheckout);
     } else {
-      console.log('Payapl');
-    }
-  };
-
-  const onOpenWeb = async () => {
-    const isSupported = await Linking.canOpenURL(linkUrl);
-    if (isSupported) {
-      await Linking.openURL(linkUrl);
-    } else {
-      alert('Can not open');
+      const bodyPaypal = {
+        amount: route.params.price,
+        paymentId: route.params.paymentId
+      };
+      try {
+        const reponse = await checkoutMethod.checkoutByPaypal(bodyPaypal);
+        const Link_Checkout = reponse.data.data;
+        const isSupported = await Linking.canOpenURL(Link_Checkout);
+        if (isSupported) {
+          await Linking.openURL(Link_Checkout);
+          navigation.navigate('BillingScreen');
+        } else {
+          alert('Can not open');
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -125,7 +148,7 @@ const ChoosePaymentMethod = () => {
       </View>
       <View style={[styles.wrapCheckoutButton]}>
         <TouchableOpacity
-          onPress={onOpenWeb}
+          onPress={onCheckOut}
           style={[styles.buttonCheckout, { backgroundColor: isChoosePayment === null ? '#404040' : typoColor.yellow1 }]}
           disabled={isChoosePayment === null}
         >

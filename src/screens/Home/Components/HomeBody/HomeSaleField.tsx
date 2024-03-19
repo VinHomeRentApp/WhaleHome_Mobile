@@ -33,9 +33,8 @@ const HomeSaleField = () => {
     );
   }
 
-  // Function to get image source based on apartment name
   const getImageSource = (name: string) => {
-    return apartmentImageMap[name] || studioImage; // Default to studioImage if no match
+    return apartmentImageMap[name] || studioImage;
   };
 
   return (

@@ -40,6 +40,7 @@ export type MainStackParamList = {
   BillingScreen: undefined;
   ChoosePaymentMethod: undefined;
   HistoryBillingScreen: undefined;
+  FavoriteScreen: undefined;
 };
 
 export type MainNavigatorProps = {

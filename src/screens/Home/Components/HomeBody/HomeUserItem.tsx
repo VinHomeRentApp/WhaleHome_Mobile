@@ -12,6 +12,9 @@ type HomeUserItemProps = {
 };
 
 const HomeUserItem = ({ user }: HomeUserItemProps) => {
+  console.log('====================================');
+  console.log(user);
+  console.log('====================================');
   return (
     <View style={styles.topUserContainer}>
       <View style={styles.topUserImageContainer}>

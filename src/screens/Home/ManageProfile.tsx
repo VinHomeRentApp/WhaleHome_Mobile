@@ -11,7 +11,7 @@ import userApi from '@services/apis/user.apis';
 import FirebaseService from '@services/firebase/firebase.services';
 import globalStyle from '@styles/globalStyle';
 import { MainStackParamList } from '@type/navigation.types';
-import { Bill, Calendar, Card, DocumentText, Logout, ProfileCircle, Shield } from 'iconsax-react-native';
+import { Bill, Calendar, DocumentText, Logout, ProfileCircle, Shield } from 'iconsax-react-native';
 import React from 'react';
 import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';

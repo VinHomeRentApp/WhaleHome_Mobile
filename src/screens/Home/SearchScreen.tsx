@@ -29,7 +29,7 @@ const SearchScreen = () => {
     fetchSearchPosts(dispatch, { size, page, field, title: searchText }, searchPosts);
   }, [page]);
 
-  const searchResult = searchPosts.length === 0 && <NotFound />;
+  const searchResult = searchPosts.length === 0 && isFirstLoading === false && <NotFound />;
 
   const handleEndReached = () => {
     if (!isLoadingData && !isLastPage) {

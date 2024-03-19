@@ -1,5 +1,6 @@
 import { User } from 'firebase/auth';
 import { Apartment } from './appointment.type';
+import { UserContract } from './user.types';
 
 export type Contract = {
   id: number;
@@ -22,8 +23,8 @@ export type ContractDetail = {
   zoneName: string;
   buildingName: string;
   apartment: Apartment;
-  landlord: User;
-  renter: User;
+  landlord: UserContract;
+  renter: UserContract;
   urlContract: string;
   statusOfPayment: boolean;
   bank: {

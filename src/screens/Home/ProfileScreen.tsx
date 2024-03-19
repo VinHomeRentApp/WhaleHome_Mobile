@@ -6,7 +6,6 @@ import useRootContext from '@hooks/useRootContext';
 import globalStyle from '@styles/globalStyle';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import ProfileCounter from './Components/ProfileCounter/ProfileCounter';
 import ProfileTransaction from './Components/ProfileTransaction/ProfileTransaction';
 
 const ProfileScreen = () => {
@@ -27,7 +26,7 @@ const ProfileScreen = () => {
         <View style={[styles.fullNameContainer]}>
           <TextComponent
             content={currentUser.fullName || UPDATING}
-            fontSize={16}
+            fontSize={18}
             textColor={typoColor.yellow1}
             fontFamily={fontFam.bold}
           />
@@ -39,11 +38,13 @@ const ProfileScreen = () => {
             fontFamily={fontFam.regular}
           />
         </View>
-        <View style={[{ marginVertical: 10 }]}></View>
-        <View style={[styles.profileCounterContainer]}>
-          <ProfileCounter counter={30} title='Listings' />
-          <ProfileCounter counter={12} title='Solds' />
-          <ProfileCounter counter={28} title='Reviews' />
+        <View style={[styles.wrapInformation]}>
+          {/* List Contract */}
+
+          <View style={[styles.wrapButton]}>
+            <TextComponent content='View my contract' fontSize={18} fontFamily={fontFam.bold} textColor='#000' />
+          </View>
+          {/* List Transactions */}
         </View>
       </View>
       <ProfileTransaction posts={posts} />
@@ -54,8 +55,9 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
   containerProfile: {
     flex: 0.4,
-    justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginHorizontal: 15,
+    paddingTop: 20
   },
   profileInfo: {
     width: 100,
@@ -68,24 +70,26 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     resizeMode: 'cover'
   },
-  editButton: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    width: 30,
-    height: 30,
-    backgroundColor: typoColor.yellow1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100
-  },
   fullNameContainer: {
     justifyContent: 'center',
     alignItems: 'center'
   },
-  profileCounterContainer: {
+  wrapInformation: {
     flexDirection: 'row',
-    gap: 10
+    marginTop: 30,
+    width: '100%',
+    justifyContent: 'center'
+  },
+  wrapButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderWidth: 1,
+    borderRadius: 14,
+    backgroundColor: typoColor.yellow1
+  },
+  wrapCounter: {
+    paddingHorizontal: 20,
+    borderWidth: 1
   }
 });
 

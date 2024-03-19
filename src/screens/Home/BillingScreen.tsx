@@ -220,13 +220,6 @@ const BillingScreen = () => {
                         <TickSquare size='29' color={typoColor.yellow1} variant='Bold' />
                       )}
                     </TouchableOpacity>
-                    <TextComponent
-                      content={`${addPostfixToNumber(item.semester)} semester`}
-                      fontFamily={fontFam.semiBold}
-                      textColor='#ccc'
-                      fontSize={15}
-                    />
-                    <TextComponent content={item.price} fontFamily={fontFam.semiBold} fontSize={15} />
                   </View>
                 </Animated.View>
               </View>

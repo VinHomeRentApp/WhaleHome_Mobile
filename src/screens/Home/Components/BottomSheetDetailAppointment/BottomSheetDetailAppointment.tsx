@@ -76,7 +76,7 @@ const BottomSheetDetailAppointment = ({ sheetDetailRef, snapPoints, onClose, dat
                 </TouchableOpacity>
                 <View style={[styles.wrapButtonCall, { flexDirection: 'row', alignItems: 'center', gap: 10 }]}>
                   <Call size='24' color='#0f0f10' variant='Bold' />
-                  <TextComponent content={data.userPhone} textColor='#000' fontFamily={fontFam.bold} />
+                  <TextComponent content={data?.userPhone} textColor='#000' fontFamily={fontFam.bold} />
                 </View>
               </View>
             </View>

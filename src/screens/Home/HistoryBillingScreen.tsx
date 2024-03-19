@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 25
+    paddingVertical: 15
   },
   wrapDateTimeContentPurchase: {
     flexDirection: 'row',

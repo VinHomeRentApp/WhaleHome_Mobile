@@ -42,13 +42,25 @@ const BillingScreen = () => {
     if (isAllBill === 'isNotAllBill') {
       if (billUpcomingQuery.isSuccess) {
         setListBillFilter(billUpcomingQuery.data.data.data);
+      } else {
+        setListBillFilter([]);
       }
     } else {
       if (billUnpaidQuery.isSuccess) {
         setListBillFilter(billUnpaidQuery.data.data.data);
+      } else {
+        setListBillFilter([]);
       }
     }
-  }, [isAllBill, billUpcomingQuery, billUnpaidQuery]);
+  }, [
+    isAllBill,
+    billUpcomingQuery.isSuccess,
+    billUnpaidQuery.isSuccess,
+    billUnpaidQuery.data?.data.data,
+    billUpcomingQuery.data?.data.data
+  ]);
+
+  console.log(listBillFilter);
 
   const isCheckBox = useMemo(() => {
     return {
@@ -141,67 +153,70 @@ const BillingScreen = () => {
         <ScrollView>
           {/* Component  */}
 
-          {listBillFilter.length === 0 && <NotFound />}
-          {listBillFilter.map((item, index) => (
-            <View style={[styles.wrapMainContent]} key={index}>
-              {/* Header */}
-              <View style={[styles.wrapHeaderContent]}>
-                <View style={[styles.wrapCalendarInfo]}>
-                  <Calendar size='27' color={typoColor.yellow1} variant='Bold' />
-                  <TextComponent
-                    content={`${getMonthNameByNum(new Date(item.expiredDate).getMonth() + 1)}, ${currentYear}`}
-                    fontSize={16}
-                    fontFamily={fontFam.semiBold}
-                  />
-                </View>
-              </View>
-              <View style={[styles.wrapBoxPayment]}>
-                {/* Image */}
-                <View>
-                  <Image style={[styles.wrapImage]} source={require('../../assets/images/main-logo.png')} />
-                </View>
-                {/* Information */}
-                <View style={[styles.wrapInforBoxPayment]}>
-                  <TouchableOpacity
-                    style={[styles.wrapViewDetail]}
-                    onPress={() =>
-                      navigation.navigate('HistoryBillingScreen', {
-                        date: item.expiredDate,
-                        price: item.price,
-                        semester: item.semester
-                      })
-                    }
-                  >
-                    <TextComponent content='Detail your bills' fontFamily={fontFam.semiBold} fontSize={15} />
-                    <ArrowRight2 size='20' color='#fff' />
-                  </TouchableOpacity>
-                  <TextComponent
-                    content={`${addPostfixToNumber(item.semester)} semester`}
-                    fontFamily={fontFam.semiBold}
-                    textColor='#ccc'
-                    fontSize={15}
-                  />
-                  <TextComponent content={item.price} fontFamily={fontFam.semiBold} fontSize={15} />
-                </View>
-                {/* Time date */}
-                <View style={[styles.wrapTimeDate]}>
-                  <TextComponent content='Expired Date' fontFamily={fontFam.semiBold} />
-                  <TextComponent content={item.expiredDate} fontFamily={fontFam.medium} />
-                </View>
-                {/* Chechbox */}
-                {isAllBill === 'isNotAllBill' && (
-                  <View style={[styles.wrapChecbox]}>
-                    <TouchableOpacity
-                      style={[styles.checkbox, { backgroundColor: isCheckBox.backgroundColor }]}
-                      onPress={handlePlusTotalPrice(item.price, item.paymentId)}
-                    >
-                      {isChecked && <Add size='18' color={isCheckBox.iconColor} />}
-                    </TouchableOpacity>
+          {listBillFilter.length === 0 ? (
+            <NotFound />
+          ) : (
+            listBillFilter.map((item, index) => (
+              <View style={[styles.wrapMainContent]} key={index}>
+                {/* Header */}
+                <View style={[styles.wrapHeaderContent]}>
+                  <View style={[styles.wrapCalendarInfo]}>
+                    <Calendar size='27' color={typoColor.yellow1} variant='Bold' />
+                    <TextComponent
+                      content={`${getMonthNameByNum(new Date(item.expiredDate).getMonth() + 1)}, ${currentYear}`}
+                      fontSize={16}
+                      fontFamily={fontFam.semiBold}
+                    />
                   </View>
-                )}
+                </View>
+                <View style={[styles.wrapBoxPayment]}>
+                  {/* Image */}
+                  <View>
+                    <Image style={[styles.wrapImage]} source={require('../../assets/images/main-logo.png')} />
+                  </View>
+                  {/* Information */}
+                  <View style={[styles.wrapInforBoxPayment]}>
+                    <TouchableOpacity
+                      style={[styles.wrapViewDetail]}
+                      onPress={() =>
+                        navigation.navigate('HistoryBillingScreen', {
+                          date: item.expiredDate,
+                          price: item.price,
+                          semester: item.semester
+                        })
+                      }
+                    >
+                      <TextComponent content='Detail your bills' fontFamily={fontFam.semiBold} fontSize={15} />
+                      <ArrowRight2 size='20' color='#fff' />
+                    </TouchableOpacity>
+                    <TextComponent
+                      content={`${addPostfixToNumber(item.semester)} semester`}
+                      fontFamily={fontFam.semiBold}
+                      textColor='#ccc'
+                      fontSize={15}
+                    />
+                    <TextComponent content={item.price} fontFamily={fontFam.semiBold} fontSize={15} />
+                  </View>
+                  {/* Time date */}
+                  <View style={[styles.wrapTimeDate]}>
+                    <TextComponent content='Expired Date' fontFamily={fontFam.semiBold} />
+                    <TextComponent content={item.expiredDate} fontFamily={fontFam.medium} />
+                  </View>
+                  {/* Chechbox */}
+                  {isAllBill === 'isNotAllBill' && (
+                    <View style={[styles.wrapChecbox]}>
+                      <TouchableOpacity
+                        style={[styles.checkbox, { backgroundColor: isCheckBox.backgroundColor }]}
+                        onPress={handlePlusTotalPrice(item.price, item.paymentId)}
+                      >
+                        {isChecked && <Add size='18' color={isCheckBox.iconColor} />}
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </View>
               </View>
-            </View>
-          ))}
+            ))
+          )}
         </ScrollView>
         {isChecked && (
           <Animated.View entering={FadeInDown} exiting={FadeOutDown} style={[styles.buttonPayment]}>

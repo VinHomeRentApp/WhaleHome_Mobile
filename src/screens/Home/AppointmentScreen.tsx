@@ -12,6 +12,7 @@ import { Appointment } from '@type/appointment.type';
 import AppointmentCard from './Components/AppointmentCard/AppointmentCard';
 import BottomSheetDetailAppointment from './Components/BottomSheetDetailAppointment/BottomSheetDetailAppointment';
 import NotFound from './Components/NotFound/NotFound';
+import { ArrowRotateRight } from 'iconsax-react-native';
 
 type FilterAppointment = 'Upcoming' | 'Past';
 
@@ -36,14 +37,12 @@ const AppointmentScreen = () => {
   const snapDetailPoints = useMemo(() => ['85%'], []);
 
   const getAppointmentQuery = useGetAppointment(id as number);
-
+  console.log(getAppointmentQuery);
   const appointmentArr = useMemo(() => {
     const isCurrentDate = new Date().getTime();
     if (getAppointmentQuery.isSuccess) {
       return getAppointmentQuery.data.data.data.filter((item) =>
-        isUpcoming === 'Upcoming'
-          ? new Date(item.dateTime).getTime() > isCurrentDate
-          : new Date(item.dateTime).getTime() < isCurrentDate
+        isUpcoming === 'Upcoming' ? item.statusAppointment === 'Pending' : item.statusAppointment === 'Completed'
       );
     }
   }, [getAppointmentQuery.isSuccess, isUpcoming, getAppointmentQuery.data?.data.data]);
@@ -80,6 +79,23 @@ const AppointmentScreen = () => {
       <View style={[styles.wrapContainer, { opacity: isOpenDetailAppointment || isOpenOptional ? 0.2 : 1 }]}>
         <View style={[{ flexDirection: 'row', alignItems: 'center', gap: 20 }]}>
           <TextComponent content='My Appointment' fontSize={30} fontFamily={fontFam.extraBold} />
+          <TouchableOpacity
+            onPress={() => getAppointmentQuery.refetch()}
+            style={[
+              {
+                marginLeft: 20,
+                height: 30,
+                width: 30,
+                backgroundColor: typoColor.yellow1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 10,
+                borderRadius: 8
+              }
+            ]}
+          >
+            <ArrowRotateRight size='25' color='#000' />
+          </TouchableOpacity>
           <View
             style={[
               {

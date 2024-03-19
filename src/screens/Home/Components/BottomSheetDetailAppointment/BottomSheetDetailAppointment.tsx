@@ -7,7 +7,7 @@ import { Appointment } from '@type/appointment.type';
 import { convertDate } from '@utils/helper';
 import { Calendar, Call, Clock, CloseCircle, Location, Map, Note1, Star1 } from 'iconsax-react-native';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, Linking, Platform, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 type Props = {
   snapPoints: string[] | number[];
@@ -15,8 +15,18 @@ type Props = {
   data: Appointment;
   onClose: () => void;
 };
+const link_phone = 'tel:0886751110';
 
 const BottomSheetDetailAppointment = ({ sheetDetailRef, snapPoints, onClose, data }: Props) => {
+  const handleCall = async (phone: string) => {
+    try {
+      const isSupported = await Linking.canOpenURL(`tel:${phone}`);
+      isSupported === true && Linking.openURL(`tel:${phone}`);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return (
     <BottomSheet
       detached={true}
@@ -64,9 +74,10 @@ const BottomSheetDetailAppointment = ({ sheetDetailRef, snapPoints, onClose, dat
                 >
                   <Map size='24' color='#f8d649' variant='Bold' />
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.wrapButtonCall]}>
+                <View style={[styles.wrapButtonCall, { flexDirection: 'row', alignItems: 'center', gap: 10 }]}>
                   <Call size='24' color='#0f0f10' variant='Bold' />
-                </TouchableOpacity>
+                  <TextComponent content={data.userPhone} textColor='#000' fontFamily={fontFam.bold} />
+                </View>
               </View>
             </View>
           </View>

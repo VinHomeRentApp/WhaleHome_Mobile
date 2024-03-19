@@ -38,7 +38,8 @@ const ProfileTransaction = ({ posts }: Props) => {
 
 const styles = StyleSheet.create({
   transactionContainer: {
-    flex: 0.6
+    flex: 0.6,
+    marginTop: 20
   },
   titleTransaction: {
     flexDirection: 'row',

@@ -1,25 +1,55 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import useRootContext from '@hooks/useRootContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useGetUnpaidBill, useGetUpcomingBill } from '@services/queries/bill.queries';
 import globalStyle from '@styles/globalStyle';
+import { Bill } from '@type/bill.type';
 import { MainStackParamList } from '@type/navigation.types';
-import { Add, ArrowRight2, Calendar, Trash } from 'iconsax-react-native';
+import { addPostfixToNumber, getMonthNameByNum } from '@utils/helper';
+import { Add, ArrowRight2, ArrowRotateRight, Calendar, Trash } from 'iconsax-react-native';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
+import NotFound from './Components/NotFound/NotFound';
 
 type FilterType = 'isAllBill' | 'isNotAllBill';
 
 const currentMonth = new Date().getMonth();
+const currentYear = new Date().getFullYear();
 
 const BillingScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
-
+  const [totalPriceToCheckout, setTotalPriceToCheckout] = useState<number>(0);
+  const [paymentBillToCheckout, setPaymentBillToCheckout] = useState<number | null>(null);
   const [isAllBill, setIsAllBill] = useState<FilterType>('isNotAllBill');
+  const [listBillFilter, setListBillFilter] = useState<Bill[]>([]);
   const [isChecked, setIsChecked] = useState<boolean>(false);
-  console.log(currentMonth);
+
+  const {
+    state: {
+      auth: {
+        currentUser: { id }
+      }
+    }
+  } = useRootContext();
+  const billUpcomingQuery = useGetUpcomingBill({ userId: id as number, month: currentMonth + 1, year: currentYear });
+  const billUnpaidQuery = useGetUnpaidBill(id as number);
+
+  useEffect(() => {
+    if (isAllBill === 'isNotAllBill') {
+      if (billUpcomingQuery.isSuccess) {
+        setListBillFilter(billUpcomingQuery.data.data.data);
+      }
+    } else {
+      if (billUnpaidQuery.isSuccess) {
+        setListBillFilter(billUnpaidQuery.data.data.data);
+      }
+    }
+  }, [isAllBill, billUpcomingQuery, billUnpaidQuery]);
+
   const isCheckBox = useMemo(() => {
     return {
       backgroundColor: isChecked ? typoColor.yellow1 : '#121212',
@@ -28,7 +58,28 @@ const BillingScreen = () => {
   }, [isChecked]);
 
   const handleNavigateToChoosePayment = () => {
-    navigation.navigate('ChoosePaymentMethod');
+    const objectPayment = {
+      paymentId: paymentBillToCheckout as number,
+      price: totalPriceToCheckout
+    };
+    navigation.navigate('ChoosePaymentMethod', objectPayment);
+  };
+
+  const handlePlusTotalPrice = (price: number, paymentId: number) => () => {
+    if (isChecked) {
+      setTotalPriceToCheckout((prevState) => prevState - price);
+      setPaymentBillToCheckout(null);
+      setIsChecked(false);
+    } else {
+      setTotalPriceToCheckout((prevState) => prevState + price);
+      setPaymentBillToCheckout(paymentId);
+      setIsChecked(true);
+    }
+  };
+
+  const clearPrice = () => {
+    setIsChecked((prevState) => !prevState);
+    setTotalPriceToCheckout(0);
   };
 
   useEffect(() => {
@@ -50,7 +101,7 @@ const BillingScreen = () => {
             ]}
           >
             <TextComponent
-              content='15 days upcoming'
+              content='Upcoming in month'
               fontSize={16}
               fontFamily={fontFam.semiBold}
               textColor={isAllBill === 'isNotAllBill' ? '#000' : '#fff'}
@@ -68,60 +119,102 @@ const BillingScreen = () => {
             />
           </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          onPress={() => billUpcomingQuery.refetch()}
+          style={[
+            {
+              marginLeft: 20,
+              height: 30,
+              width: 30,
+              backgroundColor: typoColor.yellow1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 10,
+              borderRadius: 8
+            }
+          ]}
+        >
+          <ArrowRotateRight size='25' color='#000' />
+        </TouchableOpacity>
         {/* Body */}
         <View style={[{ marginVertical: 20 }]}></View>
         <ScrollView>
           {/* Component  */}
-          <View style={[styles.wrapMainContent]}>
-            {/* Header */}
-            <View style={[styles.wrapHeaderContent]}>
-              <View style={[styles.wrapCalendarInfo]}>
-                <Calendar size='27' color={typoColor.yellow1} variant='Bold' />
-                <TextComponent content='March, 2024' fontSize={16} fontFamily={fontFam.semiBold} />
+
+          {listBillFilter.length === 0 && <NotFound />}
+          {listBillFilter.map((item, index) => (
+            <View style={[styles.wrapMainContent]} key={index}>
+              {/* Header */}
+              <View style={[styles.wrapHeaderContent]}>
+                <View style={[styles.wrapCalendarInfo]}>
+                  <Calendar size='27' color={typoColor.yellow1} variant='Bold' />
+                  <TextComponent
+                    content={`${getMonthNameByNum(new Date(item.expiredDate).getMonth() + 1)}, ${currentYear}`}
+                    fontSize={16}
+                    fontFamily={fontFam.semiBold}
+                  />
+                </View>
+              </View>
+              <View style={[styles.wrapBoxPayment]}>
+                {/* Image */}
+                <View>
+                  <Image style={[styles.wrapImage]} source={require('../../assets/images/main-logo.png')} />
+                </View>
+                {/* Information */}
+                <View style={[styles.wrapInforBoxPayment]}>
+                  <TouchableOpacity
+                    style={[styles.wrapViewDetail]}
+                    onPress={() =>
+                      navigation.navigate('HistoryBillingScreen', {
+                        date: item.expiredDate,
+                        price: item.price,
+                        semester: item.semester
+                      })
+                    }
+                  >
+                    <TextComponent content='Detail your bills' fontFamily={fontFam.semiBold} fontSize={15} />
+                    <ArrowRight2 size='20' color='#fff' />
+                  </TouchableOpacity>
+                  <TextComponent
+                    content={`${addPostfixToNumber(item.semester)} semester`}
+                    fontFamily={fontFam.semiBold}
+                    textColor='#ccc'
+                    fontSize={15}
+                  />
+                  <TextComponent content={item.price} fontFamily={fontFam.semiBold} fontSize={15} />
+                </View>
+                {/* Time date */}
+                <View style={[styles.wrapTimeDate]}>
+                  <TextComponent content='Expired Date' fontFamily={fontFam.semiBold} />
+                  <TextComponent content={item.expiredDate} fontFamily={fontFam.medium} />
+                </View>
+                {/* Chechbox */}
+                {isAllBill === 'isNotAllBill' && (
+                  <View style={[styles.wrapChecbox]}>
+                    <TouchableOpacity
+                      style={[styles.checkbox, { backgroundColor: isCheckBox.backgroundColor }]}
+                      onPress={handlePlusTotalPrice(item.price, item.paymentId)}
+                    >
+                      {isChecked && <Add size='18' color={isCheckBox.iconColor} />}
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
             </View>
-            {/*  */}
-            <View style={[styles.wrapBoxPayment]}>
-              {/* Image */}
-              <View>
-                <Image style={[styles.wrapImage]} source={require('../../assets/images/main-logo.png')} />
-              </View>
-              {/* Information */}
-              <View style={[styles.wrapInforBoxPayment]}>
-                <TouchableOpacity
-                  style={[styles.wrapViewDetail]}
-                  onPress={() => navigation.navigate('HistoryBillingScreen')}
-                >
-                  <TextComponent content='Detail your bills' fontFamily={fontFam.semiBold} fontSize={15} />
-                  <ArrowRight2 size='20' color='#fff' />
-                </TouchableOpacity>
-                <TextComponent content='1st term' fontFamily={fontFam.semiBold} textColor='#ccc' fontSize={15} />
-                <TextComponent content='$ 224,0' fontFamily={fontFam.semiBold} fontSize={15} />
-              </View>
-              {/* Time date */}
-              <View style={[styles.wrapTimeDate]}>
-                <TextComponent content='Expired Date' fontFamily={fontFam.semiBold} />
-                <TextComponent content='30.03.2024' fontFamily={fontFam.medium} />
-              </View>
-              {/* Chechbox */}
-              <View style={[styles.wrapChecbox]}>
-                <TouchableOpacity
-                  style={[styles.checkbox, { backgroundColor: isCheckBox.backgroundColor }]}
-                  onPress={() => setIsChecked((prevState) => !prevState)}
-                >
-                  {isChecked && <Add size='18' color={isCheckBox.iconColor} />}
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
+          ))}
         </ScrollView>
         {isChecked && (
           <Animated.View entering={FadeInDown} exiting={FadeOutDown} style={[styles.buttonPayment]}>
-            <TouchableOpacity onPress={() => setIsChecked((prevState) => !prevState)}>
+            <TouchableOpacity onPress={clearPrice}>
               <Trash size='32' color={typoColor.yellow1} />
             </TouchableOpacity>
             <TouchableOpacity style={[styles.wrapButtonCheckout]} onPress={handleNavigateToChoosePayment}>
-              <TextComponent content='Continue - $ 224,00' textColor='#000' fontSize={18} fontFamily={fontFam.bold} />
+              <TextComponent
+                content={`Continue - $ ${totalPriceToCheckout}`}
+                textColor='#000'
+                fontSize={18}
+                fontFamily={fontFam.bold}
+              />
             </TouchableOpacity>
           </Animated.View>
         )}
@@ -152,7 +245,8 @@ const styles = StyleSheet.create({
   wrapMainContent: {
     gap: 20,
     alignItem: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginBottom: 20
   },
   wrapHeaderContent: {
     flexDirection: 'row'

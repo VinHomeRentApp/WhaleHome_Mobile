@@ -1,22 +1,47 @@
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import useRootContext from '@hooks/useRootContext';
+import { useGetAllBIll } from '@services/queries/bill.queries';
 import globalStyle from '@styles/globalStyle';
+import { HistoryBillingScreenProps } from '@type/navigation.types';
+import { addPostfixToNumber } from '@utils/helper';
 import { Clock, Wallet } from 'iconsax-react-native';
 import React from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
 
-const HistoryBillingScreen = () => {
+const HistoryBillingScreen = ({ route }: HistoryBillingScreenProps) => {
+  const {
+    state: {
+      auth: {
+        currentUser: { id }
+      }
+    }
+  } = useRootContext();
+  console.log(route);
+
+  const getAllBillQueries = useGetAllBIll(id as number);
+  const data = getAllBillQueries.data?.data.data;
   return (
     <View style={[globalStyle.container]}>
       {/* Information */}
       <View style={[styles.wrapContainer]}>
         <View style={[[styles.wrapHeader]]}>
           <View style={[styles.wrapTotalPrice]}>
-            <TextComponent content='$ 49.000,00' fontSize={30} fontFamily={fontFam.bold} />
+            <TextComponent
+              content={`$ ${
+                data?.reduce((acc, curr) => {
+                  return acc + curr.price;
+                }, 0) as number
+              }`}
+              fontSize={30}
+              fontFamily={fontFam.bold}
+            />
             <TextComponent
               textColor='#fff'
-              content='This contract is in the payment stage'
+              content={
+                data?.every((item) => item.status === true) ? 'Finished' : 'This contract is in the payment stage'
+              }
               fontFamily={fontFam.semiBold}
             />
           </View>
@@ -27,9 +52,12 @@ const HistoryBillingScreen = () => {
             <View style={[styles.wrapDateTimeAndMoney]}>
               <View style={[styles.wrapDateTimeContentPurchase]}>
                 <Clock size='27' color='#fff' />
-                <TextComponent content='Ky 7: 30.03.2024' fontSize={16} />
+                <View>
+                  <TextComponent content={`${addPostfixToNumber(route.params.semester)} term`} fontSize={16} />
+                  <TextComponent content={`${route.params.date}`} fontSize={16} />
+                </View>
               </View>
-              <TextComponent content='$ 224,00' fontSize={16} fontFamily={fontFam.extraBold} />
+              <TextComponent content={`$ ${route.params.price}`} fontSize={16} fontFamily={fontFam.extraBold} />
             </View>
             <View style={[styles.wrapIcon]}>
               <Wallet size='40' color='#000' variant='Bold' />
@@ -42,92 +70,45 @@ const HistoryBillingScreen = () => {
           <ScrollView>
             {/* Each Component */}
 
-            <View style={[styles.wrapComponentHistory]}>
-              {/* Icon */}
-              <View style={[styles.wrapLineStatus]}>
-                <View style={[styles.dot]}></View>
-                <View style={[styles.line]}></View>
-              </View>
-              <View style={[styles.wrapStatusAndPrice]}>
-                {/* Information */}
-                <View style={[styles.wrapStatus, { padding: 5 }]}>
-                  <TextComponent content='Purchased' fontFamily={fontFam.semiBold} fontSize={17} />
-                  <TextComponent content='1st term - 30.09.2022' textColor='#606060' fontFamily={fontFam.semiBold} />
+            {data?.map((item) => (
+              <View style={[styles.wrapComponentHistory]} key={item.paymentId}>
+                {/* Icon */}
+                <View style={[styles.wrapLineStatus]}>
+                  <View style={[styles.dot]}></View>
+                  <View style={[styles.line]}></View>
                 </View>
-                {/* Price */}
-                <View style={[styles.wrapPrice, { padding: 5 }]}>
-                  <TextComponent content='1.238.000 đ' fontFamily={fontFam.semiBold} fontSize={17} />
-                  <TextComponent content='1.238.000 đ' textColor='#606060' fontFamily={fontFam.semiBold} />
-                </View>
-              </View>
-            </View>
-            <View style={[styles.wrapComponentHistory]}>
-              {/* Icon */}
-              <View style={[styles.wrapLineStatus]}>
-                <View style={[styles.dot]}></View>
-                <View style={[styles.line]}></View>
-              </View>
-              <View style={[styles.wrapStatusAndPrice]}>
-                {/* Information */}
-                <View style={[styles.wrapStatus, { padding: 5 }]}>
-                  <TextComponent content='Purchased' fontFamily={fontFam.semiBold} fontSize={17} />
-                  <TextComponent content='1st term - 30.09.2022' textColor='#606060' fontFamily={fontFam.semiBold} />
-                </View>
-                {/* Price */}
-                <View style={[styles.wrapPrice, { padding: 5 }]}>
-                  <TextComponent content='1.238.000 đ' fontFamily={fontFam.semiBold} fontSize={17} />
-                  <TextComponent content='1.238.000 đ' textColor='#606060' fontFamily={fontFam.semiBold} />
-                </View>
-              </View>
-            </View>
-            <View style={[styles.wrapComponentHistory]}>
-              {/* Icon */}
-              <View style={[styles.wrapLineStatus]}>
-                <View style={[styles.dot]}></View>
-                <View style={[styles.line]}></View>
-              </View>
-              <View style={[styles.wrapStatusAndPrice]}>
-                {/* Information */}
-                <View style={[styles.wrapStatus, { padding: 5 }]}>
-                  <TextComponent content='Purchased' fontFamily={fontFam.semiBold} fontSize={17} />
-                  <TextComponent content='1st term - 30.09.2022' textColor='#606060' fontFamily={fontFam.semiBold} />
-                </View>
-                {/* Price */}
-                <View style={[styles.wrapPrice, { padding: 5 }]}>
-                  <TextComponent content='1.238.000 đ' fontFamily={fontFam.semiBold} fontSize={17} />
-                  <TextComponent content='1.238.000 đ' textColor='#606060' fontFamily={fontFam.semiBold} />
+                <View style={[styles.wrapStatusAndPrice]}>
+                  {/* Information */}
+                  <View style={[styles.wrapStatus, { padding: 5 }]}>
+                    <TextComponent
+                      content={item.status ? 'Purchased' : 'Waiting for purchase'}
+                      fontFamily={fontFam.semiBold}
+                      textColor={item.status ? '#fff' : '#606060'}
+                      fontSize={17}
+                    />
+                    <TextComponent
+                      content={`${addPostfixToNumber(item.semester)} term`}
+                      textColor={item.status ? '#fff' : '#606060'}
+                      fontFamily={fontFam.semiBold}
+                    />
+                  </View>
+                  {/* Price */}
+                  <View style={[styles.wrapPrice, { padding: 5 }]}>
+                    <TextComponent
+                      content={`$ ${item.price}`}
+                      textColor={item.status ? '#fff' : '#606060'}
+                      fontFamily={fontFam.semiBold}
+                      fontSize={17}
+                    />
+                    <TextComponent
+                      content={`$ ${item.price}`}
+                      textColor={item.status ? '#fff' : '#606060'}
+                      fontFamily={fontFam.semiBold}
+                    />
+                  </View>
                 </View>
               </View>
-            </View>
-            <View style={[styles.wrapComponentHistory]}>
-              {/* Icon */}
-              <View style={[styles.wrapLineStatus]}>
-                <View style={[styles.dot]}></View>
-                <View style={[styles.line]}></View>
-              </View>
-              <View style={[styles.wrapStatusAndPrice]}>
-                {/* Information */}
-                <View style={[styles.wrapStatus, { padding: 5 }]}>
-                  <TextComponent
-                    content='Waiting for purchased'
-                    textColor='#606060'
-                    fontFamily={fontFam.semiBold}
-                    fontSize={17}
-                  />
-                  <TextComponent content='1st term - 30.09.2022' textColor='#606060' fontFamily={fontFam.semiBold} />
-                </View>
-                {/* Price */}
-                <View style={[styles.wrapPrice, { padding: 5 }]}>
-                  <TextComponent
-                    content='1.238.000 đ'
-                    textColor='#606060'
-                    fontFamily={fontFam.semiBold}
-                    fontSize={17}
-                  />
-                  <TextComponent content='1.238.000 đ' textColor='#606060' fontFamily={fontFam.semiBold} />
-                </View>
-              </View>
-            </View>
+            ))}
           </ScrollView>
         </View>
       </View>

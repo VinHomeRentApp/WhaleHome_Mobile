@@ -1,15 +1,20 @@
 import TextComponent from '@components/ui/TextComponent';
 import fontFam from '@constants/fontFamilies';
-import { User } from '@type/user.types';
+import { UserContract } from '@type/user.types';
 import { Bank, Profile } from 'iconsax-react-native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 type Props = {
-  userInformation?: User;
+  userInformation: UserContract;
   isLandLord?: boolean;
+  bank?: {
+    name: string;
+    code: string;
+    address: string;
+  };
 };
-const ContractDetailComponent = ({ userInformation, isLandLord }: Props) => {
+const ContractDetailComponent = ({ userInformation, isLandLord, bank }: Props) => {
   return (
     <View>
       {/* Header */}
@@ -25,64 +30,84 @@ const ContractDetailComponent = ({ userInformation, isLandLord }: Props) => {
         <View style={[styles.wrapEachRow]}>
           <View style={[styles.wrapRow]}>
             <TextComponent content='Fullname' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
-            <TextComponent content='TRAN QUANG MINH' fontSize={16} fontFamily={fontFam.semiBold} />
+            <TextComponent
+              content={userInformation.fullName.toUpperCase()}
+              fontSize={16}
+              fontFamily={fontFam.semiBold}
+            />
           </View>
           <View style={[styles.wrapRow]}>
             <TextComponent content='Phone' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
-            <TextComponent content='9886751110' fontSize={16} fontFamily={fontFam.semiBold} />
+            <TextComponent content={userInformation.phone} fontSize={16} fontFamily={fontFam.semiBold} />
           </View>
         </View>
         <View style={[styles.wrapEachRow]}>
           <View style={[styles.wrapRow]}>
-            <TextComponent content='CCCD' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
-            <TextComponent content='272891343' fontSize={16} fontFamily={fontFam.semiBold} />
-          </View>
-          <View style={[styles.wrapRow]}>
-            <TextComponent content='Ngay cap' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
-            <TextComponent content='31/12/2021' fontSize={16} fontFamily={fontFam.semiBold} />
-          </View>
-        </View>
-        <View style={[styles.wrapEachRow, { justifyContent: 'flex-end' }]}>
-          <View style={[styles.wrapRow]}>
-            <TextComponent content='Noi cap' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
-            <TextComponent content='272891343' fontSize={16} fontFamily={fontFam.semiBold} />
-          </View>
-        </View>
-        <View style={[styles.wrapEachRow]}>
-          <View style={[styles.wrapRow, { width: '100%' }]}>
-            <TextComponent content='Dia chi' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
+            <TextComponent content='Identity Card' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
             <TextComponent
-              content='81, Quảng Phát, Quảng Tiến, Trảng Bom, Đồng Nai'
+              content={userInformation.identityCard ?? 'Updating'}
+              fontSize={16}
+              fontFamily={fontFam.semiBold}
+            />
+          </View>
+          <View style={[styles.wrapRow]}>
+            <TextComponent content='Provided Date Card' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
+            <TextComponent
+              content={userInformation.identityCardDateProvide ?? 'Updating'}
               fontSize={16}
               fontFamily={fontFam.semiBold}
             />
           </View>
         </View>
-      </View>
-
-      <View style={[styles.seperateLine]}></View>
-      <View style={[styles.wrapHeader]}>
-        <View style={[styles.wrapTitleHeader]}>
-          <View style={[styles.wrapIcon, { backgroundColor: '#15803d' }]}>
-            <Bank size='24' color='#fff' />
+        <View style={[styles.wrapEachRow, { justifyContent: 'flex-end' }]}>
+          <View style={[styles.wrapRow]}>
+            <TextComponent content='Address Date Card' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
+            <TextComponent
+              content={userInformation.identityCardAddressProvide ?? 'Updating'}
+              fontSize={16}
+              fontFamily={fontFam.semiBold}
+            />
           </View>
-          <TextComponent content='Payment method' fontFamily={fontFam.extraBold} textColor='#292929' fontSize={24} />
+        </View>
+        <View style={[styles.wrapEachRow]}>
+          <View style={[styles.wrapRow, { width: '100%' }]}>
+            <TextComponent content='Address' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
+            <TextComponent content={userInformation.address} fontSize={16} fontFamily={fontFam.semiBold} />
+          </View>
         </View>
       </View>
-      <View style={[styles.wrapContentInformation]}>
-        <View style={[styles.wrapRow]}>
-          <TextComponent content='Bank' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
-          <TextComponent content='TRAN QUANG MINH' fontSize={16} fontFamily={fontFam.semiBold} />
+      {isLandLord && (
+        <View>
+          <View style={[styles.seperateLine]}></View>
+          <View style={[styles.wrapHeader]}>
+            <View style={[styles.wrapTitleHeader]}>
+              <View style={[styles.wrapIcon, { backgroundColor: '#15803d' }]}>
+                <Bank size='24' color='#fff' />
+              </View>
+              <TextComponent
+                content='Payment method'
+                fontFamily={fontFam.extraBold}
+                textColor='#292929'
+                fontSize={24}
+              />
+            </View>
+          </View>
+          <View style={[styles.wrapContentInformation]}>
+            <View style={[styles.wrapRow]}>
+              <TextComponent content='Bank' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
+              <TextComponent content={bank?.name as string} fontSize={16} fontFamily={fontFam.semiBold} />
+            </View>
+            <View style={[styles.wrapRow]}>
+              <TextComponent content='BankCode' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
+              <TextComponent content={bank?.code as string} fontSize={16} fontFamily={fontFam.semiBold} />
+            </View>
+            <View style={[styles.wrapRow, { width: '100%' }]}>
+              <TextComponent content='Bank Address' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
+              <TextComponent content={bank?.address as string} fontSize={16} fontFamily={fontFam.semiBold} />
+            </View>
+          </View>
         </View>
-        <View style={[styles.wrapRow]}>
-          <TextComponent content='BankCode' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
-          <TextComponent content='9886751110' fontSize={16} fontFamily={fontFam.semiBold} />
-        </View>
-        <View style={[styles.wrapRow, { width: '100%' }]}>
-          <TextComponent content='Bank Address' textColor='#404040' fontSize={14} fontFamily={fontFam.bold} />
-          <TextComponent content='PGD Trang Bom Vietcombank' fontSize={16} fontFamily={fontFam.semiBold} />
-        </View>
-      </View>
+      )}
     </View>
   );
 };

@@ -12,12 +12,14 @@ import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 
 type FilterType = 'isAllBill' | 'isNotAllBill';
 
+const currentMonth = new Date().getMonth();
+
 const BillingScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   const [isAllBill, setIsAllBill] = useState<FilterType>('isNotAllBill');
   const [isChecked, setIsChecked] = useState<boolean>(false);
-
+  console.log(currentMonth);
   const isCheckBox = useMemo(() => {
     return {
       backgroundColor: isChecked ? typoColor.yellow1 : '#121212',

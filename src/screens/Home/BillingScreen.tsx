@@ -226,7 +226,16 @@ const BillingScreen = () => {
                       textColor='#ccc'
                       fontSize={15}
                     />
-                    <TextComponent content={item.price} fontFamily={fontFam.semiBold} fontSize={15} />
+                    <View style={[{ flexDirection: 'row' }]}>
+                      <View style={[styles.wrapPrice]}>
+                        <TextComponent
+                          content={`$ ${item.price},00`}
+                          textColor='#000'
+                          fontFamily={fontFam.bold}
+                          fontSize={15}
+                        />
+                      </View>
+                    </View>
                   </View>
                 </Animated.View>
               </View>

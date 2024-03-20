@@ -11,7 +11,8 @@ export const useCardUser = (userId: number) => {
 
 export const useBankList = () => {
   return useQuery({
-    queryKey: ['list_bank_infor'],
-    queryFn: () => cardApis.getListBank()
+    queryKey: ['list_bank_infor', 1],
+    queryFn: () => cardApis.getListBank(),
+    staleTime: 3 * 1000 * 60
   });
 };

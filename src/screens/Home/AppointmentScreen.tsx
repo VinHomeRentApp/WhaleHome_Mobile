@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { FlatList, Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, Pressable, RefreshControl, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
@@ -24,7 +24,7 @@ const AppointmentScreen = () => {
       }
     }
   } = useRootContext();
-
+  const [isRefreshScreen, setIsRefreshScreen] = useState<boolean>(false);
   const [isOpenOptional, setIsOpenOptional] = useState<boolean>(false);
   const [isOpenDetailAppointment, setIsOpenDetailAppointment] = useState<boolean>(false);
   const [appointment, setAppointment] = useState<Appointment>();
@@ -37,9 +37,7 @@ const AppointmentScreen = () => {
   const snapDetailPoints = useMemo(() => ['85%'], []);
 
   const getAppointmentQuery = useGetAppointment(id as number);
-  console.log(getAppointmentQuery);
   const appointmentArr = useMemo(() => {
-    const isCurrentDate = new Date().getTime();
     if (getAppointmentQuery.isSuccess) {
       return getAppointmentQuery.data.data.data.filter((item) =>
         isUpcoming === 'Upcoming' ? item.statusAppointment === 'Pending' : item.statusAppointment === 'Completed'
@@ -74,28 +72,18 @@ const AppointmentScreen = () => {
     setIsOpenDetailAppointment(false);
   };
 
+  const onRefresh = async () => {
+    setIsRefreshScreen(true);
+    await getAppointmentQuery.refetch();
+    setIsRefreshScreen(false);
+  };
+
   return (
     <SafeAreaView style={[globalStyle.container]}>
       <View style={[styles.wrapContainer, { opacity: isOpenDetailAppointment || isOpenOptional ? 0.2 : 1 }]}>
         <View style={[{ flexDirection: 'row', alignItems: 'center', gap: 20 }]}>
           <TextComponent content='My Appointment' fontSize={30} fontFamily={fontFam.extraBold} />
-          <TouchableOpacity
-            onPress={() => getAppointmentQuery.refetch()}
-            style={[
-              {
-                marginLeft: 20,
-                height: 30,
-                width: 30,
-                backgroundColor: typoColor.yellow1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: 10,
-                borderRadius: 8
-              }
-            ]}
-          >
-            <ArrowRotateRight size='25' color='#000' />
-          </TouchableOpacity>
+
           <View
             style={[
               {
@@ -153,6 +141,7 @@ const AppointmentScreen = () => {
           <NotFound />
         ) : (
           <FlatList
+            refreshControl={<RefreshControl tintColor='#fff' refreshing={isRefreshScreen} onRefresh={onRefresh} />}
             style={[styles.wrapListAppointment]}
             data={appointmentArr}
             renderItem={({ item }) => <AppointmentCard data={item} onOpenOptional={handleSnapPress} />}

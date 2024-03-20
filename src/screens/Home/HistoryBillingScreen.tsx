@@ -9,7 +9,7 @@ import { HistoryBillingScreenProps } from '@type/navigation.types';
 import { addPostfixToNumber } from '@utils/helper';
 import { Clock, RefreshCircle, TickCircle, Wallet } from 'iconsax-react-native';
 import React from 'react';
-import { FlatList, Image, ScrollView, StyleSheet, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, View } from 'react-native';
 
 const HistoryBillingScreen = ({ route }: HistoryBillingScreenProps) => {
   const {

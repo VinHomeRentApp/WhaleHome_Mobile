@@ -6,7 +6,7 @@ import { Appointment } from '@type/appointment.type';
 import { convertDate } from '@utils/helper';
 import { Clock, MoreCircle } from 'iconsax-react-native';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, Linking, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type Props = {

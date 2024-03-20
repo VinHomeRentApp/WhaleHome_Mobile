@@ -12,7 +12,6 @@ import { Appointment } from '@type/appointment.type';
 import AppointmentCard from './Components/AppointmentCard/AppointmentCard';
 import BottomSheetDetailAppointment from './Components/BottomSheetDetailAppointment/BottomSheetDetailAppointment';
 import NotFound from './Components/NotFound/NotFound';
-import { ArrowRotateRight } from 'iconsax-react-native';
 
 type FilterAppointment = 'Upcoming' | 'Past';
 

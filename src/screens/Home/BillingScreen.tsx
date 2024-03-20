@@ -9,10 +9,17 @@ import globalStyle from '@styles/globalStyle';
 import { Bill } from '@type/bill.type';
 import { MainStackParamList } from '@type/navigation.types';
 import { addPostfixToNumber, getMonthNameByNum } from '@utils/helper';
-import { Add, ArrowRight2, ArrowRotateRight, Calendar, Trash } from 'iconsax-react-native';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
+import { ArrowRight2, Calendar, Calendar1, TickSquare, Trash } from 'iconsax-react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Image, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import Animated, {
+  FadeInDown,
+  FadeInLeft,
+  FadeInRight,
+  FadeOutDown,
+  FadeOutLeft,
+  FadeOutRight
+} from 'react-native-reanimated';
 import NotFound from './Components/NotFound/NotFound';
 
 type FilterType = 'isAllBill' | 'isNotAllBill';
@@ -22,11 +29,10 @@ const currentYear = new Date().getFullYear();
 
 const BillingScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
-  const [totalPriceToCheckout, setTotalPriceToCheckout] = useState<number>(0);
-  const [paymentBillToCheckout, setPaymentBillToCheckout] = useState<number | null>(null);
+  const [listIdChecked, setListIdChecked] = useState<{ id: number; price: number }[]>([]);
   const [isAllBill, setIsAllBill] = useState<FilterType>('isNotAllBill');
   const [listBillFilter, setListBillFilter] = useState<Bill[]>([]);
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isRefreshUpcoming, setIsRefreshUpcoming] = useState<boolean>(false);
 
   const {
     state: {
@@ -35,58 +41,76 @@ const BillingScreen = () => {
       }
     }
   } = useRootContext();
+
+  // Fetch data
   const billUpcomingQuery = useGetUpcomingBill({ userId: id as number, month: currentMonth + 1, year: currentYear });
   const billUnpaidQuery = useGetUnpaidBill(id as number);
+  // End Fetch data
 
   useEffect(() => {
     if (isAllBill === 'isNotAllBill') {
       if (billUpcomingQuery.isSuccess) {
         setListBillFilter(billUpcomingQuery.data.data.data);
+      } else {
+        setListBillFilter([]);
       }
     } else {
       if (billUnpaidQuery.isSuccess) {
         setListBillFilter(billUnpaidQuery.data.data.data);
+      } else {
+        setListBillFilter([]);
       }
     }
-  }, [isAllBill, billUpcomingQuery, billUnpaidQuery]);
+  }, [
+    isAllBill,
+    billUpcomingQuery.isSuccess,
+    billUnpaidQuery.isSuccess,
+    billUnpaidQuery.data?.data.data,
+    billUpcomingQuery.data?.data.data
+  ]);
 
-  const isCheckBox = useMemo(() => {
-    return {
-      backgroundColor: isChecked ? typoColor.yellow1 : '#121212',
-      iconColor: isChecked ? '#000' : '#121212'
-    };
-  }, [isChecked]);
-
-  const handleNavigateToChoosePayment = () => {
-    const objectPayment = {
-      paymentId: paymentBillToCheckout as number,
-      price: totalPriceToCheckout
-    };
-    navigation.navigate('ChoosePaymentMethod', objectPayment);
-  };
-
-  const handlePlusTotalPrice = (price: number, paymentId: number) => () => {
-    if (isChecked) {
-      setTotalPriceToCheckout((prevState) => prevState - price);
-      setPaymentBillToCheckout(null);
-      setIsChecked(false);
+  const handleListIdChecked = (payment: { id: number; price: number }) => {
+    const isInListIdChecked = listIdChecked.find((item) => item.id === payment.id);
+    if (!isInListIdChecked) {
+      setListIdChecked((prevState) => [...prevState, payment]);
     } else {
-      setTotalPriceToCheckout((prevState) => prevState + price);
-      setPaymentBillToCheckout(paymentId);
-      setIsChecked(true);
+      setListIdChecked((prevState) => prevState.filter((item) => item.id !== payment.id));
     }
   };
 
-  const clearPrice = () => {
-    setIsChecked((prevState) => !prevState);
-    setTotalPriceToCheckout(0);
-  };
+  const isCheckBox = useMemo(
+    () => (id: number) => {
+      const checked = listIdChecked.find((item) => item.id === id);
+      return {
+        backgroundColor: checked ? typoColor.yellow1 : '#121212',
+        iconColor: checked ? '#000' : '#121212',
+        isShowIcon: checked
+      };
+    },
+    [listIdChecked]
+  );
 
-  useEffect(() => {
-    return () => {
-      setIsChecked(false);
+  const paymentData = useMemo(() => {
+    const listId = listIdChecked.map((item) => item.id).join(',');
+    const totalPrice = listIdChecked.reduce((acc, curr) => {
+      return acc + curr.price;
+    }, 0);
+    return {
+      paymentId: listId,
+      price: totalPrice
     };
-  }, []);
+  }, [listIdChecked]);
+
+  const onRefresh = useCallback(async () => {
+    setIsRefreshUpcoming(true);
+    if (isAllBill === 'isNotAllBill') {
+      await billUpcomingQuery.refetch();
+      setIsRefreshUpcoming(false);
+    } else {
+      await billUnpaidQuery.refetch();
+      setIsRefreshUpcoming(false);
+    }
+  }, [isAllBill, billUnpaidQuery, billUpcomingQuery]);
 
   return (
     <View style={[globalStyle.container]}>
@@ -101,8 +125,8 @@ const BillingScreen = () => {
             ]}
           >
             <TextComponent
-              content='Upcoming in month'
-              fontSize={16}
+              content='Upcoming'
+              fontSize={14}
               fontFamily={fontFam.semiBold}
               textColor={isAllBill === 'isNotAllBill' ? '#000' : '#fff'}
             />
@@ -113,104 +137,103 @@ const BillingScreen = () => {
           >
             <TextComponent
               content='All bills'
-              fontSize={16}
+              fontSize={14}
               fontFamily={fontFam.semiBold}
               textColor={isAllBill === 'isAllBill' ? '#000' : '#fff'}
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={() => billUpcomingQuery.refetch()}
-          style={[
-            {
-              marginLeft: 20,
-              height: 30,
-              width: 30,
-              backgroundColor: typoColor.yellow1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 10,
-              borderRadius: 8
-            }
-          ]}
-        >
-          <ArrowRotateRight size='25' color='#000' />
-        </TouchableOpacity>
+
         {/* Body */}
         <View style={[{ marginVertical: 20 }]}></View>
-        <ScrollView>
+        <ScrollView
+          refreshControl={<RefreshControl tintColor='#fff' refreshing={isRefreshUpcoming} onRefresh={onRefresh} />}
+        >
           {/* Component  */}
 
-          {listBillFilter.length === 0 && <NotFound />}
-          {listBillFilter.map((item, index) => (
-            <View style={[styles.wrapMainContent]} key={index}>
-              {/* Header */}
-              <View style={[styles.wrapHeaderContent]}>
-                <View style={[styles.wrapCalendarInfo]}>
-                  <Calendar size='27' color={typoColor.yellow1} variant='Bold' />
-                  <TextComponent
-                    content={`${getMonthNameByNum(new Date(item.expiredDate).getMonth() + 1)}, ${currentYear}`}
-                    fontSize={16}
-                    fontFamily={fontFam.semiBold}
-                  />
-                </View>
-              </View>
-              <View style={[styles.wrapBoxPayment]}>
-                {/* Image */}
-                <View>
-                  <Image style={[styles.wrapImage]} source={require('../../assets/images/main-logo.png')} />
-                </View>
-                {/* Information */}
-                <View style={[styles.wrapInforBoxPayment]}>
-                  <TouchableOpacity
-                    style={[styles.wrapViewDetail]}
-                    onPress={() =>
-                      navigation.navigate('HistoryBillingScreen', {
-                        date: item.expiredDate,
-                        price: item.price,
-                        semester: item.semester
-                      })
-                    }
-                  >
-                    <TextComponent content='Detail your bills' fontFamily={fontFam.semiBold} fontSize={15} />
-                    <ArrowRight2 size='20' color='#fff' />
-                  </TouchableOpacity>
-                  <TextComponent
-                    content={`${addPostfixToNumber(item.semester)} semester`}
-                    fontFamily={fontFam.semiBold}
-                    textColor='#ccc'
-                    fontSize={15}
-                  />
-                  <TextComponent content={item.price} fontFamily={fontFam.semiBold} fontSize={15} />
-                </View>
-                {/* Time date */}
-                <View style={[styles.wrapTimeDate]}>
-                  <TextComponent content='Expired Date' fontFamily={fontFam.semiBold} />
-                  <TextComponent content={item.expiredDate} fontFamily={fontFam.medium} />
-                </View>
-                {/* Chechbox */}
-                {isAllBill === 'isNotAllBill' && (
+          {listBillFilter.length === 0 ? (
+            <NotFound />
+          ) : (
+            listBillFilter.map((item, index) => (
+              <View style={[styles.wrapMainContent]} key={index}>
+                {/* Header */}
+                <Animated.View entering={FadeInLeft} exiting={FadeOutLeft} style={[styles.wrapHeaderContent]}>
+                  <View style={[styles.wrapCalendarInfo]}>
+                    <Calendar1 size='27' color={typoColor.yellow1} variant='Outline' />
+                    <TextComponent
+                      content={`${getMonthNameByNum(new Date(item.expiredDate).getMonth() + 1)}, ${currentYear}`}
+                      fontSize={16}
+                      fontFamily={fontFam.semiBold}
+                    />
+                  </View>
+                </Animated.View>
+                <Animated.View entering={FadeInRight} exiting={FadeOutRight} style={[styles.wrapBoxPayment]}>
+                  {/* Image */}
+                  <View>
+                    <Image style={[styles.wrapImage]} source={require('../../assets/images/main-logo.png')} />
+                  </View>
+                  {/* Information */}
+                  <View style={[styles.wrapInforBoxPayment]}>
+                    <TouchableOpacity
+                      style={[styles.wrapViewDetail]}
+                      onPress={() =>
+                        navigation.navigate('HistoryBillingScreen', {
+                          date: item.expiredDate,
+                          price: item.price,
+                          semester: item.semester
+                        })
+                      }
+                    >
+                      <TextComponent content='VIEW DETAIL BILL' fontFamily={fontFam.semiBold} fontSize={14} />
+                      <ArrowRight2 size='20' color='#fff' />
+                    </TouchableOpacity>
+                    <TextComponent
+                      content={`${addPostfixToNumber(item.semester)} semester`}
+                      fontFamily={fontFam.semiBold}
+                      textColor='#606060'
+                      fontSize={13}
+                    />
+                    <View style={[{ flexDirection: 'row' }]}>
+                      <View style={[styles.wrapPrice]}>
+                        <TextComponent
+                          content={`$ ${item.price},00`}
+                          textColor='#000'
+                          fontFamily={fontFam.bold}
+                          fontSize={15}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  {/* Time date */}
+                  <View style={[styles.wrapTimeDate]}>
+                    <TextComponent content='Expired Date' textColor='#606060' fontFamily={fontFam.semiBold} />
+                    <TextComponent content={item.expiredDate} fontFamily={fontFam.bold} />
+                  </View>
+                  {/* Chechbox */}
+
                   <View style={[styles.wrapChecbox]}>
                     <TouchableOpacity
-                      style={[styles.checkbox, { backgroundColor: isCheckBox.backgroundColor }]}
-                      onPress={handlePlusTotalPrice(item.price, item.paymentId)}
+                      style={[styles.checkbox]}
+                      onPress={() => handleListIdChecked({ id: item.paymentId, price: item.price })}
                     >
-                      {isChecked && <Add size='18' color={isCheckBox.iconColor} />}
+                      {isCheckBox(item.paymentId).isShowIcon && (
+                        <TickSquare size='29' color={typoColor.yellow1} variant='Bold' />
+                      )}
                     </TouchableOpacity>
                   </View>
-                )}
+                </Animated.View>
               </View>
-            </View>
-          ))}
+            ))
+          )}
         </ScrollView>
-        {isChecked && (
+        {paymentData.paymentId !== '' && (
           <Animated.View entering={FadeInDown} exiting={FadeOutDown} style={[styles.buttonPayment]}>
-            <TouchableOpacity onPress={clearPrice}>
+            <TouchableOpacity>
               <Trash size='32' color={typoColor.yellow1} />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.wrapButtonCheckout]} onPress={handleNavigateToChoosePayment}>
+            <TouchableOpacity style={[styles.wrapButtonCheckout]}>
               <TextComponent
-                content={`Continue - $ ${totalPriceToCheckout}`}
+                content={`Continue - $ ${paymentData.price}`}
                 textColor='#000'
                 fontSize={18}
                 fontFamily={fontFam.bold}
@@ -224,7 +247,6 @@ const BillingScreen = () => {
 };
 const styles = StyleSheet.create({
   wrapContainer: {
-    padding: 20,
     flex: 1,
     position: 'relative'
   },
@@ -233,7 +255,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '90%',
     marginLeft: 'auto',
-    marginRight: 'auto'
+    marginRight: 'auto',
+    paddingHorizontal: 20
   },
   wrapButton: {
     width: '50%',
@@ -249,12 +272,22 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   wrapHeaderContent: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    borderWidth: 1.5,
+    width: '50%',
+    paddingVertical: 5,
+    paddingLeft: 10,
+    borderTopRightRadius: 8,
+    borderBottomRightRadius: 8,
+    backgroundColor: '#151515',
+    borderColor: '#1d1d1d',
+    borderLeftWidth: 0
   },
   wrapCalendarInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10
+    gap: 10,
+    paddingVertical: 3
   },
   wrapImage: {
     height: 70,
@@ -262,14 +295,18 @@ const styles = StyleSheet.create({
     borderRadius: 50
   },
   wrapBoxPayment: {
-    borderWidth: 1,
-    borderColor: '#404040',
-    padding: 14,
-    borderRadius: 24,
+    borderWidth: 1.5,
+    borderRightWidth: 0,
+    borderColor: '#1e1e1e',
+    backgroundColor: '#151515',
+    padding: 15,
+    borderBottomLeftRadius: 24,
+    borderTopLeftRadius: 24,
     flexDirection: 'row',
     gap: 10,
     alignItems: 'center',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
+    marginLeft: 20
   },
   wrapInforBoxPayment: {
     gap: 3
@@ -277,7 +314,7 @@ const styles = StyleSheet.create({
   wrapViewDetail: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10
+    gap: 5
   },
   wrapTimeDate: {
     alignItems: 'center'
@@ -286,10 +323,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end'
   },
   checkbox: {
-    width: 23,
-    height: 23,
+    width: 24,
+    height: 24,
     borderRadius: 5,
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderColor: typoColor.yellow1,
     justifyContent: 'center',
     alignItems: 'center'
@@ -302,7 +339,9 @@ const styles = StyleSheet.create({
     borderColor: '#242424',
     backgroundColor: '#191919',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginHorizontal: 20,
+    marginBottom: 20
   },
   wrapButtonCheckout: {
     borderWidth: 1,
@@ -310,6 +349,14 @@ const styles = StyleSheet.create({
     paddingVertical: 13,
     borderRadius: 12,
     backgroundColor: typoColor.yellow1
+  },
+  wrapPrice: {
+    paddingVertical: 2,
+    paddingHorizontal: 10,
+    borderRadius: 4,
+    backgroundColor: typoColor.yellow1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 

@@ -17,11 +17,11 @@ type Props = {
 };
 
 const BottomSheetDetailAppointment = ({ sheetDetailRef, snapPoints, onClose, data }: Props) => {
-  const handleCall = async () => {
-    const mailto = 'tel:+123456789';
+  const handleCall = async (phone: string) => {
+    const phoneLink = `tel:+${phone}`;
     try {
-      const isSupported = await Linking.canOpenURL(mailto);
-      isSupported === true && (await Linking.openURL(mailto));
+      const isSupported = await Linking.canOpenURL(phoneLink);
+      isSupported === true && (await Linking.openURL(phoneLink));
     } catch (error) {
       alert(error);
     }
@@ -75,7 +75,7 @@ const BottomSheetDetailAppointment = ({ sheetDetailRef, snapPoints, onClose, dat
                   <Map size='24' color='#f8d649' variant='Bold' />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => handleCall()}
+                  onPress={() => handleCall(data.userPhone)}
                   style={[styles.wrapButtonCall, { flexDirection: 'row', alignItems: 'center', gap: 10 }]}
                 >
                   <Call size='24' color='#0f0f10' variant='Bold' />

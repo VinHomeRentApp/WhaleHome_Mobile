@@ -38,7 +38,7 @@ export type MainStackParamList = {
   VerifyOTP: undefined;
   ResetPassword: undefined;
   BillingScreen: undefined;
-  ChoosePaymentMethod: { paymentId: number; price: number };
+  ChoosePaymentMethod: { paymentId: string; price: number };
   HistoryBillingScreen: { date: string; semester: number; price: number };
 };
 

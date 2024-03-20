@@ -69,6 +69,12 @@ const BillingScreen = () => {
     billUpcomingQuery.data?.data.data
   ]);
 
+  useEffect(() => {
+    return () => {
+      setListIdChecked([]);
+    };
+  }, []);
+
   const handleListIdChecked = (payment: { id: number; price: number }) => {
     const isInListIdChecked = listIdChecked.find((item) => item.id === payment.id);
     if (!isInListIdChecked) {
@@ -111,6 +117,14 @@ const BillingScreen = () => {
       setIsRefreshUpcoming(false);
     }
   }, [isAllBill, billUnpaidQuery, billUpcomingQuery]);
+
+  const handleNavigateToChoosePayment = () => {
+    navigation.navigate('ChoosePaymentMethod', paymentData);
+  };
+
+  const handleClearCached = () => {
+    setListIdChecked([]);
+  };
 
   return (
     <View style={[globalStyle.container]}>
@@ -228,10 +242,10 @@ const BillingScreen = () => {
         </ScrollView>
         {paymentData.paymentId !== '' && (
           <Animated.View entering={FadeInDown} exiting={FadeOutDown} style={[styles.buttonPayment]}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleClearCached}>
               <Trash size='32' color={typoColor.yellow1} />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.wrapButtonCheckout]}>
+            <TouchableOpacity style={[styles.wrapButtonCheckout]} onPress={handleNavigateToChoosePayment}>
               <TextComponent
                 content={`Continue - $ ${paymentData.price}`}
                 textColor='#000'

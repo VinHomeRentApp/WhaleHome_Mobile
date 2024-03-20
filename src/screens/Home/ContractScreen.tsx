@@ -15,7 +15,7 @@ import * as FileSystem from 'expo-file-system';
 import { shareAsync } from 'expo-sharing';
 import { FilterSquare, SearchNormal1 } from 'iconsax-react-native';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { FlatList, Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, Pressable, RefreshControl, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 import { TextInput } from 'react-native-gesture-handler';
 import ContractComponent from './Components/ContractComponent/ContractComponent';
@@ -31,10 +31,12 @@ const ContractScreen = () => {
     },
     dispatch
   } = useRootContext();
+
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   const sheetRef = useRef<BottomSheet>(null);
   const [isOpenOptional, setIsOpenOptional] = useState<boolean>(false);
   const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
+  const [isRefreshScreen, setIsRefreshScreen] = useState<boolean>(false);
   const snapPoints = useMemo(() => ['25%'], []);
 
   const getContractListQuery = useGetContractById(id as number);
@@ -95,6 +97,12 @@ const ContractScreen = () => {
     dispatch({ type: AUTH_ACTION.SET_AUTH_IS_LOADING, payload: false });
   };
 
+  const onRefresh = async () => {
+    setIsRefreshScreen(true);
+    await getContractListQuery.refetch();
+    setIsRefreshScreen(false);
+  };
+
   return (
     <SafeAreaView style={[globalStyle.container]}>
       <LoadingOverlay isLoading={getContractListQuery.isLoading || isLoading} message='Loading contract' />
@@ -142,6 +150,7 @@ const ContractScreen = () => {
           <NotFound />
         ) : (
           <FlatList
+            refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={isRefreshScreen} tintColor='#fff' />}
             data={getContractListQuery.data?.data.data}
             renderItem={({ item }) => <ContractComponent key={item.id} data={item} onOpenOptional={handleSnapPress} />}
           />

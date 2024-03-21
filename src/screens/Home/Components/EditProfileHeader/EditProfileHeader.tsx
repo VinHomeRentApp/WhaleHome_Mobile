@@ -4,7 +4,7 @@ import fontFam from '@constants/fontFamilies';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MainStackParamList } from '@type/navigation.types';
-import { ArrowCircleLeft2, CloseCircle } from 'iconsax-react-native';
+import { Card, CloseCircle } from 'iconsax-react-native';
 import React from 'react';
 import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
@@ -18,7 +18,9 @@ const EditProfileHeader = () => {
           <CloseCircle size='35' color={typoColor.yellow1} variant='Bold' />
         </TouchableOpacity>
         <TextComponent content='Manage account' fontFamily={fontFam.extraBold} />
-        <ArrowCircleLeft2 size='35' color={backgroundColor.black1} variant='Bold' />
+        <TouchableOpacity onPress={() => navigation.navigate('AddIdCardScreen')}>
+          <Card size='35' color={typoColor.yellow1} variant='Bold' />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

@@ -1,3 +1,5 @@
+import AppProvider from '@contexts/providers/AppProvider';
+import ClientProvider from '@contexts/providers/ClientProvider';
 import {
   Manrope_200ExtraLight,
   Manrope_300Light,
@@ -8,15 +10,14 @@ import {
   Manrope_800ExtraBold,
   useFonts
 } from '@expo-google-fonts/manrope';
-import 'react-native-gesture-handler';
 import MainNavigator from '@navigation/MainNavigator';
 import { NavigationContainer } from '@react-navigation/native';
-import ClientProvider from '@contexts/providers/ClientProvider';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import AppProvider from '@contexts/providers/AppProvider';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { LogBox } from 'react-native';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
+import 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   const [isShowSplash, setIsShownSplash] = useState<boolean>(true);
@@ -34,7 +35,7 @@ export default function App() {
     const timeoutSplashScreen = setTimeout(() => setIsShownSplash(false), 1000);
     return () => clearTimeout(timeoutSplashScreen);
   }, []);
-
+  LogBox.ignoreAllLogs();
   return (
     <AlertNotificationRoot>
       <AppProvider>

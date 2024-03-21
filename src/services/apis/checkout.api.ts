@@ -10,11 +10,11 @@ const end_point = {
 
 export type BODY_PAYPAL = {
   amount: number;
-  paymentId: number;
+  paymentId: string;
 };
 
 type BODY_VNPAY = {
-  paymentId: number;
+  paymentId: string;
   price: number;
   bankCode: string;
 };
@@ -31,7 +31,7 @@ export const checkoutMethod = {
   checkoutByVNPay: (body: BODY_VNPAY) => {
     return httpClient.get<SuccessfulResponse<string>>(end_point.byVNPay, {
       params: {
-        price: body.amount,
+        price: body.price,
         paymentId: body.paymentId,
         bankCode: body.bankCode
       }

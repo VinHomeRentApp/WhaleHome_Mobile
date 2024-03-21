@@ -1,9 +1,9 @@
+import { FormDataUpdate } from '@models/schema/formUpdateProfileSchema';
 import { SignUpData } from '@type/form.types';
-import { PaginationResponse, RegisterSuccessResponse, SuccessfulResponse } from '../../types/response.types';
-import { FormDataUpdate } from '@screens/Home/EditProfileScreen';
 import { getWithPagination } from '@type/post.types';
 import httpClient from '@utils/httpClient';
 import UserCurrentResponse from 'src/models/class/User.class';
+import { PaginationResponse, RegisterSuccessResponse, SuccessfulResponse } from '../../types/response.types';
 
 const EndPoint = {
   register: 'api/v1/auth/register',

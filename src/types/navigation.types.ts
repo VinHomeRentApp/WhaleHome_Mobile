@@ -40,6 +40,7 @@ export type MainStackParamList = {
   BillingScreen: undefined;
   ChoosePaymentMethod: { paymentId: string; price: number };
   HistoryBillingScreen: { date: string; semester: number; price: number };
+  AddIdCardScreen: undefined;
 };
 
 export type MainNavigatorProps = {

@@ -13,6 +13,9 @@ class UserCurrentResponse {
   enabled: boolean;
   username: string;
   verified: boolean;
+  identityCard: string;
+  identityCardDateProvide: string;
+  identityCardAddressProvide: string;
   authorities: { authority: string }[];
   credentialsNonExpired: boolean;
   accountNonExpired: boolean;
@@ -31,6 +34,9 @@ class UserCurrentResponse {
     address: string,
     role: string,
     enabled: boolean,
+    identityCard: string,
+    identityCardDateProvide: string,
+    identityCardAddressProvide: string,
     username: string,
     verified: boolean,
     authorities: { authority: string }[],
@@ -50,6 +56,9 @@ class UserCurrentResponse {
     this.address = address;
     this.role = role;
     this.enabled = enabled;
+    this.identityCard = identityCard;
+    this.identityCardAddressProvide = identityCardAddressProvide;
+    this.identityCardDateProvide = identityCardDateProvide;
     this.username = username;
     this.verified = verified;
     this.authorities = authorities;

@@ -8,11 +8,10 @@ import { useGetContractById } from '@services/queries/contract.queries';
 import globalStyle from '@styles/globalStyle';
 import { Man, Woman } from 'iconsax-react-native';
 import React from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import ProfileTransaction from './Components/ProfileTransaction/ProfileTransaction';
-import { ProfileScreenProps } from '@type/navigation.types';
 
-const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
+const ProfileScreen = () => {
   const {
     state: {
       auth: { currentUser },
@@ -74,14 +73,6 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
             />
             <TextComponent styles={styles.wrapDetailItemTextTitle} content={'Appointments'} />
           </View>
-        </View>
-        <View style={[styles.wrapInformation]}>
-          {/* List Contract */}
-
-          <View style={[styles.wrapButton]}>
-            <TextComponent content='Hi !' fontSize={18} fontFamily={fontFam.bold} textColor='#000' />
-          </View>
-          {/* List Transactions */}
         </View>
       </View>
       <ProfileTransaction posts={posts} />

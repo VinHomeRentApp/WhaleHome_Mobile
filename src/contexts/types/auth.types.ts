@@ -11,7 +11,8 @@ export enum AUTH_ACTION {
   SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN',
   SET_CURRENT_USER = 'SET_CURRENT_USER',
   SET_IS_LOADING_SENT_EMAIL = 'SET_IS_LOADING_SENT_EMAIL',
-  SET_IS_UPLOAD_IMAGE_SUCCESS = 'SET_IS_UPLOAD_IMAGE_SUCCESS'
+  SET_IS_UPLOAD_IMAGE_SUCCESS = 'SET_IS_UPLOAD_IMAGE_SUCCESS',
+  SET_LIST_ID_PAYMENT = 'SET_LIST_ID_PAYMENT'
 }
 
 export type AuthContextType = {
@@ -23,6 +24,7 @@ export type AuthContextType = {
   currentUser: Partial<UserCurrentResponse>;
   isLoadingSendEmail: boolean;
   isUploadImageSuccess: boolean;
+  listIdPayment: string[];
 };
 
 export const initialAuthState: AuthContextType = {
@@ -33,7 +35,8 @@ export const initialAuthState: AuthContextType = {
   isLoadingSendEmail: false,
   accessToken: '',
   currentUser: {},
-  isUploadImageSuccess: false
+  isUploadImageSuccess: false,
+  listIdPayment: []
 };
 
 export type SetUserAction = {
@@ -76,6 +79,11 @@ export type SetIsUploadImageSuccessAction = {
   payload: boolean;
 };
 
+export type SetListIdPaymentAction = {
+  type: AUTH_ACTION.SET_LIST_ID_PAYMENT;
+  payload: string[];
+};
+
 export type AuthAction =
   | SetUserAction
   | SetErrorAction
@@ -84,4 +92,5 @@ export type AuthAction =
   | SetAccessToken
   | SetCurrentUser
   | SetIsLoadingSentEmailAction
-  | SetIsUploadImageSuccessAction;
+  | SetIsUploadImageSuccessAction
+  | SetListIdPaymentAction;

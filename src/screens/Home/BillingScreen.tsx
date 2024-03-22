@@ -1,17 +1,18 @@
+import LoadingOverlay from '@components/ui/LoadingOverlay';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
 import useRootContext from '@hooks/useRootContext';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useGetUnpaidBill, useGetUpcomingBill } from '@services/queries/bill.queries';
 import globalStyle from '@styles/globalStyle';
 import { Bill } from '@type/bill.type';
-import { MainStackParamList } from '@type/navigation.types';
+import { BillingScreenProps, MainStackParamList } from '@type/navigation.types';
 import { addPostfixToNumber, getMonthNameByNum } from '@utils/helper';
-import { ArrowRight2, Calendar, Calendar1, TickSquare, Trash } from 'iconsax-react-native';
+import { ArrowRight2, Calendar1, TickSquare, Trash } from 'iconsax-react-native';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Image, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, {
   FadeInDown,
   FadeInLeft,
@@ -20,6 +21,7 @@ import Animated, {
   FadeOutLeft,
   FadeOutRight
 } from 'react-native-reanimated';
+import socketIO from 'socket.io-client';
 import NotFound from './Components/NotFound/NotFound';
 
 type FilterType = 'isAllBill' | 'isNotAllBill';
@@ -27,13 +29,13 @@ type FilterType = 'isAllBill' | 'isNotAllBill';
 const currentMonth = new Date().getMonth();
 const currentYear = new Date().getFullYear();
 
-const BillingScreen = () => {
+const BillingScreen = ({ route }: BillingScreenProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
   const [listIdChecked, setListIdChecked] = useState<{ id: number; price: number }[]>([]);
   const [isAllBill, setIsAllBill] = useState<FilterType>('isNotAllBill');
   const [listBillFilter, setListBillFilter] = useState<Bill[]>([]);
   const [isRefreshUpcoming, setIsRefreshUpcoming] = useState<boolean>(false);
-
   const {
     state: {
       auth: {
@@ -46,6 +48,36 @@ const BillingScreen = () => {
   const billUpcomingQuery = useGetUpcomingBill({ userId: id as number, month: currentMonth + 1, year: currentYear });
   const billUnpaidQuery = useGetUnpaidBill(id as number);
   // End Fetch data
+
+  const paymentData = useMemo(() => {
+    const listId = listIdChecked.map((item) => item.id).join(',');
+    const totalPrice = listIdChecked.reduce((acc, curr) => {
+      return acc + curr.price;
+    }, 0);
+    return {
+      paymentId: listId,
+      price: totalPrice
+    };
+  }, [listIdChecked]);
+  const io = socketIO('https://whale-socket.up.railway.app/');
+  console.log(paymentData.paymentId.split(','));
+  useFocusEffect(
+    React.useCallback(() => {
+      io.emit('check-status-payment-36', { data: paymentData.paymentId.split(',') });
+
+      io.on('check-status-payment-36', (data) => {
+        console.log(data);
+        if (data.data === true) {
+          Alert.alert('Thanh toan thanh cong');
+        }
+      });
+
+      return () => {
+        io.off('check-status-payment-36');
+        io.disconnect();
+      };
+    }, [paymentData]) // Đảm bảo cập nhật khi paymentData thay đổi
+  );
 
   useEffect(() => {
     if (isAllBill === 'isNotAllBill') {
@@ -96,17 +128,6 @@ const BillingScreen = () => {
     [listIdChecked]
   );
 
-  const paymentData = useMemo(() => {
-    const listId = listIdChecked.map((item) => item.id).join(',');
-    const totalPrice = listIdChecked.reduce((acc, curr) => {
-      return acc + curr.price;
-    }, 0);
-    return {
-      paymentId: listId,
-      price: totalPrice
-    };
-  }, [listIdChecked]);
-
   const onRefresh = useCallback(async () => {
     setIsRefreshUpcoming(true);
     if (isAllBill === 'isNotAllBill') {
@@ -128,6 +149,7 @@ const BillingScreen = () => {
 
   return (
     <View style={[globalStyle.container]}>
+      <LoadingOverlay isLoading={billUnpaidQuery.isFetching || billUpcomingQuery.isFetching} message='Loading' />
       <View style={[styles.wrapContainer]}>
         {/* Filter 15days & All days */}
         <View style={[styles.wrapHeader]}>
@@ -157,7 +179,6 @@ const BillingScreen = () => {
             />
           </TouchableOpacity>
         </View>
-
         {/* Body */}
         <View style={[{ marginVertical: 20 }]}></View>
         <ScrollView

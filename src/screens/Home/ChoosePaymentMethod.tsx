@@ -2,30 +2,26 @@ import LoadingOverlay from '@components/ui/LoadingOverlay';
 import TextComponent from '@components/ui/TextComponent';
 import { typoColor } from '@constants/appColors';
 import fontFam from '@constants/fontFamilies';
+import useRootContext from '@hooks/useRootContext';
 import { checkoutMethod } from '@services/apis/checkout.api';
 import { useBankList } from '@services/queries/card.queries';
 import globalStyle from '@styles/globalStyle';
 import { ChoosePaymentMethodProps } from '@type/navigation.types';
 import { EmptyWallet, Paypal } from 'iconsax-react-native';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Image, Linking, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
 
 type PaymentMethodType = 'VNPay' | 'Paypal' | 'Momo';
-
-const ChoosePaymentMethod = ({ route }: ChoosePaymentMethodProps) => {
+const ChoosePaymentMethod = ({ route, navigation }: ChoosePaymentMethodProps) => {
+  const {
+    state: {
+      auth: { listIdPayment }
+    }
+  } = useRootContext();
   const [isChoosePayment, setIsChoosePayment] = useState<PaymentMethodType | null>(null);
   const [bankCodeType, setBankCodeType] = useState<string>('');
-  const [isSuccesfullyPayment, setIsSuccesfullPayment] = useState<boolean>(false);
-
   const bankListQuery = useBankList();
-
-  useEffect(() => {
-    if (isSuccesfullyPayment) {
-      alert('Thanh toan thanh cong');
-    }
-  }, [isSuccesfullyPayment]);
-
   const handlePickerMethod = useMemo(
     () => (name: PaymentMethodType) => {
       return {
@@ -39,6 +35,7 @@ const ChoosePaymentMethod = ({ route }: ChoosePaymentMethodProps) => {
   const handleChangeMethod = (name: PaymentMethodType) => () => {
     setIsChoosePayment(name);
   };
+
 
   const handleSelectedColor = useMemo(
     () => (bankCode: string) => {
@@ -66,9 +63,7 @@ const ChoosePaymentMethod = ({ route }: ChoosePaymentMethodProps) => {
         const isOpenUrl = await Linking.canOpenURL(link_payment_paypal);
         if (isOpenUrl) {
           await Linking.openURL(link_payment_paypal);
-          setIsSuccesfullPayment(true);
-          // wait emit
-          //
+          navigation.navigate('HomeScreen');
         }
       } catch (error) {
         console.log(error);
@@ -85,6 +80,7 @@ const ChoosePaymentMethod = ({ route }: ChoosePaymentMethodProps) => {
           const responseLink = await checkoutMethod.checkoutByVNPay(paymentData);
           const link_payment_paypal = responseLink.data.data;
           const isOpenUrl = await Linking.canOpenURL(link_payment_paypal);
+
           if (isOpenUrl) {
             await Linking.openURL(link_payment_paypal);
           }

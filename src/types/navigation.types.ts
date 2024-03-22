@@ -52,6 +52,7 @@ export type CreatePaymentMethodProps = NativeStackScreenProps<MainStackParamList
 export type DetailContractProps = NativeStackScreenProps<MainStackParamList, 'DetailContract'>;
 export type ChoosePaymentMethodProps = NativeStackScreenProps<MainStackParamList, 'ChoosePaymentMethod'>;
 export type HistoryBillingScreenProps = NativeStackScreenProps<MainStackParamList, 'HistoryBillingScreen'>;
+export type BillingScreenProps = NativeStackScreenProps<MainStackParamList, 'BillingScreen'>;
 
 //Bottom Navigation
 export type RootBottomTabsList = {

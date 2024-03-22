@@ -19,6 +19,8 @@ const AuthReducer: Reducer<AuthContextType, AuthAction> = (state, action) => {
       return { ...state, isLoadingSendEmail: action.payload };
     case AUTH_ACTION.SET_IS_UPLOAD_IMAGE_SUCCESS:
       return { ...state, isUploadImageSuccess: action.payload };
+    case AUTH_ACTION.SET_LIST_ID_PAYMENT:
+      return { ...state, listIdPayment: action.payload };
     default:
       return state;
   }

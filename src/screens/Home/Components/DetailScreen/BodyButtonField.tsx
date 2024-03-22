@@ -5,7 +5,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MainStackParamList } from '@type/navigation.types';
 import { Call } from 'iconsax-react-native';
 import React from 'react';
-import { Image, Pressable, StyleSheet, View } from 'react-native';
+import { Image, Linking, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
 import ApartmentClass from 'src/models/class/ApartmentClass.class';
 
 type BodyButtonFieldProps = {
@@ -14,6 +14,18 @@ type BodyButtonFieldProps = {
 
 const BodyButtonField = ({ apartmentClass }: BodyButtonFieldProps) => {
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+
+  const handleCall = async () => {
+    try {
+      const isCall = await Linking.canOpenURL('tel:+974102437');
+      if (isCall) {
+        await Linking.openURL('tel:+974102437');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.buttonContainer}>
       <View style={styles.buyAndRentContainer}>
@@ -31,7 +43,14 @@ const BodyButtonField = ({ apartmentClass }: BodyButtonFieldProps) => {
           ]}
         >
           <Call size='24' color='#000' variant='Bold' />
-          <TextComponent styles={styles.textButton} content='0886751110' fontSize={16} fontFamily={fontFam.semiBold} />
+          <TouchableOpacity onPress={handleCall}>
+            <TextComponent
+              styles={styles.textButton}
+              content='0974102437'
+              fontSize={16}
+              fontFamily={fontFam.semiBold}
+            />
+          </TouchableOpacity>
         </View>
         {/* <Pressable style={({ pressed }) => [styles.button, pressed && styles.activeButton]}>
           <TextComponent styles={styles.textButton} content='Buy' />

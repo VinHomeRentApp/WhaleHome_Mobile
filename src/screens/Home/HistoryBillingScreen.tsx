@@ -19,7 +19,6 @@ const HistoryBillingScreen = ({ route }: HistoryBillingScreenProps) => {
       }
     }
   } = useRootContext();
-  console.log(route);
 
   const getAllBillQueries = useGetAllBIll(id as number);
   const data = getAllBillQueries.data?.data.data;

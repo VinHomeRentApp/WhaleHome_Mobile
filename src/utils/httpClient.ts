@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance } from 'axios';
 
-const baseUrl = 'https://whalehome.up.railway.app/';
+const baseUrl = 'https://whalehome-production.up.railway.app/';
 
 class HttpClient {
   instance: AxiosInstance;

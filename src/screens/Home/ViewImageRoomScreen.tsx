@@ -9,8 +9,8 @@ import { ArrowCircleLeft2 } from 'iconsax-react-native';
 import React from 'react';
 import { ImageBackground, Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
 import Swiper from 'react-native-swiper';
-import NextButton from './Components/ViewImageRoom/NextButton';
-import PrevButton from './Components/ViewImageRoom/PrevButton';
+import NextButton from './DetailApartmentScreen/ViewImageRoom/NextButton';
+import PrevButton from './DetailApartmentScreen/ViewImageRoom/PrevButton';
 
 const imageBackground = require('@assets/images/room-detail.jpg');
 

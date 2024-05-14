@@ -11,7 +11,7 @@ import { MainStackParamList } from '@type/navigation.types';
 import { CardAdd } from 'iconsax-react-native';
 import React, { useCallback, useRef, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import BankCard from '../Components/BankCard/BankCard';
+import BankCard from '../../PaymentMethodScreen/BankCard/BankCard';
 
 const PaymentMethod = () => {
   const {

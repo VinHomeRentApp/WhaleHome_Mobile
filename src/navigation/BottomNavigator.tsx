@@ -1,14 +1,16 @@
 import { accentColor } from '@constants/appColors';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HeaderBottomTabs from '@screens/Home/Components/HomeHeader/RightHeader/RightHeader';
-import PostScreenHeader from '@screens/Home/Components/PostScreenHeader/PostScreenHeader';
-import ProfileHeader from '@screens/Home/Components/ProfileHeader/ProfileHeader';
-import RightSearchHeader from '@screens/Home/Components/SearchHeader/SearchHeader';
-import FavoriteScreen from '@screens/Home/FavoriteScreen';
-import HomeScreen from '@screens/Home/HomeScreen';
-import PostScreen from '@screens/Home/PostScreen';
-import ProfileScreen from '@screens/Home/ProfileScreen';
-import SearchScreen from '@screens/Home/SearchScreen';
+import FavoriteScreen from '@screens/Home/FavoriteScreen/FavoriteScreen';
+import HeaderBottomTabs from '@screens/Home/HomeScreen/HomeHeader/RightHeader/RightHeader';
+
+import HomeScreen from '@screens/Home/HomeScreen/HomeScreen';
+import PostScreen from '@screens/Home/PostScreen/PostScreen';
+import PostScreenHeader from '@screens/Home/PostScreen/PostScreenHeader/PostScreenHeader';
+import ProfileHeader from '@screens/Home/ProfileScreen/ProfileHeader/ProfileHeader';
+import ProfileScreen from '@screens/Home/ProfileScreen/ProfileScreen';
+import RightSearchHeader from '@screens/Home/SearchScreen/SearchHeader/SearchHeader';
+import SearchScreen from '@screens/Home/SearchScreen/SearchScreen';
+
 import { RootBottomTabsList } from '@type/navigation.types';
 import { Heart, Home, PathToolSquare, Profile, SearchNormal1 } from 'iconsax-react-native';
 import React from 'react';

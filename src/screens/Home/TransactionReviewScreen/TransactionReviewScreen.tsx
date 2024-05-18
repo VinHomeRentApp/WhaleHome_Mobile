@@ -22,7 +22,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MainStackParamList } from '@type/navigation.types';
 import { useCardUser } from '@services/queries/card.queries';
 import useRootContext from '@hooks/useRootContext';
-import BankLineComponent, { CardType } from '@screens/PaymentMethodScreen/BankLineComponent/BankLineComponent';
+import BankLineComponent, { CardType } from '@screens/Home/PaymentMethodScreen/BankLineComponent/BankLineComponent';
 type PeriodMonth = 2 | 4 | 6;
 // const countries = ['Egypt', 'Canada', 'Australia', 'Ireland'];
 

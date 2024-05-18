@@ -2,7 +2,7 @@ import { typoColor } from '@constants/appColors';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Building3D from '@screens/Home/Building3D';
 import CheckoutScreen from '@screens/Home/CheckoutScreen/CheckoutScreen';
-import ChoosePaymentMethod from '@screens/PaymentMethodScreen/ChoosePaymentMethod';
+import ChoosePaymentMethod from '@screens/Home/PaymentMethodScreen/ChoosePaymentMethod';
 import ForgotPasswordHeader from '@screens/Authentication/ForgotPassword/ForgotPasswordHeader';
 import ResetPassword from '@screens/Authentication/SecurityAndPassword/ResetPassword';
 import ResetPasswordScreen from '@screens/Authentication/SecurityAndPassword/ResetPasswordScreen';
@@ -12,7 +12,7 @@ import ContractScreenHeader from '@screens/Home/ConstractsScreen/ContractSreenHe
 import SettingProfileHeader from '@screens/Home/ProfileScreen/SettingProfileHeader/SettingProfileHeader';
 import ReviewDetailHeader from '@screens/Home/ReviewDetailScreen/ReviewDetailScreenComponents/ReviewDetailHeader';
 import TransactionReviewHeader from '@screens/Home/TransactionReviewScreen/TransactionReviewHeader/TransactionReviewHeader';
-import PaymentMethodHeader from '@screens/PaymentMethodScreen/PaymentMethodHeader/PaymentMethodHeader';
+import PaymentMethodHeader from '@screens/Home/PaymentMethodScreen/PaymentMethodHeader/PaymentMethodHeader';
 
 import ForgotPasswordScreen from '@screens/Authentication/ForgotPasswordScreen';
 import DetailContractHeader from '@screens/Home/DetailContractScreen/DetailContractHeader/DetailContractHeader';

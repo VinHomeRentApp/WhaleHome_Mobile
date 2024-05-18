@@ -36,7 +36,6 @@ const ChoosePaymentMethod = ({ route, navigation }: ChoosePaymentMethodProps) =>
     setIsChoosePayment(name);
   };
 
-
   const handleSelectedColor = useMemo(
     () => (bankCode: string) => {
       return {
